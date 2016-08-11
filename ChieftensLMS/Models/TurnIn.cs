@@ -21,5 +21,10 @@ namespace ChieftensLMS.Models
 
 		[StringLength(128)]
 		public string UserId { get; set; }
+
+		[ForeignKey("AssignmentId")]
+		public Assignment Assignment { get; set; }
+
+		public int AssignmentId { get; set; }
 	}
 }

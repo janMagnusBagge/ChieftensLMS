@@ -7,7 +7,7 @@ namespace ChieftensLMS.Models
 	public class Course
 	{
 		[Key]
-		public int ID { get; set; }
+		public int Id { get; set; }
 		public string Name { get; set; }
 
 		public virtual ICollection<Lecture> Lectures { get; set; }
@@ -16,6 +16,7 @@ namespace ChieftensLMS.Models
 
 		public virtual ICollection<ApplicationUser> Users { get; set; }
 
+		
 	}
 
 }

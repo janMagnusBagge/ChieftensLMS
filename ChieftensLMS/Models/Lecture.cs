@@ -17,8 +17,6 @@ namespace ChieftensLMS.Models
 
 		[ForeignKey("CourseId")]
 		public Course Course { get; set; }
-
 		public int CourseId { get; set; }
-
 	}
 }

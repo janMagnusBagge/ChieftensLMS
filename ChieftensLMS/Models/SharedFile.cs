@@ -20,5 +20,9 @@ namespace ChieftensLMS.Models
 
 		[StringLength(128)]
 		public string UserId { get; set; }
+
+		[ForeignKey("CourseId")]
+		public Course Course { get; set;}
+		public int CourseId { get; set; }
 	}
 }
