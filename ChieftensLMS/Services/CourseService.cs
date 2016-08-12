@@ -1,4 +1,5 @@
-﻿using ChieftensLMS.Models;
+﻿using ChieftensLMS.DAL;
+using ChieftensLMS.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;

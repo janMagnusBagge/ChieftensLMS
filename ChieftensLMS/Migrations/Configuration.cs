@@ -1,5 +1,6 @@
 namespace ChieftensLMS.Migrations
 {
+	using DAL;
 	using Microsoft.AspNet.Identity;
 	using Microsoft.AspNet.Identity.EntityFramework;
 	using Models;
@@ -9,7 +10,7 @@ namespace ChieftensLMS.Migrations
 	using System.Data.Entity.Migrations;
 	using System.Linq;
 
-	internal sealed class Configuration : DbMigrationsConfiguration<ChieftensLMS.Models.ApplicationDbContext>
+	internal sealed class Configuration : DbMigrationsConfiguration<ApplicationDbContext>
 	{
 		public Configuration()
 		{
@@ -17,7 +18,7 @@ namespace ChieftensLMS.Migrations
 			ContextKey = "ChieftensLMS.Models.ApplicationDbContext";
 		}
 
-		protected override void Seed(ChieftensLMS.Models.ApplicationDbContext context)
+		protected override void Seed(ApplicationDbContext context)
 		{
 			//  This method will be called after migrating to the latest version.
 

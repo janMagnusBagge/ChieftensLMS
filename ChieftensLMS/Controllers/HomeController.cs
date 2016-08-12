@@ -1,4 +1,8 @@
-﻿using System;
+﻿using ChieftensLMS.DAL;
+using ChieftensLMS.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,11 +12,17 @@ namespace ChieftensLMS.Controllers
 {
 	public class HomeController : Controller
 	{
+		UnitOfWork unitOfWork = new UnitOfWork(new ApplicationDbContext());
+
+
 
 		public ActionResult Index()
 		{
+			ApplicationUser user = unitOfWork.ApplicationUser.Get(x => x.UserName == "Teacher@Teacher.com", null, "Courses.Lectures").First();
 
-			return View();
+			return Json(user.Courses.First().Lectures.First().Name, JsonRequestBehavior.AllowGet);
+
+			
 		}
 
 		public ActionResult About()

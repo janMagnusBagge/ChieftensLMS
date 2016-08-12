@@ -10,11 +10,11 @@ namespace ChieftensLMS.Models
 		public int Id { get; set; }
 		public string Name { get; set; }
 
-		public virtual ICollection<Lecture> Lectures { get; set; }
-		public virtual ICollection<Assignment> Assignments { get; set; }
-		public virtual ICollection<SharedFile> SharedFiles { get; set; }
+		public ICollection<Lecture> Lectures { get; set; }
+		public ICollection<Assignment> Assignments { get; set; }
+		public ICollection<SharedFile> SharedFiles { get; set; }
 
-		public virtual ICollection<ApplicationUser> Users { get; set; }
+		public ICollection<ApplicationUser> Users { get; set; }
 
 		
 	}
