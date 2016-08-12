@@ -10,6 +10,9 @@
     <hr />
 	Släng upp beskrining här och partials. Kanske bra att länka till lärarna också?
 </div>
+
+@Html.Action("Index", "SharedFile", new { courseId = Model.Id })
+
 <p>
 
     @Html.ActionLink("Tillbaka", "Index")

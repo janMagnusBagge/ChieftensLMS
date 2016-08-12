@@ -39,5 +39,7 @@ namespace ChieftensLMS.DAL
 		{
 			return new ApplicationDbContext();
 		}
+
+		
 	}
 }

@@ -20,10 +20,9 @@ namespace ChieftensLMS.Services
 			_unitOfWork = new UnitOfWork(_db);
 		}
 
-		public IEnumerable<SharedFile> GetSharedFilesForCourseId(int userId)
+		public IEnumerable<SharedFile> GetSharedFilesForCourseId(int courseId)
 		{
-			return null;
-			//return _unitOfWork.CourseRepository.Get(v => v.Users.FirstOrDefault(o => o.Id == userId) != null);
+			return _unitOfWork.SharedFileRepository.Get(v => v.CourseId == courseId);
 		}
 
 		

@@ -165,6 +165,7 @@
     <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\SharedFileController.cs" />
     <Compile Include="Controllers\UnitOfWork.cs" />
     <Compile Include="DAL\ApplicationDbContext.cs" />
     <Compile Include="DAL\GenericRepository.cs" />
@@ -258,6 +259,11 @@
     <Content Include="Views\Course\Details.cshtml" />
     <Content Include="Views\Course\Edit.cshtml" />
     <Content Include="Views\Course\Index.cshtml" />
+    <Content Include="Views\SharedFile\Create.cshtml" />
+    <Content Include="Views\SharedFile\Delete.cshtml" />
+    <Content Include="Views\SharedFile\Details.cshtml" />
+    <Content Include="Views\SharedFile\Edit.cshtml" />
+    <Content Include="Views\SharedFile\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
