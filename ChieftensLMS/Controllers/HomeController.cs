@@ -14,15 +14,11 @@ namespace ChieftensLMS.Controllers
 	{
 		UnitOfWork unitOfWork = new UnitOfWork(new ApplicationDbContext());
 
-
-
 		public ActionResult Index()
 		{
 			ApplicationUser user = unitOfWork.ApplicationUser.Get(x => x.UserName == "Teacher@Teacher.com", null, "Courses.Lectures").First();
 
 			return Json(user.Courses.First().Lectures.First().Name, JsonRequestBehavior.AllowGet);
-
-			
 		}
 
 		public ActionResult About()
