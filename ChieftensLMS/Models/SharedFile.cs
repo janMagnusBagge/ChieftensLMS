@@ -18,7 +18,7 @@ namespace ChieftensLMS.Models
 		[ForeignKey("UserId")]
 		public virtual ApplicationUser User { get; set; }
 
-		[StringLength(128)]
+		[StringLength(128), Required]
 		public string UserId { get; set; }
 
 		[ForeignKey("CourseId")]
