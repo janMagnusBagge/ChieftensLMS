@@ -11,7 +11,7 @@ namespace ChieftensLMS.Controllers
 	{
 		private bool _disposed = false;
 		private ApplicationDbContext _context;
-		private GenericRepository<ApplicationUser> _applicationUser;
+		private GenericRepository<UserProfile> _userProfileRepository;
 		private GenericRepository<Assignment> _assignmentRepository;
 		private GenericRepository<Course> _courseRepository;
 		private GenericRepository<Lecture> _lectureRepository;
@@ -21,7 +21,7 @@ namespace ChieftensLMS.Controllers
 		public UnitOfWork(ApplicationDbContext applicationDbContext)
 		{
 			_context = applicationDbContext;
-			_applicationUser = new GenericRepository<ApplicationUser>(_context);
+			_userProfileRepository = new GenericRepository<UserProfile>(_context);
 			_assignmentRepository = new GenericRepository<Assignment>(_context);
 			_courseRepository = new GenericRepository<Course>(_context);
 			_lectureRepository = new GenericRepository<Lecture>(_context);
@@ -29,11 +29,11 @@ namespace ChieftensLMS.Controllers
 			_turnInRepository = new GenericRepository<TurnIn>(_context);
 		}
 
-		public GenericRepository<ApplicationUser> ApplicationUser
+		public GenericRepository<UserProfile> ApplicationUser
 		{
 			get
 			{
-				return _applicationUser;
+				return _userProfileRepository;
 			}
 		}
 

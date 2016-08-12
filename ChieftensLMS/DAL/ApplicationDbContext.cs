@@ -15,6 +15,7 @@ namespace ChieftensLMS.DAL
 		public IDbSet<Course> Courses { get; set; }
 		public IDbSet<Lecture> Lectures { get; set; }
 		public IDbSet<Assignment> Assignments { get; set; }
+		public IDbSet<UserProfile> UserProfile { get; set; }
 
 		public ApplicationDbContext()
 			: base("DefaultConnection", throwIfV1Schema: false)
@@ -24,7 +25,7 @@ namespace ChieftensLMS.DAL
 		protected override void OnModelCreating(DbModelBuilder modelBuilder)
 		{
 			base.OnModelCreating(modelBuilder);
-			modelBuilder.Entity<ApplicationUser>()
+			modelBuilder.Entity<UserProfile>()
 				.HasMany(p => p.Courses)
 				.WithMany(s => s.Users)
 				.Map(c =>

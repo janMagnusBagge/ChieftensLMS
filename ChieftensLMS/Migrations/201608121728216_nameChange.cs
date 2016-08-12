@@ -3,14 +3,16 @@ namespace ChieftensLMS.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class asd : DbMigration
+    public partial class nameChange : DbMigration
     {
         public override void Up()
         {
+            RenameTable(name: "dbo.LMSUsers", newName: "UserProfiles");
         }
         
         public override void Down()
         {
+            RenameTable(name: "dbo.UserProfiles", newName: "LMSUsers");
         }
     }
 }

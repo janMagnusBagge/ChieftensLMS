@@ -53,14 +53,26 @@ namespace ChieftensLMS.Migrations
                         Name = c.String(),
                         Date = c.DateTime(nullable: false),
                         FileName = c.String(),
-                        UserId = c.String(maxLength: 128),
+                        UserId = c.String(nullable: false, maxLength: 128),
                         CourseId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.ID)
                 .ForeignKey("dbo.Courses", t => t.CourseId, cascadeDelete: true)
-                .ForeignKey("dbo.AspNetUsers", t => t.UserId)
+                .ForeignKey("dbo.LMSUsers", t => t.UserId, cascadeDelete: true)
                 .Index(t => t.UserId)
                 .Index(t => t.CourseId);
+            
+            CreateTable(
+                "dbo.LMSUsers",
+                c => new
+                    {
+                        Id = c.String(nullable: false, maxLength: 128),
+                        Name = c.String(),
+                        SurName = c.String(),
+                    })
+                .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.AspNetUsers", t => t.Id)
+                .Index(t => t.Id);
             
             CreateTable(
                 "dbo.AspNetUsers",
@@ -128,12 +140,12 @@ namespace ChieftensLMS.Migrations
                         Name = c.String(),
                         Date = c.DateTime(nullable: false),
                         FileName = c.String(),
-                        UserId = c.String(maxLength: 128),
+                        UserId = c.String(nullable: false, maxLength: 128),
                         AssignmentId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.ID)
                 .ForeignKey("dbo.Assignments", t => t.AssignmentId, cascadeDelete: true)
-                .ForeignKey("dbo.AspNetUsers", t => t.UserId)
+                .ForeignKey("dbo.LMSUsers", t => t.UserId, cascadeDelete: true)
                 .Index(t => t.UserId)
                 .Index(t => t.AssignmentId);
             
@@ -155,7 +167,7 @@ namespace ChieftensLMS.Migrations
                         CourseId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => new { t.UserId, t.CourseId })
-                .ForeignKey("dbo.AspNetUsers", t => t.UserId, cascadeDelete: true)
+                .ForeignKey("dbo.LMSUsers", t => t.UserId, cascadeDelete: true)
                 .ForeignKey("dbo.Courses", t => t.CourseId, cascadeDelete: true)
                 .Index(t => t.UserId)
                 .Index(t => t.CourseId);
@@ -165,13 +177,14 @@ namespace ChieftensLMS.Migrations
         public override void Down()
         {
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
-            DropForeignKey("dbo.TurnIns", "UserId", "dbo.AspNetUsers");
+            DropForeignKey("dbo.TurnIns", "UserId", "dbo.LMSUsers");
             DropForeignKey("dbo.TurnIns", "AssignmentId", "dbo.Assignments");
-            DropForeignKey("dbo.SharedFiles", "UserId", "dbo.AspNetUsers");
+            DropForeignKey("dbo.SharedFiles", "UserId", "dbo.LMSUsers");
+            DropForeignKey("dbo.CourseUsers", "CourseId", "dbo.Courses");
+            DropForeignKey("dbo.CourseUsers", "UserId", "dbo.LMSUsers");
+            DropForeignKey("dbo.LMSUsers", "Id", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserRoles", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
-            DropForeignKey("dbo.CourseUsers", "CourseId", "dbo.Courses");
-            DropForeignKey("dbo.CourseUsers", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.SharedFiles", "CourseId", "dbo.Courses");
             DropForeignKey("dbo.Lectures", "CourseId", "dbo.Courses");
@@ -186,6 +199,7 @@ namespace ChieftensLMS.Migrations
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
+            DropIndex("dbo.LMSUsers", new[] { "Id" });
             DropIndex("dbo.SharedFiles", new[] { "CourseId" });
             DropIndex("dbo.SharedFiles", new[] { "UserId" });
             DropIndex("dbo.Lectures", new[] { "CourseId" });
@@ -197,6 +211,7 @@ namespace ChieftensLMS.Migrations
             DropTable("dbo.AspNetUserLogins");
             DropTable("dbo.AspNetUserClaims");
             DropTable("dbo.AspNetUsers");
+            DropTable("dbo.LMSUsers");
             DropTable("dbo.SharedFiles");
             DropTable("dbo.Lectures");
             DropTable("dbo.Courses");

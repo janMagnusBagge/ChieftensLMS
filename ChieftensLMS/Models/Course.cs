@@ -14,7 +14,7 @@ namespace ChieftensLMS.Models
 		public ICollection<Assignment> Assignments { get; set; }
 		public ICollection<SharedFile> SharedFiles { get; set; }
 
-		public ICollection<ApplicationUser> Users { get; set; }
+		public ICollection<UserProfile> Users { get; set; }
 
 		
 	}

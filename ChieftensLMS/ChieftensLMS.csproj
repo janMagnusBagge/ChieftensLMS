@@ -173,17 +173,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201608111749029_initial.cs" />
-    <Compile Include="Migrations\201608111749029_initial.Designer.cs">
-      <DependentUpon>201608111749029_initial.cs</DependentUpon>
+    <Compile Include="Migrations\201608121604510_initial.cs" />
+    <Compile Include="Migrations\201608121604510_initial.Designer.cs">
+      <DependentUpon>201608121604510_initial.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201608120628002_notnull_userId_foreignKey_on_TurnIns_and_SharedFile.cs" />
-    <Compile Include="Migrations\201608120628002_notnull_userId_foreignKey_on_TurnIns_and_SharedFile.Designer.cs">
-      <DependentUpon>201608120628002_notnull_userId_foreignKey_on_TurnIns_and_SharedFile.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201608120723202_asd.cs" />
-    <Compile Include="Migrations\201608120723202_asd.Designer.cs">
-      <DependentUpon>201608120723202_asd.cs</DependentUpon>
+    <Compile Include="Migrations\201608121728216_nameChange.cs" />
+    <Compile Include="Migrations\201608121728216_nameChange.Designer.cs">
+      <DependentUpon>201608121728216_nameChange.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -191,6 +187,7 @@
     <Compile Include="Models\Course.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\Lecture.cs" />
+    <Compile Include="Models\UserProfile.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\SharedFile.cs" />
     <Compile Include="Models\TurnIn.cs" />
@@ -280,14 +277,11 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201608111749029_initial.resx">
-      <DependentUpon>201608111749029_initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201608121604510_initial.resx">
+      <DependentUpon>201608121604510_initial.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201608120628002_notnull_userId_foreignKey_on_TurnIns_and_SharedFile.resx">
-      <DependentUpon>201608120628002_notnull_userId_foreignKey_on_TurnIns_and_SharedFile.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201608120723202_asd.resx">
-      <DependentUpon>201608120723202_asd.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201608121728216_nameChange.resx">
+      <DependentUpon>201608121728216_nameChange.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -18,13 +18,11 @@ namespace ChieftensLMS.Controllers
     {
 		private ApplicationDbContext _context;
 		private CourseService _courseService;
-		private ApplicationUserManager _userManager;
 
 		public CourseController()
 		{
 			_context = new ApplicationDbContext();
 			_courseService = new CourseService(_context);
-			_userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(_context));
 		}
 
         // GET: Courses

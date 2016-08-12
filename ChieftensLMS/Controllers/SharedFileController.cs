@@ -16,7 +16,6 @@ namespace ChieftensLMS.Controllers
     {
 		private ApplicationDbContext _context;
 		private SharedFileService _sharedFileService;
-		private ApplicationUserManager _userManager;
 
 		public SharedFileController()
 		{

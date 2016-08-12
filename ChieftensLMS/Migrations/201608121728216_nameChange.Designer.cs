@@ -6,14 +6,14 @@ namespace ChieftensLMS.Migrations
     using System.Data.Entity.Migrations.Infrastructure;
     using System.Resources;
     
-    [GeneratedCode("EntityFramework.Migrations", "6.1.1-30610")]
-    public sealed partial class initial : IMigrationMetadata
+    [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
+    public sealed partial class nameChange : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(initial));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(nameChange));
         
         string IMigrationMetadata.Id
         {
-            get { return "201608111749029_initial"; }
+            get { return "201608121728216_nameChange"; }
         }
         
         string IMigrationMetadata.Source
