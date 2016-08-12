@@ -16,9 +16,7 @@ namespace ChieftensLMS.Controllers
 
 		public ActionResult Index()
 		{
-			ApplicationUser user = unitOfWork.ApplicationUser.Get(x => x.UserName == "Teacher@Teacher.com", null, "Courses.Lectures").First();
-
-			return Json(user.Courses.First().Lectures.First().Name, JsonRequestBehavior.AllowGet);
+			return View();
 		}
 
 		public ActionResult About()
