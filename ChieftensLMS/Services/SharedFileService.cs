@@ -9,25 +9,23 @@ using System.Web;
 
 namespace ChieftensLMS.Services
 {
-	public class CourseService
+	public class SharedFileService
 	{
 		ApplicationDbContext _db = null;
 		UnitOfWork _unitOfWork = null;
 
-		public CourseService(ApplicationDbContext context)
+		public SharedFileService(ApplicationDbContext context)
 		{
 			_db = context;
 			_unitOfWork = new UnitOfWork(_db);
 		}
 
-		public IEnumerable<Course> GetCoursesForUserId(string userId)
+		public IEnumerable<SharedFile> GetSharedFilesForCourseId(int userId)
 		{
-			return _unitOfWork.CourseRepository.Get(v => v.Users.FirstOrDefault(o => o.Id == userId) != null);
+			return null;
+			//return _unitOfWork.CourseRepository.Get(v => v.Users.FirstOrDefault(o => o.Id == userId) != null);
 		}
 
-		public Course GetCourseById(int courseId)
-		{
-			return _unitOfWork.CourseRepository.GetById(courseId);
-		}
+		
 	}
 }
