@@ -181,6 +181,10 @@
     <Compile Include="Migrations\201608121728216_nameChange.Designer.cs">
       <DependentUpon>201608121728216_nameChange.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201608121737399_courseDescription.cs" />
+    <Compile Include="Migrations\201608121737399_courseDescription.Designer.cs">
+      <DependentUpon>201608121737399_courseDescription.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Assignment.cs" />
@@ -282,6 +286,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201608121728216_nameChange.resx">
       <DependentUpon>201608121728216_nameChange.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201608121737399_courseDescription.resx">
+      <DependentUpon>201608121737399_courseDescription.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

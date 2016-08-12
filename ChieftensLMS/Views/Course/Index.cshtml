@@ -12,7 +12,7 @@
     <tr>
         <td>
 			@Html.ActionLink(item.Name, "Details", new { id = item.Id })
-            @*@Html.DisplayFor(modelItem => item.Name)*@
+			<i>@item.Description</i>
         </td>
     </tr>
 	}

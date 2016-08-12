@@ -84,6 +84,7 @@ namespace ChieftensLMS.Migrations
 			context.Courses.AddOrUpdate(c => c.Name,
 					new Course()
 					{
+						Description = "Fifty shades of rosa",
 						Name = "Rosa gymnastik",
 						Assignments = new List<Assignment>()
 							{
@@ -138,6 +139,7 @@ namespace ChieftensLMS.Migrations
 			context.Courses.AddOrUpdate(c => c.Name,
 					new Course()
 					{
+						Description = "Förklaring om hur man skriver om cyklar",
 						Name = "Skrivar kurs i Rosa cykel i valfri färg",
 						Assignments = new List<Assignment>()
 							{
@@ -206,6 +208,7 @@ namespace ChieftensLMS.Migrations
 			context.Courses.AddOrUpdate(c => c.Name,
 					new Course()
 					{
+						Description = "Bättre än att gå på fötter",
 						Name = "Gå på händer",
 						Assignments = new List<Assignment>()
 							{

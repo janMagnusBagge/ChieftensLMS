@@ -10,6 +10,8 @@ namespace ChieftensLMS.Models
 		public int Id { get; set; }
 		public string Name { get; set; }
 
+		public string Description { get; set; }
+
 		public ICollection<Lecture> Lectures { get; set; }
 		public ICollection<Assignment> Assignments { get; set; }
 		public ICollection<SharedFile> SharedFiles { get; set; }
