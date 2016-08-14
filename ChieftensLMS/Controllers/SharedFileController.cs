@@ -80,6 +80,7 @@ namespace ChieftensLMS.Controllers
 			if (sharedFile != null)
 				_sharedFileService.DeleteSharedFileAsUser(sharedFile, User.Identity.GetUserId());
 
+
 			return null;
 		}
 
