@@ -13,17 +13,15 @@ namespace ChieftensLMS.Controllers
 {
     public class AssignmentController : Controller
     {
-		private ApplicationDbContext _context;
+		private LMSDbContext _context;
 		private AssignmentService _AssignmentService;
 		//private CourseService _courseService;
 		//private ApplicationUserManager _userManager;
 
 		public AssignmentController()
 		{
-			_context = new ApplicationDbContext();
+			_context = new LMSDbContext();
 			_AssignmentService = new AssignmentService(_context);
-			//_courseService = new CourseService(_context);
-			//_userManager = new ApplicationUserManager(new UserStore<ApplicationUser>(_context));
 		}
         // GET: Assignment
         public ActionResult Index()

@@ -12,7 +12,6 @@ namespace ChieftensLMS.Controllers
 {
 	public class HomeController : Controller
 	{
-		UnitOfWork unitOfWork = new UnitOfWork(new ApplicationDbContext());
 
 		public ActionResult Index()
 		{

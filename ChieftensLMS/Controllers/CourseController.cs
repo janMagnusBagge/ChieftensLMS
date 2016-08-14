@@ -16,12 +16,12 @@ namespace ChieftensLMS.Controllers
 {
     public class CourseController : Controller
     {
-		private ApplicationDbContext _context;
+		private LMSDbContext _context;
 		private CourseService _courseService;
 
 		public CourseController()
 		{
-			_context = new ApplicationDbContext();
+			_context = new LMSDbContext();
 			_courseService = new CourseService(_context);
 		}
 

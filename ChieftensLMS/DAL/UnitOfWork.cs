@@ -5,12 +5,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace ChieftensLMS.Controllers
+namespace ChieftensLMS.DAL
 {
 	public class UnitOfWork : IDisposable
 	{
 		private bool _disposed = false;
-		private ApplicationDbContext _context;
+		private LMSDbContext _context;
 		private GenericRepository<UserProfile> _userProfileRepository;
 		private GenericRepository<Assignment> _assignmentRepository;
 		private GenericRepository<Course> _courseRepository;
@@ -18,9 +18,9 @@ namespace ChieftensLMS.Controllers
 		private GenericRepository<SharedFile> _sharedFileRepository;
 		private GenericRepository<TurnIn> _turnInRepository;
 
-		public UnitOfWork(ApplicationDbContext applicationDbContext)
+		public UnitOfWork(LMSDbContext context)
 		{
-			_context = applicationDbContext;
+			_context = context;
 			_userProfileRepository = new GenericRepository<UserProfile>(_context);
 			_assignmentRepository = new GenericRepository<Assignment>(_context);
 			_courseRepository = new GenericRepository<Course>(_context);

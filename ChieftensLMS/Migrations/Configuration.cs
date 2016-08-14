@@ -12,14 +12,15 @@ namespace ChieftensLMS.Migrations
 
 	public class UserSeeder
 	{
-		private ApplicationDbContext _context;
+		private LMSDbContext _context;
 		private UserManager<ApplicationUser> _userManager;
 		private RoleManager<IdentityRole> _roleManager;
 
-		public UserSeeder(ApplicationDbContext context)
+		public UserSeeder(LMSDbContext context)
 		{
-			_userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
-			_roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
+			var _userContext = new ApplicationDbContext();
+			_userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(_userContext));
+			_roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(_userContext));
 			_context = context;
 		}
 
@@ -38,7 +39,7 @@ namespace ChieftensLMS.Migrations
 
 			_userManager.AddToRole(user.Id, role);
 
-			UserProfile returnProfile = new UserProfile() { Id = user.Id, Name = userName, SurName = userName };
+			UserProfile returnProfile = new UserProfile() { Id = user.Id, Name = "Namn", SurName = "Efternamn" };
 
 			_context.UserProfile.Add(returnProfile);
 			_context.SaveChanges();
@@ -47,17 +48,15 @@ namespace ChieftensLMS.Migrations
 
 	}
 
-	internal sealed class Configuration : DbMigrationsConfiguration<ApplicationDbContext>
+
+	internal sealed class Configuration : DbMigrationsConfiguration<LMSDbContext>
 	{
 		public Configuration()
 		{
 			AutomaticMigrationsEnabled = false;
-			ContextKey = "ChieftensLMS.Models.ApplicationDbContext";
 		}
 
-
-
-		protected override void Seed(ApplicationDbContext context)
+		protected override void Seed(LMSDbContext context)
 		{
 			//  This method will be called after migrating to the latest version.
 
@@ -72,15 +71,11 @@ namespace ChieftensLMS.Migrations
 			//    );
 			//
 
-
 			UserSeeder seeder = new UserSeeder(context);
-
 
 			var teacher = seeder.CreateUserWithRole("Teacher@Teacher.com", "Password@123", "Teacher");
 			var student = seeder.CreateUserWithRole("Student@Student.com", "Password@123", "Student");
 
-
-			
 			context.Courses.AddOrUpdate(c => c.Name,
 					new Course()
 					{
@@ -127,7 +122,7 @@ namespace ChieftensLMS.Migrations
 					}
 				);
 
-			
+
 
 			var teacher2 = seeder.CreateUserWithRole("Teacher2@Teacher.com", "Password@123", "Teacher");
 			var teacher3 = seeder.CreateUserWithRole("Teacher3@Teacher.com", "Password@123", "Teacher");

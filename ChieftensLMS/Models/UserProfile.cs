@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNet.Identity.EntityFramework;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -13,9 +14,6 @@ namespace ChieftensLMS.Models
 
 		public ICollection<Course> Courses { get; set; }
 
-		[ForeignKey("Id")]
-		// This should not show in the database, nor should it be used. It's here just so that we can put a foreign constrait
-		protected ApplicationUser ApplicationUser { get; set; }
 	}
 
 }

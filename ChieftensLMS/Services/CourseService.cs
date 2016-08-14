@@ -11,10 +11,10 @@ namespace ChieftensLMS.Services
 {
 	public class CourseService
 	{
-		ApplicationDbContext _db = null;
+		LMSDbContext _db = null;
 		UnitOfWork _unitOfWork = null;
 
-		public CourseService(ApplicationDbContext context)
+		public CourseService(LMSDbContext context)
 		{
 			_db = context;
 			_unitOfWork = new UnitOfWork(_db);

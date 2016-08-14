@@ -10,10 +10,10 @@ namespace ChieftensLMS.Services
 {
 	public class AssignmentService
 	{
-		ApplicationDbContext _db = null;
+		LMSDbContext _db = null;
 		UnitOfWork _unitOfWork = null;
 
-		public AssignmentService(ApplicationDbContext context)
+		public AssignmentService(LMSDbContext context)
 		{
 			_db = context;
 			_unitOfWork = new UnitOfWork(_db);

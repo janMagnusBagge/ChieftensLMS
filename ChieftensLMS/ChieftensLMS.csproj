@@ -167,32 +167,25 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\SharedFileController.cs" />
-    <Compile Include="Controllers\UnitOfWork.cs" />
+    <Compile Include="DAL\LMSDbContext.cs" />
+    <Compile Include="DAL\UnitOfWork.cs" />
     <Compile Include="DAL\ApplicationDbContext.cs" />
     <Compile Include="DAL\GenericRepository.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201608121604510_initial.cs" />
-    <Compile Include="Migrations\201608121604510_initial.Designer.cs">
-      <DependentUpon>201608121604510_initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201608121728216_nameChange.cs" />
-    <Compile Include="Migrations\201608121728216_nameChange.Designer.cs">
-      <DependentUpon>201608121728216_nameChange.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201608121737399_courseDescription.cs" />
-    <Compile Include="Migrations\201608121737399_courseDescription.Designer.cs">
-      <DependentUpon>201608121737399_courseDescription.cs</DependentUpon>
+    <Compile Include="Migrations\201608131033387_initial.cs" />
+    <Compile Include="Migrations\201608131033387_initial.Designer.cs">
+      <DependentUpon>201608131033387_initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\ViewModels\AccountViewModels.cs" />
     <Compile Include="Models\Assignment.cs" />
     <Compile Include="Models\Course.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\Lecture.cs" />
     <Compile Include="Models\UserProfile.cs" />
-    <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\ViewModels\ManageViewModels.cs" />
     <Compile Include="Models\SharedFile.cs" />
     <Compile Include="Models\TurnIn.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -222,6 +215,7 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
+    <None Include="Uploads\SharedFiles\7" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -267,10 +261,11 @@
     <Content Include="Views\SharedFile\Details.cshtml" />
     <Content Include="Views\SharedFile\Edit.cshtml" />
     <Content Include="Views\SharedFile\Index.cshtml" />
+    <None Include="Uploads\SharedFiles\2" />
+    <Content Include="Views\SharedFile\Add.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\ViewModels\" />
     <Folder Include="Views\Assignment\" />
   </ItemGroup>
   <ItemGroup>
@@ -281,14 +276,8 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201608121604510_initial.resx">
-      <DependentUpon>201608121604510_initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201608121728216_nameChange.resx">
-      <DependentUpon>201608121728216_nameChange.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201608121737399_courseDescription.resx">
-      <DependentUpon>201608121737399_courseDescription.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201608131033387_initial.resx">
+      <DependentUpon>201608131033387_initial.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

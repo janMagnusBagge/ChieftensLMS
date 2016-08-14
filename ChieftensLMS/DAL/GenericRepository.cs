@@ -9,10 +9,10 @@ namespace ChieftensLMS.DAL
 {
 	public class GenericRepository<T> where T : class
 	{
-		ApplicationDbContext _context;
+		LMSDbContext _context;
 		DbSet<T> dbSet;
 
-		public GenericRepository(ApplicationDbContext context)
+		public GenericRepository(LMSDbContext context)
 		{
 			this._context = context;
 			dbSet = context.Set<T>();
@@ -71,6 +71,11 @@ namespace ChieftensLMS.DAL
 		{
 			dbSet.Attach(entityToUpdate);
 			_context.Entry(entityToUpdate).State = EntityState.Modified;
+		}
+
+		public virtual void Add(T entityToAdd)
+		{
+			dbSet.Add(entityToAdd);
 		}
 	}
 }
