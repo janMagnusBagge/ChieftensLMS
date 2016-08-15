@@ -42,7 +42,7 @@ namespace ChieftensLMS.Services
 		{
 			//Get the sharedfile with specified filedId, where the userId is in the courses of that file
 			var sharedFile = _unitOfWork.SharedFileRepository.Get(
-				v => (v.ID == fileId) && v.Course.Users.FirstOrDefault(e => e.Id == userId) != null)
+				v => (v.Id == fileId) && v.Course.Users.FirstOrDefault(e => e.Id == userId) != null)
 				.FirstOrDefault();
 
 			return sharedFile;
@@ -50,7 +50,7 @@ namespace ChieftensLMS.Services
 
 		public FileStream GetPhysicalFile(SharedFile sharedFile)
 		{
-			string filePath = Path.Combine(_fileDirectory, sharedFile.ID.ToString());
+			string filePath = Path.Combine(_fileDirectory, sharedFile.Id.ToString());
 
 			if (File.Exists(filePath) == false)
 				return null;
@@ -62,7 +62,7 @@ namespace ChieftensLMS.Services
 
 		public String GetPhysicalFilePath(SharedFile sharedFile)
 		{
-			string filePath = Path.Combine(_fileDirectory, sharedFile.ID.ToString());
+			string filePath = Path.Combine(_fileDirectory, sharedFile.Id.ToString());
 
 			if (File.Exists(filePath) == false)
 				return null;
@@ -80,8 +80,8 @@ namespace ChieftensLMS.Services
 
 		public void DeleteSharedFile(SharedFile sharedFile)
 		{
-			File.Delete(Path.Combine(_fileDirectory, sharedFile.ID.ToString()));
-			_unitOfWork.SharedFileRepository.Delete(sharedFile.ID);
+			File.Delete(Path.Combine(_fileDirectory, sharedFile.Id.ToString()));
+			_unitOfWork.SharedFileRepository.Delete(sharedFile.Id);
 			_unitOfWork.Save();
 		}
 
@@ -91,7 +91,7 @@ namespace ChieftensLMS.Services
 			_unitOfWork.SharedFileRepository.Add(newSharedFile);
 			_unitOfWork.Save();
 
-			string filePath = Path.Combine(_fileDirectory, newSharedFile.ID.ToString());
+			string filePath = Path.Combine(_fileDirectory, newSharedFile.Id.ToString());
 
 			using (var file = File.Create(filePath))
 			{

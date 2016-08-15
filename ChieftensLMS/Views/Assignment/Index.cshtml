@@ -1,15 +1,30 @@
 ﻿@model IEnumerable<ChieftensLMS.Models.Assignment>
 
 @{
-    ViewBag.Title = "Index";
+	ViewBag.Title = "Inlämningsuppgifter";
 }
 
-<h2>Index</h2>
+<h2>Inlämningsuppgifter</h2>
 
-<p>
+<div ng-controller="assignmentIndexController">
+
+	<table class="table">
+
+		<tr>
+			<td ng-repeat="item in assignmentList">
+				@*<a href="~/Course/Details/{{item.Id}}">{{item.Name}}</a> <i>{{item.Description}}</i>*@
+				<a href="~/Course/Details/{{item.Id}}">{{item.Name}}</a> <i>{{item.Description}}</i>
+			</td>
+		</tr>
+
+
+	</table>
+</div>
+
+@*<p>
     @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
+</p>*@
+@*<table class="table">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Course.Name)
@@ -54,4 +69,28 @@
     </tr>
 }
 
-</table>
+</table>*@
+
+
+<script>
+
+	(function () {
+
+		angular.module("app").controller("assignmentIndexController", function ($scope, ApiService) {
+			$scope.assignmentList = null;
+
+
+			var onSuccess = function (data) {
+				$scope.assignmentList = data.assigments;
+			};
+
+			var onFail = function (response) {
+				alert("Misslyckades");
+			};
+
+			ApiService.GetAssigments(onSuccess, onFail, courseId);
+		});
+
+	}());
+
+</script>
