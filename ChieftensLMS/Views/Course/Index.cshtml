@@ -29,9 +29,10 @@
 	(function () {
 
 		angular.module("app").controller("courseIndexController", function ($scope, ApiService) {
+
 			$scope.helloWorld = "hej xxxx";
 
-			ApiService.GetVehicleTypes(function () { }, function (da) { alert(da.reason);} );
+			ApiService.GetVehicleTypes(function () {  }, function (da) { alert(da.reason);} );
 		});
 
 	}());
