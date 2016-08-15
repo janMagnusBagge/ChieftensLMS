@@ -24,5 +24,10 @@ namespace ChieftensLMS.Services
 			return _unitOfWork.AssignmentRepository.Get(v => v.CourseId == courseId);
 			//return _unitOfWork.CourseRepository.Get(v => v.Users.FirstOrDefault(o => o.Id == user.Id) != null);
 		}
+
+		internal Assignment GetAssignment(int Id)
+		{
+			return _unitOfWork.AssignmentRepository.GetById(Id);
+		}
 	}
 }

@@ -1,4 +1,5 @@
-﻿using ChieftensLMS.DAL;
+﻿using ChieftensLMS.Classes;
+using ChieftensLMS.DAL;
 using ChieftensLMS.Services;
 using Microsoft.AspNet.Identity;
 using System;
@@ -20,7 +21,7 @@ namespace ChieftensLMS.Controllers.Api
 			_AssignmentService = new AssignmentService(_context);
 		}
 
-		public ActionResult GetAssigments(int courseId)
+		public ActionResult GetAssignmentForCourse(int courseId)
 		{
 			var assigmentsForCourse = _AssignmentService.GetAssignmentForCourse(courseId)
 				.Select(a => new
@@ -40,6 +41,31 @@ namespace ChieftensLMS.Controllers.Api
 			};
 			return Json(returnObject, JsonRequestBehavior.AllowGet);
 			//return Json(assigmentsForCourse, JsonRequestBehavior.AllowGet);
+		}
+
+		public ActionResult GetAssigment(int? id)
+		{
+			if (id == null)
+				return ApiResult.Fail("Hej");
+			var assigment = _AssignmentService.GetAssignment((int)id);
+
+			if (assigment == null)
+				return ApiResult.Fail("Hej");
+
+			var returnData = new
+				{
+					assignment = new
+					{
+						Id = assigment.Id,
+						CourseId = assigment.CourseId,
+						Description = assigment.Description ,
+						Date = assigment.Date,
+						ExpirationDate = assigment.ExpirationDate,
+						Name = assigment.Name
+					}
+				};
+
+			return ApiResult.Success(returnData);
 		}
 	}
 }

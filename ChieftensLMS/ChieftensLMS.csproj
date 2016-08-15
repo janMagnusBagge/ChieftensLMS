@@ -274,6 +274,7 @@
     <None Include="Uploads\SharedFiles\2" />
     <Content Include="Views\SharedFile\Add.cshtml" />
     <Content Include="Views\Assignment\Index.cshtml" />
+    <Content Include="Views\Assignment\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

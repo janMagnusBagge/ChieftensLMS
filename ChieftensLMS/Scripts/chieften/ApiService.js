@@ -109,14 +109,17 @@
 
 		var GetSharedFilesForCourse = generateApiFunction({ method: 'GET', url: '/SharedFileApi/ForCourse' });
 
-		var GetAssigments = generateApiFunction({ method: 'GET', url: '/AssigmentApi/GetAssigments'});
+		var GetCourseAssigments = generateApiFunction({ method: 'GET', url: '/AssigmentApi/GetAssignmentForCourse' });
+		var GetAssigment = generateApiFunction({ method: 'GET', url: '/AssigmentApi/GetAssigment' });
+		
 
 		// The service with all the API call functions
 		return {
 			GetAllCourses: GetAllCourses,
 			GetCourse: GetCourse,
 			GetSharedFilesForCourse: GetSharedFilesForCourse,
-			GetAssigments: GetAssigments,
+			GetCourseAssigments: GetCourseAssigments,
+			GetAssigment: GetAssigment,
 			Add: Add,
 			Remove: Remove
 		};
