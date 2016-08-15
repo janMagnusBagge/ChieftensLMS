@@ -118,7 +118,7 @@
 		return {
 			GetAllCourses: GetAllCourses,
 			GetCourse: GetCourse,
-
+			GetAssigments: GetAssigments,
 			GetVehicleTypes: GetVehicleTypes,
 			GetList: GetList,
 			GetSingle: GetSingle,
