@@ -85,8 +85,13 @@
 		var Remove = generateApiFunction({ method: 'GET', url: '/API/Remove' });
 		var Add = generateApiFunction({ method: 'POST', url: '/API/Add' });
 
+
+		var GetAllCourses = generateApiFunction({ method: 'GET', url: '/CourseApi/Index' });
+
 		// The service with all the API call functions
 		return {
+			GetAllCourses: GetAllCourses,
+
 			GetVehicleTypes: GetVehicleTypes,
 			GetList: GetList,
 			GetSingle: GetSingle,

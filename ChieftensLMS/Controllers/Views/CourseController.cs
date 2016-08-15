@@ -27,10 +27,8 @@ namespace ChieftensLMS.Controllers
 
         // GET: Courses
         public ActionResult Index()
-        {
-			var courses = _courseService.GetCoursesForUserId(User.Identity.GetUserId());
-
-			return View(courses);
+		{ 
+			return View();
         }
 
 		// GET: Courses/Details/5
