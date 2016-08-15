@@ -1,0 +1,40 @@
+﻿@model int?
+@{
+    ViewBag.Title = "Inlämningsuppgift";
+}
+
+<h2>Inlämningsuppgift</h2>
+<div ng-controller="assignmentDetailController" ng-init="getAssignment(@Model)">
+	<h4>{{assignment.Name}}</h4>
+	<h5><b>Beskrivning:</b> {{assignment.Description}}</h5>
+	<h5><b>Inlämningsdatum:</b> {{assignment.ExpirationDate | dateFilter | date:'yyyy-MM-dd'}}</h5>
+</div>
+
+<script>
+
+	(function () {
+
+		angular.module("app").controller("assignmentDetailController", function ($scope, ApiService) {
+			$scope.assignment = null;
+
+
+
+			var onSuccess = function (data) {
+				$scope.assignment = data.assignment;
+			};
+
+			var onFail = function (response) {
+				alert("Misslyckades");
+			};
+
+			$scope.getAssignment = function (id) {
+
+				ApiService.GetAssigment(onSuccess, onFail, { id: id });
+			}
+			//ApiService.GetAssigments(onSuccess, onFail, courseId);
+		});
+
+	}());
+
+</script>
+

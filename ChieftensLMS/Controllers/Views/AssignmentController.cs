@@ -29,6 +29,19 @@ namespace ChieftensLMS.Controllers
 			return View(id);
         }
 
+		public ActionResult Details(int? id)
+		{
+			//var assigment = GetAssigments(3);
+			//return View(assigment);
+			return View(id);
+		}
+
+
+		public ActionResult Delete(int? id)
+		{
+			return View(id);
+		}
+
 		//public IEnumerable<Assignment> GetAssigments(int courseId)
 		//{
 		//	//var user = _userManager.FindById(User.Identity.GetUserId());
