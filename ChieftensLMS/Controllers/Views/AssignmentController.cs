@@ -26,17 +26,18 @@ namespace ChieftensLMS.Controllers
         // GET: Assignment
         public ActionResult Index()
         {
-			return GetAssigments(2);
-            //return View();
+			var assigment = GetAssigments(3);
+			return View(assigment);
         }
 
-		public ActionResult GetAssigments(int courseId)
+		public IEnumerable<Assignment> GetAssigments(int courseId)
 		{
 			//var user = _userManager.FindById(User.Identity.GetUserId());
 			//var coursesForUser = _AssignmentService.GetCoursesForUser(user);
 
 			var assigmentsForCourse = _AssignmentService.GetAssignmentForCourse(courseId);
-			return Json(assigmentsForCourse, JsonRequestBehavior.AllowGet);
+			return assigmentsForCourse;
+			//return Json(assigmentsForCourse, JsonRequestBehavior.AllowGet);
 		}
     }
 }

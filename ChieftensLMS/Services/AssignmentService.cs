@@ -21,7 +21,7 @@ namespace ChieftensLMS.Services
 
 		internal IEnumerable<Assignment> GetAssignmentForCourse(int courseId)
 		{
-			return _unitOfWork.AssignmentRepository.Get(v => v.ID == courseId);
+			return _unitOfWork.AssignmentRepository.Get(v => v.CourseId == courseId);
 			//return _unitOfWork.CourseRepository.Get(v => v.Users.FirstOrDefault(o => o.Id == user.Id) != null);
 		}
 	}
