@@ -19,7 +19,8 @@
 			<td>{{item.Name}}</td>
 			<td>{{item.Owner ? item.Owner : "You" }}</td>
 			<td>{{item.Date | dateFilter | date:'yyyy-MM-dd'}}</td>
-			<td><a href="SharedFile/Download/{{item.Id}}">Ladda ner</a> <a ng-hide="item.Owner" href="SharedFile/Delete/{{item.Id}}">Radera</a></td>
+			
+			<td><a href="~/SharedFileApi/Download/{{item.Id}}" class="btn btn-success btn-sm">Ladda ner</a> <button type="button" class="btn btn-danger btn-sm" ng-click="deleteSharedFile(item.Id)" ng-hide="item.Owner">Radera</button></td>
 		</tr>
 	</table>
 
@@ -43,9 +44,32 @@
 				alert("fail");
 			};
 
+			var onDeleteSuccess = function (data) {
+				var index = -1;
+				for (var i = 0; i < $scope.sharedFiles.length; i++) {
+					if ($scope.sharedFiles[i].Id == data.Id) {
+						index = i;
+						break;
+					}
+				}
+
+				if (index != -1)
+					$scope.sharedFiles.splice(index, 1);
+
+			};
+
+			var onDeleteFail = function (response) {
+				alert("fail");
+			};
+
+
 			$scope.init = function (id)
 			{
 				ApiService.GetSharedFilesForCourse(onSuccess, onFail, { id: id });
+			}
+
+			$scope.deleteSharedFile = function (id) {
+				ApiService.DeleteSharedFile(onDeleteSuccess, onDeleteFail, { id: id });
 			}
 
 		});

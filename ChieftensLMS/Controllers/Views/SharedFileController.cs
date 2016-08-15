@@ -32,30 +32,6 @@ namespace ChieftensLMS.Controllers
 			return View(id);
         }
 
-		public ActionResult Download(int? id)
-		{
-			String physicalFileToReturn = null;
-			SharedFile sharedFile = null;
-
-			if (id == null)
-				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
-			sharedFile = _sharedFileService.GetSharedFileAsUserId(User.Identity.GetUserId(), (int)id);
-
-			if (sharedFile == null)
-				return Content("Id invalid or no access");
-
-			physicalFileToReturn = _sharedFileService.GetPhysicalFilePath(sharedFile);
-
-			if (physicalFileToReturn == null)
-				return Content("File doesnt exist");
-
-			string mimeType = MimeMapping.GetMimeMapping(sharedFile.FileName);
-
-			return File(physicalFileToReturn,mimeType,sharedFile.FileName);
-			//return File(_sharedFileService.GetPhysicalFile(sharedFile), mimeType, sharedFile.FileName);
-		}
-
 		public ActionResult Delete(int? id)
 		{
 			SharedFile sharedFile = null;

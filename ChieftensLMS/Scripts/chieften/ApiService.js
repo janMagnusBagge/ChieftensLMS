@@ -6,7 +6,7 @@
 	*/
 	angular.module("app").factory('ApiService', function ($http) {
 		// Dummy placeholder, we dont handle errors atm so this is sent to fail callbacks
-		var dummyFailReason = { reason: "Hey there" };
+		var dummyFailReason = { reason: "Request/Server error" };
 
 
 		var debugCall = function (config, response, data) {
@@ -41,7 +41,7 @@
 						if (response.data.success == true)
 							successsCallback(response.data.data);
 						else
-							failCallback(dummyFailReason);
+							failCallback(response);
 					},
 					function (response) {
 						debugCall(config, response);
@@ -67,7 +67,7 @@
 						if (response.data.success == true)
 							successsCallback(response.data.data);
 						else
-							failCallback(dummyFailReason);
+							failCallback(response);
 					},
 					function (response) {
 						debugCall(config, response);
@@ -89,7 +89,7 @@
 						if (response.data.success == true)
 							successsCallback(response.data.data);
 						else
-							failCallback(dummyFailReason);
+							failCallback(response);
 					},
 					function (response) {
 						debugCall(config, response);
@@ -108,6 +108,8 @@
 		var GetCourse = generateApiFunction({ method: 'GET', url: '/CourseApi/Details' });
 
 		var GetSharedFilesForCourse = generateApiFunction({ method: 'GET', url: '/SharedFileApi/ForCourse' });
+		var DownloadSharedFile = generateApiFunction({ method: 'GET', url: '/SharedFileApi/Download' });
+		var DeleteSharedFile = generateApiFunction({ method: 'GET', url: '/SharedFileApi/Delete' });
 
 		var GetAssigments = generateApiFunction({ method: 'GET', url: '/AssigmentApi/GetAssigments'});
 
@@ -116,6 +118,9 @@
 			GetAllCourses: GetAllCourses,
 			GetCourse: GetCourse,
 			GetSharedFilesForCourse: GetSharedFilesForCourse,
+			DownloadSharedFile: DownloadSharedFile,
+			DeleteSharedFile: DeleteSharedFile,
+
 			GetAssigments: GetAssigments,
 			Add: Add,
 			Remove: Remove

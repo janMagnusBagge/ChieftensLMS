@@ -8,8 +8,8 @@
 
 	<table class="table">
 
-			<tr>
-				<td ng-repeat="item in courseList">
+			<tr ng-repeat="item in courseList">
+				<td >
 					<a href="~/Course/Details/{{item.Id}}">{{item.Name}}</a> <i>{{item.Description}}</i>	
 				</td>
 			</tr>

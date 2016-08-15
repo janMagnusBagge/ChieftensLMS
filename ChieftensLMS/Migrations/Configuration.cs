@@ -24,7 +24,7 @@ namespace ChieftensLMS.Migrations
 			_context = context;
 		}
 
-		public UserProfile CreateUserWithRole(string userName, string password, string role)
+		public UserProfile CreateUserWithRole(string userName, string password, string role, string name, string surname)
 		{
 			var foundUser = _userManager.FindByName(userName);
 			if (foundUser != null)
@@ -39,7 +39,7 @@ namespace ChieftensLMS.Migrations
 
 			_userManager.AddToRole(user.Id, role);
 
-			UserProfile returnProfile = new UserProfile() { Id = user.Id, Name = "Namn", SurName = "Efternamn" };
+			UserProfile returnProfile = new UserProfile() { Id = user.Id, Name = name, SurName = surname };
 
 			_context.UserProfile.Add(returnProfile);
 			_context.SaveChanges();
@@ -73,217 +73,86 @@ namespace ChieftensLMS.Migrations
 
 			UserSeeder seeder = new UserSeeder(context);
 
-			var teacher = seeder.CreateUserWithRole("Teacher@Teacher.com", "Password@123", "Teacher");
-			var student = seeder.CreateUserWithRole("Student@Student.com", "Password@123", "Student");
+			List<UserProfile> userProfiles = new List<UserProfile>();
+			for (int i = 0; i < 20; i++)
+				userProfiles.Add( seeder.CreateUserWithRole("T"+i+"@lms.com", "Password@123", "Teacher", "Lärare_"+i, "Efternamn"+i) );
+			for (int i = 0; i < 20; i++)
+				userProfiles.Add(seeder.CreateUserWithRole("S" + i + "@lms.com", "Password@123", "Student", "Student_"+i, "Efternamn"+i));
 
-			context.Courses.AddOrUpdate(c => c.Name,
-					new Course()
+
+			for (int i = 0; i < 20; i++)
+			{
+				Course course = new Course()
+				{
+					Description = "Kursbeskrivning " + i,
+					Name = "Kursnamn " + i,
+					Assignments = new List<Assignment>(),
+					Lectures = new List<Lecture>(),
+					SharedFiles = new List<SharedFile>(),
+					Users = new List<UserProfile>()
+				};
+
+				for (int a = 0; a < 20; a++)
+				{
+					course.Lectures.Add(new Lecture()
 					{
-						Description = "Fifty shades of rosa",
-						Name = "Rosa gymnastik",
-						Assignments = new List<Assignment>()
-							{
-									new Assignment() {
-										Name = "Hoppa hopprep",
-										Description ="Ni ska lärar er riktigt hopp",
-										Date = DateTime.Now,
-										ExpirationDate = new DateTime(2020,10,20),
-										TurnIns = new List<TurnIn>()
-											{
-												new TurnIn()
-												{
-													User = student, Date = DateTime.Now,
-													FileName = "hopp_inlämning",
-													Name ="min hopp inlämning",
-												}
-											}
-								}
-							},
-						Lectures = new List<Lecture>()
-							{
-									new Lecture()
-									{
-										Date = DateTime.Now,
-										Name = "Lektion i databaser",
-										Description = "Ge upp"
-									}
-							},
-						SharedFiles = new List<SharedFile>()
-						{
-								new SharedFile()
-								{
-									Date = DateTime.Now,
-									Name = "Chieften's plans",
-									FileName = "chieftensPlans.pdf",
-									User = teacher
-								}
-						},
-						Users = new List<UserProfile>() { teacher, student }
-					}
-				);
+						Date = DateTime.Now,
+						Name = course.Name + " - lektion " + a, 
+						Description = "Beskrivning för " + course.Name + " - lektion " + a
+					});
+				}
 
-
-
-			var teacher2 = seeder.CreateUserWithRole("Teacher2@Teacher.com", "Password@123", "Teacher");
-			var teacher3 = seeder.CreateUserWithRole("Teacher3@Teacher.com", "Password@123", "Teacher");
-
-			var student2 = seeder.CreateUserWithRole("Student2@Student.com", "Password@123", "Teacher");
-			var student3 = seeder.CreateUserWithRole("Student3@Student.com", "Password@123", "Teacher");
-			var student4 = seeder.CreateUserWithRole("Student4@Student.com", "Password@123", "Teacher");
-
-			context.Courses.AddOrUpdate(c => c.Name,
-					new Course()
+				for (int x = 0; x < 40; x++){
+					course.SharedFiles.Add(
+					new SharedFile()
 					{
-						Description = "Förklaring om hur man skriver om cyklar",
-						Name = "Skrivar kurs i Rosa cykel i valfri färg",
-						Assignments = new List<Assignment>()
-							{
-									new Assignment()
-									{
-										Name = "Rosa cykel",
-										Description ="Skriva rosa cykel 50 gånger",
-										Date = DateTime.Now,
-										ExpirationDate = new DateTime(2020,10,20),
-										TurnIns = new List<TurnIn>()
-											{
-												new TurnIn()
-												{
-													User = student, Date = DateTime.Now,
-													FileName = "Rosa_inlämning",
-													Name ="min Rosa cykel inlämning",
-												}
-											}
-									},
-									new Assignment()
-									{
-										Name = "Rosa cykel i valfri färg",
-										Description ="Skriva rosa cykel i valfri färg 50 gånger",
-										Date = DateTime.Now,
-										ExpirationDate = new DateTime(2020,10,20),
-										TurnIns = new List<TurnIn>()
-											{
-												new TurnIn()
-												{
-													User = student, Date = DateTime.Now,
-													FileName = "Valfri_färg_inlämning",
-													Name ="min Rosa cykel i valfri färg inlämning",
-												}
-											}
-									}
-							},
-						Lectures = new List<Lecture>()
-							{
-									new Lecture()
-									{
-										Date = DateTime.Now,
-										Name = "Lektion i stavning",
-										Description = "lär sig stava"
-									},
-									new Lecture()
-									{
-										Date = DateTime.Now,
-										Name = "Lektion i skriva meningar",
-										Description = "Kunna skriva meningar"
-									}
-							},
-						SharedFiles = new List<SharedFile>()
-						{
-								new SharedFile()
-								{
-									Date = DateTime.Now,
-									Name = "Meningsuppbygnad",
-									FileName = "Meningsuppbygnad.pdf",
-									User = teacher2
-								}
-						},
-						Users = new List<UserProfile>() { teacher2, student, student2, student3 }
-					}
-				);
+						Date = DateTime.Now,
+						Name = course.Name + "_" + userProfiles[x].Name + "_uppladdning",
+						FileName = course.Name + "_" + userProfiles[x].Name + "_uppladdning" + ".txt",
+						User = userProfiles[x]
+					});
+				}
 
-			context.Courses.AddOrUpdate(c => c.Name,
-					new Course()
+				for (int x = 0; x < 40; x++)
+				{
+					course.Users.Add(userProfiles[x]);
+				}
+
+				for (int x = 0; x < 5; x++)
+				{
+					Assignment assignment = new Assignment()
 					{
-						Description = "Bättre än att gå på fötter",
-						Name = "Gå på händer",
-						Assignments = new List<Assignment>()
-							{
-									new Assignment()
-									{
-										Name = "Stå på händer mot vägg",
-										Description ="Lära sig stå på händer",
-										Date = DateTime.Now,
-										ExpirationDate = new DateTime(2020,10,20),
-										TurnIns = new List<TurnIn>()
-											{
-												new TurnIn()
-												{
-													User = student, Date = DateTime.Now,
-													FileName = "Sta_pa_hander_mot_vagg",
-													Name ="Min stå på händer mot vägg inlämning",
-												}
-											}
-									},
-									new Assignment()
-									{
-										Name = "Stå på händer utan vägg",
-										Description ="Lära sig stå på händer",
-										Date = DateTime.Now,
-										ExpirationDate = new DateTime(2020,10,20),
-										TurnIns = new List<TurnIn>()
-											{
-												new TurnIn()
-												{
-													User = student, Date = DateTime.Now,
-													FileName = "Sta_pa_hander_inlämning",
-													Name ="Min stå på händer utan vägg inlämning",
-												}
-											}
-									},
-									new Assignment()
-									{
-										Name = "Gå på händer",
-										Description ="Lära sig gå på händer",
-										Date = DateTime.Now,
-										ExpirationDate = new DateTime(2020,10,20),
-										TurnIns = new List<TurnIn>()
-											{
-												new TurnIn()
-												{
-													User = student, Date = DateTime.Now,
-													FileName = "Ga_Pa_Hander_inlamning",
-													Name ="Min gå på händer inlämning",
-												}
-											}
-									}
-							},
-						Lectures = new List<Lecture>()
-							{
-									new Lecture()
-									{
-										Date = DateTime.Now,
-										Name = "Lektion i arm övningar",
-										Description = "Lite olika arm övning för att kunna stå på händer"
-									},
-									new Lecture()
-									{
-										Date = DateTime.Now,
-										Name = "Lektion i stå på händer och olika tekniker",
-										Description = "Stå på händer"
-									}
-							},
-						SharedFiles = new List<SharedFile>()
+						Name = course.Name + "_uppgift_" + x,
+						Description = "Beskrivning_" + course.Name + "_uppgift_" + x,
+						Date = DateTime.Now,
+						ExpirationDate = new DateTime(2020,10,20)
+					};
+
+					assignment.TurnIns = new List<TurnIn>();
+					course.Assignments.Add(assignment);
+
+					for (int v = 0; v < 10; v++)
+					{
+						TurnIn turnIn = new TurnIn()
 						{
-								new SharedFile()
-								{
-									Date = DateTime.Now,
-									Name = "Övningar",
-									FileName = "Övningar.pdf",
-									User = teacher2
-								}
-						},
-						Users = new List<UserProfile>() { teacher3, student4, student2, student3 }
+							User = userProfiles[v],
+							Date = DateTime.Now,
+							FileName = course.Name + "_inlämning_" + x + ".txt",
+							Name = course.Name + "_inlämning_" + x + ".txt"
+						};
+
+						assignment.TurnIns.Add(turnIn);
 					}
-				);
+				}
+
+
+				context.Courses.AddOrUpdate(c => c.Name, course);
+			}
+
+
+
+
+			
 		}
 	}
 }

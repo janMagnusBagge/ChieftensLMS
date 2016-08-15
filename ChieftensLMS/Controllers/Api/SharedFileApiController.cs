@@ -10,7 +10,6 @@ using ChieftensLMS.DAL;
 using ChieftensLMS.Models;
 using ChieftensLMS.Services;
 using Microsoft.AspNet.Identity;
-using System.IO;
 using System.Web.Hosting;
 using ChieftensLMS.Classes;
 
@@ -54,28 +53,28 @@ namespace ChieftensLMS.Controllers
 			return ApiResult.Success(new { sharedFiles = sharedFiles });
 		}
 
+		// Needs auth checking
 		public ActionResult Download(int? id)
 		{
-			String physicalFileToReturn = null;
+			string physicalFileToReturn = null;
 			SharedFile sharedFile = null;
 
 			if (id == null)
-				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+				return ApiResult.Fail("Bad request");
 
 			sharedFile = _sharedFileService.GetSharedFileAsUserId(User.Identity.GetUserId(), (int)id);
 
 			if (sharedFile == null)
-				return Content("Id invalid or no access");
+				return ApiResult.Fail("Invalid file or no access");
 
 			physicalFileToReturn = _sharedFileService.GetPhysicalFilePath(sharedFile);
 
 			if (physicalFileToReturn == null)
-				return Content("File doesnt exist");
+				return ApiResult.Fail("File deleted from server");
 
 			string mimeType = MimeMapping.GetMimeMapping(sharedFile.FileName);
 
 			return File(physicalFileToReturn, mimeType, sharedFile.FileName);
-			//return File(_sharedFileService.GetPhysicalFile(sharedFile), mimeType, sharedFile.FileName);
 		}
 
 		public ActionResult Delete(int? id)
@@ -83,15 +82,20 @@ namespace ChieftensLMS.Controllers
 			SharedFile sharedFile = null;
 
 			if (id == null)
-				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+				return ApiResult.Fail("Bad request");
 
-			sharedFile = _sharedFileService.GetSharedFileAsUserId(User.Identity.GetUserId(), (int)id);
+			sharedFile = _sharedFileService.GetSharedFileById((int)id);
 
 			if (sharedFile != null)
-				_sharedFileService.DeleteSharedFileAsUser(sharedFile, User.Identity.GetUserId());
+			{
+				_sharedFileService.DeleteSharedFile(sharedFile);
+				return ApiResult.Success(new { Id = id });
+			}
+			else
+			{
+				return ApiResult.Fail("Files doesnt exist");
+			}
 
-
-			return null;
 		}
 
 		[HttpPost]

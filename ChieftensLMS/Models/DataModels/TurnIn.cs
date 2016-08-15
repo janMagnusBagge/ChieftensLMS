@@ -26,5 +26,9 @@ namespace ChieftensLMS.Models
 		public Assignment Assignment { get; set; }
 
 		public int AssignmentId { get; set; }
+
+
+
+
 	}
 }
