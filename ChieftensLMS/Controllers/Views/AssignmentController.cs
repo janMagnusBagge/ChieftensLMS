@@ -15,8 +15,6 @@ namespace ChieftensLMS.Controllers
     {
 		private LMSDbContext _context;
 		private AssignmentService _AssignmentService;
-		//private CourseService _courseService;
-		//private ApplicationUserManager _userManager;
 
 		public AssignmentController()
 		{
@@ -24,7 +22,7 @@ namespace ChieftensLMS.Controllers
 			_AssignmentService = new AssignmentService(_context);
 		}
         // GET: Assignment
-        public ActionResult Index()
+		public ActionResult Index(int? courseId)
         {
 			//var assigment = GetAssigments(3);
 			//return View(assigment);

@@ -10,7 +10,7 @@ namespace ChieftensLMS.Models
 	public class SharedFile
 	{
 		[Key]
-		public int ID { get; set; }
+		public int Id { get; set; }
 		public string Name { get; set; }
 		public DateTime Date { get; set; }
 		public string FileName { get; set; }

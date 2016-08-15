@@ -88,6 +88,8 @@
 
 		var GetAllCourses = generateApiFunction({ method: 'GET', url: '/CourseApi/Index' });
 
+		var GetAssigments = generateApiFunction({ method: 'GET', url: '/AssigmentApi/GetAssigments'});
+
 		// The service with all the API call functions
 		return {
 			GetAllCourses: GetAllCourses,
