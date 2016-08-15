@@ -22,11 +22,11 @@ namespace ChieftensLMS.Controllers
 			_AssignmentService = new AssignmentService(_context);
 		}
         // GET: Assignment
-		public ActionResult Index(int? courseId)
+		public ActionResult Index(int? id)
         {
 			//var assigment = GetAssigments(3);
 			//return View(assigment);
-			return View();
+			return View(id);
         }
 
 		//public IEnumerable<Assignment> GetAssigments(int courseId)

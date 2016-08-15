@@ -25,7 +25,7 @@ namespace ChieftensLMS.Controllers.Api
 			var assigmentsForCourse = _AssignmentService.GetAssignmentForCourse(courseId)
 				.Select(a => new
 				{
-					ID = a.Id,
+					a.Id,
 					a.CourseId,
 					a.Description,
 					a.Date,

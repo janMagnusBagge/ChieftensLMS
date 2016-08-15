@@ -116,7 +116,7 @@
 			GetAllCourses: GetAllCourses,
 			GetCourse: GetCourse,
 			GetSharedFilesForCourse: GetSharedFilesForCourse,
-	
+			GetAssigments: GetAssigments,
 			Add: Add,
 			Remove: Remove
 		};

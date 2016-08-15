@@ -1,4 +1,5 @@
-﻿@model IEnumerable<ChieftensLMS.Models.Assignment>
+﻿@*@model IEnumerable<ChieftensLMS.Models.Assignment>*@
+@model int?
 
 @{
 	ViewBag.Title = "Inlämningsuppgifter";
@@ -6,70 +7,36 @@
 
 <h2>Inlämningsuppgifter</h2>
 
-<div ng-controller="assignmentIndexController">
+<div ng-controller="assignmentIndexController" ng-init="getAssignments(@Model)">
 
 	<table class="table">
-
-		<tr>
-			<td ng-repeat="item in assignmentList">
-				@*<a href="~/Course/Details/{{item.Id}}">{{item.Name}}</a> <i>{{item.Description}}</i>*@
-				<a href="~/Course/Details/{{item.Id}}">{{item.Name}}</a> <i>{{item.Description}}</i>
-			</td>
-		</tr>
-
-
+		<thead>
+			<tr>
+				<th>
+					Namn
+				</th>
+				<th>
+					Beskrivning
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="item in assignmentList">
+				<td>
+					@*<a href="~/Course/Details/{{item.Id}}">{{item.Name}}</a> <i>{{item.Description}}</i>*@
+					<a href="~/Course/Details/{{item.Id}}">{{item.Name}}</a>
+				</td>
+				<td>
+					<i>{{item.Description}}</i>
+				</td>
+				<td>
+					{{item.ExpirationDate}}
+				</td>
+			</tr>
+		</tbody>
 	</table>
 </div>
 
-@*<p>
-    @Html.ActionLink("Create New", "Create")
-</p>*@
-@*<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Course.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Date)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ExpirationDate)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Course.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Date)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ExpirationDate)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
-        </td>
-    </tr>
-}
-
-</table>*@
 
 
 <script>
@@ -78,6 +45,7 @@
 
 		angular.module("app").controller("assignmentIndexController", function ($scope, ApiService) {
 			$scope.assignmentList = null;
+			
 
 
 			var onSuccess = function (data) {
@@ -88,9 +56,66 @@
 				alert("Misslyckades");
 			};
 
-			ApiService.GetAssigments(onSuccess, onFail, courseId);
+			$scope.getAssignments = function (courseId) {
+				
+				ApiService.GetAssigments(onSuccess, onFail, { courseId: courseId });
+			}
+			//ApiService.GetAssigments(onSuccess, onFail, courseId);
 		});
 
 	}());
 
 </script>
+
+
+
+
+@*<p>
+		@Html.ActionLink("Create New", "Create")
+	</p>*@
+@*<table class="table">
+		<tr>
+			<th>
+				@Html.DisplayNameFor(model => model.Course.Name)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Name)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Date)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.Description)
+			</th>
+			<th>
+				@Html.DisplayNameFor(model => model.ExpirationDate)
+			</th>
+			<th></th>
+		</tr>
+
+	@foreach (var item in Model) {
+		<tr>
+			<td>
+				@Html.DisplayFor(modelItem => item.Course.Name)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Name)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Date)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.Description)
+			</td>
+			<td>
+				@Html.DisplayFor(modelItem => item.ExpirationDate)
+			</td>
+			<td>
+				@Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+				@Html.ActionLink("Details", "Details", new { id=item.ID }) |
+				@Html.ActionLink("Delete", "Delete", new { id=item.ID })
+			</td>
+		</tr>
+	}
+
+	</table>*@
