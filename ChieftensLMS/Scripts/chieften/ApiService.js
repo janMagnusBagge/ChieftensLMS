@@ -100,11 +100,6 @@
 		}
 
 		// Generate the api functions using helper method
-		var GetVehicleTypes = generateApiFunction({ method: 'GET', url: '/API/GetVehicleTypes' });
-		var GetList = generateApiFunction({ method: 'GET', url: '/API/GetList' });
-		var GetSimpleList = generateApiFunction({ method: 'GET', url: '/API/GetSimpleList' });
-		var GetSingle = generateApiFunction({ method: 'GET', url: '/API/GetSingle' });
-		var Edit = generateApiFunction({ method: 'GET', url: '/API/Edit' });
 		var Remove = generateApiFunction({ method: 'GET', url: '/API/Remove' });
 		var Add = generateApiFunction({ method: 'POST', url: '/API/Add' });
 
@@ -112,18 +107,16 @@
 		var GetAllCourses = generateApiFunction({ method: 'GET', url: '/CourseApi/Index' });
 		var GetCourse = generateApiFunction({ method: 'GET', url: '/CourseApi/Details' });
 
+		var GetSharedFilesForCourse = generateApiFunction({ method: 'GET', url: '/SharedFileApi/ForCourse' });
+
 		var GetAssigments = generateApiFunction({ method: 'GET', url: '/AssigmentApi/GetAssigments'});
 
 		// The service with all the API call functions
 		return {
 			GetAllCourses: GetAllCourses,
 			GetCourse: GetCourse,
-
-			GetVehicleTypes: GetVehicleTypes,
-			GetList: GetList,
-			GetSingle: GetSingle,
-			Edit: Edit,
-			GetSimpleList: GetSimpleList,
+			GetSharedFilesForCourse: GetSharedFilesForCourse,
+	
 			Add: Add,
 			Remove: Remove
 		};

@@ -161,8 +161,10 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Classes\ApiResult.cs" />
     <Compile Include="Controllers\Api\AssigmentApiController.cs" />
     <Compile Include="Controllers\Api\CourseApiController.cs" />
+    <Compile Include="Controllers\Api\SharedFileApiController.cs" />
     <Compile Include="Controllers\Views\AccountController.cs" />
     <Compile Include="Controllers\Views\AssignmentController.cs" />
     <Compile Include="Controllers\Views\CourseController.cs" />
@@ -268,7 +270,7 @@
     <Content Include="Views\SharedFile\Delete.cshtml" />
     <Content Include="Views\SharedFile\Details.cshtml" />
     <Content Include="Views\SharedFile\Edit.cshtml" />
-    <Content Include="Views\SharedFile\Index.cshtml" />
+    <Content Include="Views\SharedFile\ForCourse.cshtml" />
     <None Include="Uploads\SharedFiles\2" />
     <Content Include="Views\SharedFile\Add.cshtml" />
     <Content Include="Views\Assignment\Index.cshtml" />

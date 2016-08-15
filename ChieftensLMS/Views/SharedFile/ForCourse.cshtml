@@ -1,0 +1,57 @@
+﻿@model int?
+
+@{
+	ViewBag.Title = "Delade filer";
+}
+
+
+<div ng-controller="sharedFileForCourseController" ng-init="init(@Model)">
+
+	<table class="table">
+		<tr>
+			<th>Namn</th>
+			<th>Ägare</th>
+			<th>Datum</th>
+			<th></th>
+			<th></th>
+		</tr>
+		<tr ng-repeat="item in sharedFiles">
+			<td>{{item.Name}}</td>
+			<td>{{item.Owner ? item.Owner : "You" }}</td>
+			<td>{{item.Date | dateFilter | date:'yyyy-MM-dd'}}</td>
+			<td><a href="SharedFile/Download/{{item.Id}}">Ladda ner</a> <a ng-hide="item.Owner" href="SharedFile/Delete/{{item.Id}}">Radera</a></td>
+		</tr>
+	</table>
+
+</div>
+
+
+@section scripts {
+
+	<script>
+
+	(function () {
+
+		angular.module("app").controller("sharedFileForCourseController", function ($scope, ApiService) {
+			$scope.sharedFiles = null;
+
+			var onSuccess = function (data) {
+				$scope.sharedFiles = data.sharedFiles;
+			};
+
+			var onFail = function (response) {
+				alert("fail");
+			};
+
+			$scope.init = function (id)
+			{
+				ApiService.GetSharedFilesForCourse(onSuccess, onFail, { id: id });
+			}
+
+		});
+
+	}());
+
+	</script>
+
+}

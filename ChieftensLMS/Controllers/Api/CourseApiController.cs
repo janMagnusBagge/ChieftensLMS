@@ -1,4 +1,5 @@
-﻿using ChieftensLMS.DAL;
+﻿using ChieftensLMS.Classes;
+using ChieftensLMS.DAL;
 using ChieftensLMS.Services;
 using Microsoft.AspNet.Identity;
 using System;
@@ -32,32 +33,23 @@ namespace ChieftensLMS.Controllers.Api
 					}
 				);
 
-			var returnObject = new
-			{
-				data = new { courses = courses },
-				success = true
-			};
+			var returnData = new { courses = courses };
 
-			return Json(returnObject, JsonRequestBehavior.AllowGet);
+			return ApiResult.Success(returnData);
 		}
 
 		public ActionResult Details(int? id)
 		{
 			if (id == null)
-			{
-				return Json(new { success = false }, JsonRequestBehavior.AllowGet);
-			}
+				return ApiResult.Fail("Hej");
 
 			var course = _courseService.GetCourseById((int)id);
 
 			if (course == null)
-			{
-				return Json(new { success = false }, JsonRequestBehavior.AllowGet);
-			}
+				return ApiResult.Fail("Hej");
 
-			var returnObject = new
-			{
-				data = new
+			var
+				returnData = new
 				{
 					course = new
 					{
@@ -65,29 +57,10 @@ namespace ChieftensLMS.Controllers.Api
 						Name = course.Name,
 						Description = course.Description
 					}
-				},
-				success = true
 			};
 
-			return Json(returnObject, JsonRequestBehavior.AllowGet);
+			return ApiResult.Success(returnData);
 		}
-
-		//// GET: Courses/Details/5
-		//public ActionResult Details(int? id)
-		//{
-		//	if (id == null)
-		//	{
-		//		return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-		//	}
-
-		//	var course = _courseService.GetCourseById((int)id);
-
-		//	if (course == null)
-		//	{
-		//		return HttpNotFound();
-		//	}
-		//	return View(course);
-		//}
 
 	}
 }

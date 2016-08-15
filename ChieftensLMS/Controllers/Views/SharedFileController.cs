@@ -27,21 +27,9 @@ namespace ChieftensLMS.Controllers
 		}
 
 		// GET: SharedFiles
-		public ActionResult Index(int? courseId)
+		public ActionResult ForCourse(int? id)
         {
-			if (courseId == null)
-			{
-				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-			}
-
-			var sharedFiles = _sharedFileService.GetSharedFilesForCourseById((int)courseId);
-
-			if (sharedFiles == null)
-			{
-				return HttpNotFound();
-			}
-			
-			return View(sharedFiles);
+			return View(id);
         }
 
 		public ActionResult Download(int? id)
