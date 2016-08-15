@@ -1,20 +1,40 @@
-﻿@model ChieftensLMS.Models.Course
-
-@{
-    ViewBag.Title = "Details";
+﻿@{
+	ViewBag.Title = "Kurs";
 }
 
-<h2>@Model.Name</h2>
-<h4>@Model.Description</h4>
 
-<div>
-    <hr />
-	Släng upp beskrining här och partials. Kanske bra att länka till lärarna också?
+<div ng-controller="courseDetailController" ng-init="getCourse(@ViewBag.id)">
+	<h2>{{course.Name}}</h2>
+	<h3>{{course.Description}}</h3>
 </div>
 
-@Html.Action("Index", "SharedFile", new { courseId = Model.Id })
 
-<p>
+@section scripts {
 
-    @Html.ActionLink("Tillbaka", "Index")
-</p>
+	<script>
+
+	(function () {
+
+		angular.module("app").controller("courseDetailController", function ($scope, ApiService) {
+			$scope.course = null;
+
+			var onSuccess = function (data) {
+				$scope.course = data.course;
+			};
+
+			var onFail = function (response) {
+				alert("Misslyckades");
+			};
+
+			$scope.getCourse = function (id)
+			{
+				ApiService.GetCourse(onSuccess, onFail, { id: id });
+			}
+			
+		});
+
+	}());
+
+	</script>
+
+}

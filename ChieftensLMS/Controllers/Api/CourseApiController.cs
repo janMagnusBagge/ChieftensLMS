@@ -41,6 +41,37 @@ namespace ChieftensLMS.Controllers.Api
 			return Json(returnObject, JsonRequestBehavior.AllowGet);
 		}
 
+		public ActionResult Details(int? id)
+		{
+			if (id == null)
+			{
+				return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+			}
+
+			var course = _courseService.GetCourseById((int)id);
+
+			if (course == null)
+			{
+				return Json(new { success = false }, JsonRequestBehavior.AllowGet);
+			}
+
+			var returnObject = new
+			{
+				data = new
+				{
+					course = new
+					{
+						Id = course.Id,
+						Name = course.Name,
+						Description = course.Description
+					}
+				},
+				success = true
+			};
+
+			return Json(returnObject, JsonRequestBehavior.AllowGet);
+		}
+
 		//// GET: Courses/Details/5
 		//public ActionResult Details(int? id)
 		//{

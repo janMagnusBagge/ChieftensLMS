@@ -8,6 +8,20 @@
 		// Dummy placeholder, we dont handle errors atm so this is sent to fail callbacks
 		var dummyFailReason = { reason: "Hey there" };
 
+
+		var debugCall = function (config, response, data) {
+			console.log("API CALL: " + config.method + " " + config.url + " " + JSON.stringify(config.params));
+
+			if (typeof (data) !== 'undefined')
+			{
+				console.log("WITH DATA: ");
+				console.log(config.data);
+			}
+
+			console.log("RESPONSE:");
+			console.log(response);
+		}
+
 		// Helper function for generating API functions, requires config.url/config.method. The config parameter is the same as the one that's passed into $http:
 		// https://docs.angularjs.org/api/ng/service/$http
 		//
@@ -23,12 +37,14 @@
 					config.data = data;
 					$http(config).then(
 					function (response) {
+						debugCall(config, response);
 						if (response.data.success == true)
 							successsCallback(response.data.data);
 						else
 							failCallback(dummyFailReason);
 					},
 					function (response) {
+						debugCall(config, response);
 						failCallback(dummyFailReason);
 					}
 					);
@@ -45,12 +61,17 @@
 
 					$http(config).then(
 					function (response) {
+
+						debugCall(config, response);
+
 						if (response.data.success == true)
 							successsCallback(response.data.data);
 						else
 							failCallback(dummyFailReason);
 					},
 					function (response) {
+						debugCall(config, response);
+
 						failCallback(dummyFailReason);
 					});
 				}
@@ -64,12 +85,14 @@
 
 					$http(config).then(
 					function (response) {
+						debugCall(config, response);
 						if (response.data.success == true)
 							successsCallback(response.data.data);
 						else
 							failCallback(dummyFailReason);
 					},
 					function (response) {
+						debugCall(config, response);
 						failCallback(dummyFailReason);
 					});
 				}
@@ -87,10 +110,12 @@
 
 
 		var GetAllCourses = generateApiFunction({ method: 'GET', url: '/CourseApi/Index' });
+		var GetCourse = generateApiFunction({ method: 'GET', url: '/CourseApi/Details' });
 
 		// The service with all the API call functions
 		return {
 			GetAllCourses: GetAllCourses,
+			GetCourse: GetCourse,
 
 			GetVehicleTypes: GetVehicleTypes,
 			GetList: GetList,

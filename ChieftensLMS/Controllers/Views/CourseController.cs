@@ -34,18 +34,8 @@ namespace ChieftensLMS.Controllers
 		// GET: Courses/Details/5
 		public ActionResult Details(int? id)
 		{
-			if (id == null)
-			{
-				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-			}
-
-			var course = _courseService.GetCourseById((int)id);
-
-			if (course == null)
-			{
-				return HttpNotFound();
-			}
-			return View(course);
+			ViewBag.id = id;
+			return View();
 		}
 
 		//// GET: Courses/Create
