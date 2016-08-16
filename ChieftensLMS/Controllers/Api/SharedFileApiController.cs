@@ -28,7 +28,9 @@ namespace ChieftensLMS.Controllers
 			_courseService = new CourseService(_context);
 		}
 
-		// Needs checking if the user has access to this course
+		// Lists all shared files for a course id
+		// TODO: Needs fix to check that the user has access to the course
+		// TODO: Put authorize attribute
 		public ActionResult ForCourse(int? id)
 		{
 			if (id == null)
@@ -36,24 +38,23 @@ namespace ChieftensLMS.Controllers
 
 			if (_courseService.GetCourseById((int)id) == null)
 				return ApiResult.Fail("Invalid course");
-
-			//Get all shared files for course and project them to a new model
+	
 			var sharedFiles = _sharedFileService.GetSharedFilesForCourseById((int)id)
-				.Select(i =>
-					new
+				.Select(i => new
 					{
 						i.Id,
 						i.Name,
 						i.Date,
-						Owner = (User.Identity.GetUserId() == i.UserId) ? null : i.User.Name + " " + i.User.SurName
-					}
-
-				);
+						Owner = (User.Identity.GetUserId() == i.UserId) ? 
+									null : i.User.Name + " " + i.User.SurName 
+					});
 
 			return ApiResult.Success(new { sharedFiles = sharedFiles });
 		}
 
-		// Needs auth checking
+		// Download a shared file
+		// TODO: Check that the user is in course before returning the file
+		// TODO: Put [Authorize] attribute here
 		public ActionResult Download(int? id)
 		{
 			string physicalFileToReturn = null;
@@ -77,6 +78,8 @@ namespace ChieftensLMS.Controllers
 			return File(physicalFileToReturn, mimeType, sharedFile.FileName);
 		}
 
+		// Deletes a shared file by id
+		// TODO: Check that the user has permission to delete that file (he/she needs to be the owner of it)
 		public ActionResult Delete(int? id)
 		{
 			SharedFile sharedFile = null;
@@ -109,12 +112,5 @@ namespace ChieftensLMS.Controllers
 
 			return Content("hej");
 		}
-
-		public ActionResult Add()
-		{
-			return View();
-		}
-
-
 	}
 }

@@ -8,7 +8,7 @@
 		// Dummy placeholder, we dont handle errors atm so this is sent to fail callbacks
 		var dummyFailReason = { reason: "Request/Server error" };
 
-
+		// Debug function for development
 		var debugCall = function (config, response, data) {
 			console.log("API CALL: " + config.method + " " + config.url + " " + JSON.stringify(config.params));
 
@@ -29,6 +29,12 @@
 		// 'PUT', 'POST', 'PATCH': function(successsCallback, failCallback, data)
 		// 'GET': function(successsCallback, failCallback, [params])
 		// All others: function(successsCallback, failCallback)
+		// 
+		// The successCallback will always get object containing the data from the server
+		// The failCallback will get a object that has either:
+		// object.errorType = 'service' or 'api'
+		// If its the api, it means that the api sent out the error
+		// if its the service, it means the request failed somehow, the reason object holds the information in both cases
 		function generateApiFunction(config) {
 			if (config.method == 'PUT' || config.method == 'POST' || config.method == 'PATCH') {
 				return function (successsCallback, failCallback, data) // PUT, POST, PATCH return this function
@@ -41,11 +47,11 @@
 						if (response.data.success == true)
 							successsCallback(response.data.data);
 						else
-							failCallback(response);
+							failCallback({ errorType: "api", reason: response.reason });
 					},
 					function (response) {
 						debugCall(config, response);
-						failCallback(dummyFailReason);
+						failCallback({ errorType: "service", reason: response });
 					}
 					);
 				}
@@ -67,19 +73,17 @@
 						if (response.data.success == true)
 							successsCallback(response.data.data);
 						else
-							failCallback(response);
+							failCallback({ errorType: "api", reason: response.reason });
 					},
 					function (response) {
 						debugCall(config, response);
-
-						failCallback(dummyFailReason);
+						failCallback({ errorType: "service", reason: response });
 					});
 				}
 			}
 			else {
 				return function (successsCallback, failCallback) // The other http methods return this
 				{
-
 					delete config.data;
 					delete config.params;
 
@@ -89,11 +93,11 @@
 						if (response.data.success == true)
 							successsCallback(response.data.data);
 						else
-							failCallback(response);
+							failCallback({ errorType: "api", reason: response.reason });
 					},
 					function (response) {
 						debugCall(config, response);
-						failCallback(dummyFailReason);
+						failCallback({ errorType: "service", reason: response });
 					});
 				}
 			}
@@ -107,6 +111,10 @@
 		var GetAllCourses = generateApiFunction({ method: 'GET', url: '/CourseApi/Index' });
 		var GetCourse = generateApiFunction({ method: 'GET', url: '/CourseApi/Details' });
 
+
+		var GetDebugApiAllUsers = generateApiFunction({ method: 'GET', url: '/DebugApi/AllUsers' });
+		var GetDebugApiLoginAs = generateApiFunction({ method: 'GET', url: '/DebugApi/LoginAs' });
+
 		var GetSharedFilesForCourse = generateApiFunction({ method: 'GET', url: '/SharedFileApi/ForCourse' });
 		var DownloadSharedFile = generateApiFunction({ method: 'GET', url: '/SharedFileApi/Download' });
 		var DeleteSharedFile = generateApiFunction({ method: 'GET', url: '/SharedFileApi/Delete' });
@@ -117,6 +125,9 @@
 
 		// The service with all the API call functions
 		return {
+			GetDebugApiAllUsers: GetDebugApiAllUsers,
+			GetDebugApiLoginAs: GetDebugApiLoginAs,
+
 			GetAllCourses: GetAllCourses,
 			GetCourse: GetCourse,
 			GetSharedFilesForCourse: GetSharedFilesForCourse,
