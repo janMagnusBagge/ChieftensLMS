@@ -72,6 +72,7 @@ namespace ChieftensLMS.Controllers.Api
 		}
 
 		// Needs checking if the user has access to this course
+		// Right now as long as you are a teacher you can see all the turnins for the course. Should it be changed to only teacher for course ?
 		public ActionResult FilesForAssignment(int? id)
 		{
 			if (id == null)
@@ -81,11 +82,8 @@ namespace ChieftensLMS.Controllers.Api
 				return ApiResult.Fail("Invalid assignment");
 
 			var userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-			var role = userManager.GetRoles(User.Identity.GetUserId());//.Single();
+			var role = userManager.GetRoles(User.Identity.GetUserId());
 			bool isTeacher = role.Contains("Teacher");
-			//if (role == "Teacher")
-			//if (Roles.IsUserInRole("Teacher"))
-			//if (User.IsInRole("Teacher"))
 			if (isTeacher)
 			{
 				//Get all Assignment files for Assignment and project them to a new model
