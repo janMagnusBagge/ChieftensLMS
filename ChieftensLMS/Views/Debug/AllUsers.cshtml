@@ -1,0 +1,91 @@
+﻿@model int?
+
+@{
+	ViewBag.Title = "Delade filer";
+}
+
+	<div ng-controller="debugApiAllUsersController" ng-init="init(@Model)">
+
+		<h2>User debug</h2>
+
+		<h4>Current User</h4>
+		<table class="table">
+
+			<tr>
+				<th>UserId</th>
+				<th>Email/Login</th>
+				<th>Roles</th>
+				<th></th>
+
+			</tr>
+			<tr>
+				<td>{{currentUser.Id}}</td>
+				<td>{{currentUser.Email}}</td>
+				<td>
+					<span ng-repeat="role in currentUser.Roles">{{role}}</span>
+				</td>
+				<td></td>
+			</tr>
+		</table>
+
+		<h4>All Users</h4>
+		<table class="table table-hover">
+
+			<tr>
+				<th>UserId</th>
+				<th>Email/Login</th>
+				<th>Roles</th>
+				<th></th>
+
+			</tr>
+			<tr ng-repeat="user in allUsers">
+				<td>{{user.Id}}</td>
+				<td>{{user.Email}}</td>
+				<td>
+					<span ng-repeat="role in user.Roles">{{role}}</span>
+				</td>
+				<td><a href="#" ng-click="loginAs(user.Email)">Login as this user</a></td>
+			</tr>
+		</table>
+
+	</div>
+
+@section scripts {
+
+	<script>
+
+	(function () {
+
+		angular.module("app").controller("debugApiAllUsersController", function ($scope, ApiService, $window) {
+			$scope.sharedFiles = null;
+
+			var onSuccess = function (data) {	
+				$scope.allUsers = data.AllUsers;
+				$scope.currentUser = data.CurrentUser;
+			};
+
+			var onFail = function (response) {
+				alert("fail");
+			};
+
+			var onLoginSuccess = function (data) {
+				ApiService.GetDebugApiLoginAs(onLoginSuccess, onLoginFail, { email: email });
+			};
+
+			var onLoginFail = function (response) {
+				alert("fail");
+			};
+
+			$scope.loginAs = function (email) {
+				ApiService.GetDebugApiLoginAs(onLoginSuccess, onLoginFail, { email: email });
+			};
+
+			ApiService.GetDebugApiAllUsers(onSuccess, onFail);
+
+		});
+
+	}());
+
+	</script>
+
+}
