@@ -34,5 +34,20 @@ namespace ChieftensLMS.Services
 		{
 			return _unitOfWork.CourseRepository.GetById(id);
 		}
+		public IEnumerable<UserProfile> GetUsersForCourse(Course requestedCourse)
+		{
+			//var d = _unitOfWork.CourseRepository.GetById(requestedCourse.Id)
+			_unitOfWork.CourseRepository.GetMore(requestedCourse, course => course.Users, s => true);
+			return requestedCourse.Users;
+		}
+
+		public bool HasStudentWithId(int courseId, string userId)
+		{
+			UserProfile studentHasCourse = _unitOfWork.ApplicationUser.Get(
+				user => (user.Id == userId) && user.Courses.FirstOrDefault(course => course.Id == courseId) != null)
+				.FirstOrDefault();
+
+			return (studentHasCourse != null);
+		}
 	}
 }

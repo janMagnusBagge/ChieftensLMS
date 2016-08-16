@@ -12,11 +12,11 @@ namespace ChieftensLMS.Models
 
 		public string Description { get; set; }
 
-		public ICollection<Lecture> Lectures { get; set; }
-		public ICollection<Assignment> Assignments { get; set; }
-		public ICollection<SharedFile> SharedFiles { get; set; }
+		public virtual ICollection<Lecture> Lectures { get; set; }
+		public virtual ICollection<Assignment> Assignments { get; set; }
+		public virtual ICollection<SharedFile> SharedFiles { get; set; }
 
-		public ICollection<UserProfile> Users { get; set; }
+		public virtual ICollection<UserProfile> Users { get; set; }
 
 		
 	}

@@ -14,7 +14,7 @@ namespace ChieftensLMS.Models
 		public string Description { get; set; }
 		public DateTime ExpirationDate { get; set; }
 
-		public ICollection<TurnIn> TurnIns { get; set; }
+		public virtual ICollection<TurnIn> TurnIns { get; set; }
 
 		[ForeignKey("CourseId")]
 		public Course Course { get; set; }

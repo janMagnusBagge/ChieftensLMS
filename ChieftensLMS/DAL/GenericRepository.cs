@@ -14,6 +14,7 @@ namespace ChieftensLMS.DAL
 
 		public GenericRepository(LMSDbContext context)
 		{
+			context.Configuration.LazyLoadingEnabled = false;
 			this._context = context;
 			dbSet = context.Set<T>();
 		}
@@ -21,6 +22,24 @@ namespace ChieftensLMS.DAL
 		public virtual T GetById(object key)
 		{
 			return dbSet.Find(key);
+		}
+
+
+		public virtual T GetMore<X>(T entity,
+			Expression<Func<T, ICollection<X>>> navigationProperty,
+			Expression<Func<X, bool>> predicate
+			) where X : class
+		{
+	
+			var a = _context.Entry(entity).Collection<X>(navigationProperty);
+			var b = a.Query()
+				.Where(predicate).ToList();
+
+		
+			var test = entity;
+			var s = _context.Entry(entity);
+			
+			return entity;
 		}
 
 		public virtual IEnumerable<T> Get(
