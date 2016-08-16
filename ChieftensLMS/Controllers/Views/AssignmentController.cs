@@ -36,6 +36,10 @@ namespace ChieftensLMS.Controllers
 			return View(id);
 		}
 
+		public ActionResult Create()
+		{
+			return View();
+		}
 
 		public ActionResult Delete(int? id)
 		{

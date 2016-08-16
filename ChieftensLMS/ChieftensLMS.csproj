@@ -274,6 +274,7 @@
     <Content Include="Views\SharedFile\Add.cshtml" />
     <Content Include="Views\Assignment\Index.cshtml" />
     <Content Include="Views\Assignment\Details.cshtml" />
+    <Content Include="Views\Assignment\Create.cshtml" />
     <Content Include="Views\Debug\AllUsers.cshtml" />
   </ItemGroup>
   <ItemGroup>

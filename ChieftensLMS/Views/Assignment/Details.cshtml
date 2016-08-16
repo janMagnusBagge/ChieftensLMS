@@ -8,6 +8,23 @@
 	<h4>{{assignment.Name}}</h4>
 	<h5><b>Beskrivning:</b> {{assignment.Description}}</h5>
 	<h5><b>Inlämningsdatum:</b> {{assignment.ExpirationDate | dateFilter | date:'yyyy-MM-dd'}}</h5>
+
+	<table class="table">
+		<tr>
+			<th>Namn</th>
+			<th>Ägare</th>
+			<th>Datum</th>
+			<th></th>
+			<th></th>
+		</tr>
+		<tr ng-repeat="item in assignmentFiles">
+			<td>{{item.Name}}</td>
+			<td>{{item.Owner ? item.Owner : "You" }}</td>
+			<td>{{item.Date | dateFilter | date:'yyyy-MM-dd'}}</td>
+
+			@*<td><a href="~/{{item.Id}}" class="btn btn-success btn-sm">Ladda ner</a> <button type="button" class="btn btn-danger btn-sm" ng-click="deleteSharedFile(item.Id)" ng-hide="item.Owner">Radera</button></td>*@
+		</tr>
+	</table>
 </div>
 
 <script>
@@ -16,7 +33,7 @@
 
 		angular.module("app").controller("assignmentDetailController", function ($scope, ApiService) {
 			$scope.assignment = null;
-
+			$scope.assignmentFiles = null;
 
 
 			var onSuccess = function (data) {
@@ -27,9 +44,18 @@
 				alert("Misslyckades");
 			};
 
+			var onFileSuccess = function (data) {
+				$scope.assignmentFiles = data.assignmentFiles;
+			};
+
+			var onFileFail = function (response) {
+				alert("Misslyckades ladda filer");
+			};
+
 			$scope.getAssignment = function (id) {
 
 				ApiService.GetAssigment(onSuccess, onFail, { id: id });
+				ApiService.FilesForAssignment(onFileSuccess, onFileFail, { id: id });
 			}
 			//ApiService.GetAssigments(onSuccess, onFail, courseId);
 		});
