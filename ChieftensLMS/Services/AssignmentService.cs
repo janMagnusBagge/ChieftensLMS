@@ -29,5 +29,15 @@ namespace ChieftensLMS.Services
 		{
 			return _unitOfWork.AssignmentRepository.GetById(Id);
 		}
+
+		internal IEnumerable<TurnIn> GetFilesForAssignmentById(int assignmentId)
+		{
+			return _unitOfWork.TurnInRepository.Get
+				(
+					v => v.AssignmentId == assignmentId,
+					sa => sa.OrderBy(x => x.Date),
+					"User"
+				);
+		}
 	}
 }
