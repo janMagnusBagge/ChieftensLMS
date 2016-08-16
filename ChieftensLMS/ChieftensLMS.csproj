@@ -164,10 +164,12 @@
     <Compile Include="Classes\ApiResult.cs" />
     <Compile Include="Controllers\Api\AssigmentApiController.cs" />
     <Compile Include="Controllers\Api\CourseApiController.cs" />
+    <Compile Include="Controllers\Api\DebugApiController.cs" />
     <Compile Include="Controllers\Api\SharedFileApiController.cs" />
     <Compile Include="Controllers\Views\AccountController.cs" />
     <Compile Include="Controllers\Views\AssignmentController.cs" />
     <Compile Include="Controllers\Views\CourseController.cs" />
+    <Compile Include="Controllers\Views\DebugController.cs" />
     <Compile Include="Controllers\Views\HomeController.cs" />
     <Compile Include="Controllers\Views\ManageController.cs" />
     <Compile Include="Controllers\Views\SharedFileController.cs" />
@@ -261,10 +263,7 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Course\Create.cshtml" />
-    <Content Include="Views\Course\Delete.cshtml" />
     <Content Include="Views\Course\Details.cshtml" />
-    <Content Include="Views\Course\Edit.cshtml" />
     <Content Include="Views\Course\Index.cshtml" />
     <Content Include="Views\SharedFile\Create.cshtml" />
     <Content Include="Views\SharedFile\Delete.cshtml" />
@@ -276,6 +275,7 @@
     <Content Include="Views\Assignment\Index.cshtml" />
     <Content Include="Views\Assignment\Details.cshtml" />
     <Content Include="Views\Assignment\Create.cshtml" />
+    <Content Include="Views\Debug\AllUsers.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
