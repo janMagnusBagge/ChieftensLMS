@@ -20,14 +20,19 @@ namespace ChieftensLMS.Services
 			_unitOfWork = new UnitOfWork(_db);
 		}
 
-		public IEnumerable<Course> GetCoursesForUserId(string userId)
+		public IEnumerable<Course> GetForUserId(string id)
 		{
-			return _unitOfWork.CourseRepository.Get(v => v.Users.FirstOrDefault(o => o.Id == userId) != null);
+			return _unitOfWork.CourseRepository.Get(v => v.Users.FirstOrDefault(o => o.Id == id) != null);
 		}
 
-		public Course GetCourseById(int courseId)
+		public IEnumerable<Course> GetAll()
 		{
-			return _unitOfWork.CourseRepository.GetById(courseId);
+			return _unitOfWork.CourseRepository.Get(v => true);
+		}
+
+		public Course GetById(int id)
+		{
+			return _unitOfWork.CourseRepository.GetById(id);
 		}
 	}
 }

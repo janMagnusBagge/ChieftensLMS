@@ -107,9 +107,18 @@
 		var Remove = generateApiFunction({ method: 'GET', url: '/API/Remove' });
 		var Add = generateApiFunction({ method: 'POST', url: '/API/Add' });
 
+		//Courses
 
-		var GetAllCourses = generateApiFunction({ method: 'GET', url: '/CourseApi/Index' });
-		var GetCourse = generateApiFunction({ method: 'GET', url: '/CourseApi/Details' });
+		
+
+
+		var CourseApi =
+			{
+				GetAll: generateApiFunction({ method: 'GET', url: '/CourseApi/All' }),
+				GetSingle: generateApiFunction({ method: 'GET', url: '/CourseApi/Single' })
+			};
+
+
 
 
 		var GetDebugApiAllUsers = generateApiFunction({ method: 'GET', url: '/DebugApi/AllUsers' });
@@ -125,11 +134,11 @@
 
 		// The service with all the API call functions
 		return {
+			Course: CourseApi,
+
 			GetDebugApiAllUsers: GetDebugApiAllUsers,
 			GetDebugApiLoginAs: GetDebugApiLoginAs,
 
-			GetAllCourses: GetAllCourses,
-			GetCourse: GetCourse,
 			GetSharedFilesForCourse: GetSharedFilesForCourse,
 			GetCourseAssigments: GetCourseAssigments,
 			GetAssigment: GetAssigment,

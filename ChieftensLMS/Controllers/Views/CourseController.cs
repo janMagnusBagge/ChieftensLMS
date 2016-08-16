@@ -16,12 +16,12 @@ namespace ChieftensLMS.Controllers
 {
     public class CourseController : Controller
     {
-        public ActionResult Index()
+        public ActionResult All()
 		{ 
 			return View();
         }
 
-		public ActionResult Details(int? id)
+		public ActionResult Single(int? id)
 		{
 			return View(id);
 		}

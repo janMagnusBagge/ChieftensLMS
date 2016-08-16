@@ -36,7 +36,7 @@ namespace ChieftensLMS.Controllers
 			if (id == null)
 				return ApiResult.Fail("Invalid request");
 
-			if (_courseService.GetCourseById((int)id) == null)
+			if (_courseService.GetById((int)id) == null)
 				return ApiResult.Fail("Invalid course");
 	
 			var sharedFiles = _sharedFileService.GetSharedFilesForCourseById((int)id)

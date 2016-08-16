@@ -1,0 +1,46 @@
+﻿
+@{
+	ViewBag.Title = "Kurser";
+}
+
+<h2>Kurser</h2>
+<div ng-controller="courseAllController">
+
+	<table class="table">
+
+			<tr ng-repeat="course in apiData.courses">
+				<td >
+					<a href="~/Course/Single/{{course.Id}}">{{course.Name}}</a> <i>{{course.Description}}</i>	
+				</td>
+			</tr>
+
+	</table>
+</div>
+
+
+@section scripts {
+	
+<script>
+
+	(function () {
+
+		angular.module("app").controller("courseAllController", function ($scope, ApiService) {
+
+			$scope.apiData = {};
+
+			var onSuccess = function (data) {
+				$scope.apiData.courses = data.Courses;
+			};
+
+			var onFail = function (response) {
+				alert("Misslyckades");
+			};
+
+			ApiService.Course.GetAll(onSuccess, onFail);
+		});
+
+	}());
+
+</script>
+	
+}
