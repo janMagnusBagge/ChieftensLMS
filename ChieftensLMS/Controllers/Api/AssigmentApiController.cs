@@ -157,5 +157,13 @@ namespace ChieftensLMS.Controllers.Api
 
 			return ApiResult.Success(new { isTeacher = isTeacher });
 		}
+
+		//TODO: Fix so it throw exception and check if it did or not and return false if did
+		public ActionResult CreateAssignment(int courseId, string name, string description, DateTime date)
+		{
+			_AssignmentService.CreateAssignment(courseId, name, description, date);
+			bool ifCreated = true;
+			return ApiResult.Success(new { ifCreated = ifCreated });
+		}
 	}
 }

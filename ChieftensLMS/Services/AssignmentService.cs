@@ -55,5 +55,19 @@ namespace ChieftensLMS.Services
 			_unitOfWork.TurnInRepository.Delete(turnInFile.Id);
 			_unitOfWork.Save();
 		}
+
+		//TODO: Throw exception if could not save
+		public bool CreateAssignment(int courseId, string name, string description, DateTime date)
+		{
+			Assignment assignmentToCreate = new Assignment();
+			assignmentToCreate.CourseId = courseId;
+			assignmentToCreate.Name = name;
+			assignmentToCreate.Description = description;
+			assignmentToCreate.ExpirationDate = date;
+			assignmentToCreate.Date = DateTime.Now;
+			_unitOfWork.AssignmentRepository.Add(assignmentToCreate);
+			_unitOfWork.Save();
+			return true;
+		}
 	}
 }

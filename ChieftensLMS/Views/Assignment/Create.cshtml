@@ -4,12 +4,6 @@
 }
 <div ng-controller="assignmentCreateController" ng-init="GetCourseAssigments(@Model)">
 
-	
-		
-		{{Name}}
-		{{Description}}
-		{{ExpirationDate | dateFilter | date:'yyyy-MM-dd'}}
-
 	<div class="form-group">
 		<label class="control-label col-md-2" for="Name">Namn</label>
 		<div class="col-md-10">
@@ -39,24 +33,38 @@
 
 	(function () {
 
-		angular.module("app").controller("assignmentCreateController", function ($scope, ApiService) {
+		angular.module("app").controller("assignmentCreateController", function ($scope, ApiService,$window) {
 			$scope.ifTeacher = null;
-			
 
 
-			var onSuccess = function (data) {
-				$scope.assignmentList = data.assigments;
+
+			var onTeacherSuccess = function (data) {
+				$scope.ifTeacher = data.isTeacher;
 			};
 
-			var onFail = function (response) {
-				alert("Misslyckades");
+			var onTeacherFail = function (response) {
+				alert("Misslyckades med lärare kontroll");
 			};
 
 			$scope.GetCourseAssigments = function (courseId) {
 				ApiService.CheckIfInTeacher(onTeacherSuccess, onTeacherFail); //To show or hide things that only some roles should see or not
 			}
 
-			
+			var onSuccess = function (data) {
+				$window.location.href = '../Index/@Model';
+			};
+
+			var onFail = function (response) {
+				alert("Misslyckades lägga till");
+			};
+
+			$scope.createAssignment = function () {
+				ApiService.CreateAssignment(onSuccess,onFail,
+					{courseId = @Model,name = $scope.name, description = $scope.description, date = $scope.date}
+					);
+				//int courseId, string name, string description, DateTime date
+			}
+
 		});
 
 	}());
