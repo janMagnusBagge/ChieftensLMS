@@ -1,5 +1,6 @@
 ﻿using ChieftensLMS.Classes;
 using ChieftensLMS.DAL;
+using ChieftensLMS.Models;
 using ChieftensLMS.Services;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
@@ -7,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Hosting;
 using System.Web.Mvc;
 
 namespace ChieftensLMS.Controllers.Api
@@ -19,7 +21,7 @@ namespace ChieftensLMS.Controllers.Api
 		public AssigmentApiController()
 		{
 			_context = new LMSDbContext();
-			_AssignmentService = new AssignmentService(_context);
+			_AssignmentService = new AssignmentService(_context, HostingEnvironment.MapPath("~\\Uploads\\TurnIns\\"));
 		}
 
 		//Auth check needed
@@ -71,7 +73,7 @@ namespace ChieftensLMS.Controllers.Api
 			return ApiResult.Success(returnData);
 		}
 
-		// Needs checking if the user has access to this course
+		// Needs checking if the user has access to this assignment
 		// Right now as long as you are a teacher you can see all the turnins for the course. Should it be changed to only teacher for course ?
 		public ActionResult FilesForAssignment(int? id)
 		{
@@ -121,6 +123,29 @@ namespace ChieftensLMS.Controllers.Api
 				return ApiResult.Success(new { assignmentFiles = assignmentFiles });
 			}
 			
+		}
+
+		// Deletes a turnIn file by id
+		// TODO: Check that the user has permission to delete that file (he/she needs to be the owner of it)
+		public ActionResult DeleteTurnIn(int? id)
+		{
+			TurnIn turnIn = null;
+
+			if (id == null)
+				return ApiResult.Fail("Bad request");
+
+			turnIn = _AssignmentService.GetTurnInById((int)id);
+
+			if (turnIn != null)
+			{
+				_AssignmentService.DeleteAssignmentFile(turnIn);
+				return ApiResult.Success(new { Id = id });
+			}
+			else
+			{
+				return ApiResult.Fail("Files doesnt exist");
+			}
+
 		}
 	}
 }

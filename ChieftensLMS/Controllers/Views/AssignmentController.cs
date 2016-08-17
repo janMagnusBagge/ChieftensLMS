@@ -8,6 +8,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
+using System.Web.Hosting;
 
 namespace ChieftensLMS.Controllers
 {
@@ -19,7 +20,7 @@ namespace ChieftensLMS.Controllers
 		public AssignmentController()
 		{
 			_context = new LMSDbContext();
-			_AssignmentService = new AssignmentService(_context);
+			_AssignmentService = new AssignmentService(_context, HostingEnvironment.MapPath("~\\Uploads\\TurnIns\\"));
 		}
         // GET: Assignment
 		public ActionResult Index(int? id)
