@@ -147,5 +147,15 @@ namespace ChieftensLMS.Controllers.Api
 			}
 
 		}
+
+		//TODO: Move this out to it's own place so all can pages can use it instead off only that use this ApiController
+		public ActionResult CheckIfTeacher()
+		{
+			var userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+			var role = userManager.GetRoles(User.Identity.GetUserId());
+			bool isTeacher = role.Contains("Teacher");
+
+			return ApiResult.Success(new { isTeacher = isTeacher });
+		}
 	}
 }

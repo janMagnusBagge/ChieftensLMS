@@ -2,3 +2,63 @@
 @{
 	ViewBag.Title = "Inlämningsuppgift";
 }
+<div ng-controller="assignmentCreateController" ng-init="GetCourseAssigments(@Model)">
+
+	
+		
+		{{Name}}
+		{{Description}}
+		{{ExpirationDate | dateFilter | date:'yyyy-MM-dd'}}
+
+	<div class="form-group">
+		<label class="control-label col-md-2" for="Name">Namn</label>
+		<div class="col-md-10">
+			<input id="Name" type="text" class="form-control" ng-model="Name" />
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label class="control-label col-md-2" for="Description">Beskrivning</label>
+		<div class="col-md-10">
+			<input id="Description" type="text" class="form-control" ng-model="Description" />
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label class="control-label col-md-2" for="ExpirationDate">Inlämningsdatum</label>
+		<div class="col-md-10">
+			<input id="ExpirationDate" type="date" class="form-control" ng-model="ExpirationDate" />
+		</div>
+	</div>
+
+	<div>
+		<button type="button" class="btn btn-danger btn-sm" ng-click="createAssignment()">Skapa inlämningsuppgift</button>
+	</div>
+</div>
+<script>
+
+	(function () {
+
+		angular.module("app").controller("assignmentCreateController", function ($scope, ApiService) {
+			$scope.ifTeacher = null;
+			
+
+
+			var onSuccess = function (data) {
+				$scope.assignmentList = data.assigments;
+			};
+
+			var onFail = function (response) {
+				alert("Misslyckades");
+			};
+
+			$scope.GetCourseAssigments = function (courseId) {
+				ApiService.CheckIfInTeacher(onTeacherSuccess, onTeacherFail); //To show or hide things that only some roles should see or not
+			}
+
+			
+		});
+
+	}());
+
+</script>
