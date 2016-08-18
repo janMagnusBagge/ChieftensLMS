@@ -1,26 +1,24 @@
-﻿@model int?
-
-@{
-	ViewBag.Title = "Kurs - Delade filer";
+﻿@{
+	ViewBag.Title = "Mina Delade filer";
 }
 
-<h2>Kurs - Delade Filer</h2>
-<div ng-controller="sharedFileForCourseController" ng-init="GetForCourse(@Model)">
+<h2>Mina Delade Filer</h2>
+<div ng-controller="sharedFileMineController">
 
 	<table class="table">
 		<tr>
 			<th>Namn</th>
-			<th>Ägare</th>
+			<th>Kurs</th>
 			<th>Datum</th>
 			<th></th>
 			<th></th>
 		</tr>
 		<tr ng-repeat="file in apiData.sharedFiles">
 			<td>{{file.Name}}</td>
-			<td>{{file.Owner ? file.Owner : "Du" }}</td>
+			<td><a href="~/Course/Single/{{file.CourseId}}">{{file.CourseName}}</a></td>
 			<td>{{file.Date | dateFilter | date:'yyyy-MM-dd'}}</td>
 			
-			<td><a href="~/SharedFileApi/Download/{{file.Id}}" class="btn btn-success btn-sm">Ladda ner</a> <button type="button" class="btn btn-danger btn-sm" ng-click="Delete(file.Id)" ng-show="file.Owner==null">Radera</button></td>
+			<td><a href="~/SharedFileApi/Download/{{file.Id}}" class="btn btn-success btn-sm">Ladda ner</a> <button type="button" class="btn btn-danger btn-sm" ng-click="Delete(file.Id)">Radera</button></td>
 		</tr>
 	</table>
 
@@ -28,10 +26,12 @@
 
 
 @section scripts {
+
 	<script>
 
 	(function () {
-		angular.module("app").controller("sharedFileForCourseController", function ($scope, ApiService) {
+
+		angular.module("app").controller("sharedFileMineController", function ($scope, ApiService) {
 			$scope.apiData = {};
 
 			var onSuccess = function (data) {
@@ -53,16 +53,16 @@
 
 				if (index != -1)
 					$scope.apiData.sharedFiles.splice(index, 1);
+
 			};
 
 			var onDeleteFail = function (response) {
 				alert(response.Reason);
 			};
 
-			$scope.GetForCourse = function (id)
-			{
-				ApiService.SharedFile.GetForCourse(onSuccess, onFail, { id: id });
-			}
+
+			ApiService.SharedFile.GetMine(onSuccess, onFail);
+			
 
 			$scope.Delete = function (id) {
 				ApiService.SharedFile.Delete(onDeleteSuccess, onDeleteFail, { id: id });
@@ -73,4 +73,5 @@
 	}());
 
 	</script>
+
 }

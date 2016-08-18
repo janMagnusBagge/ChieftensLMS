@@ -12,55 +12,31 @@ namespace ChieftensLMS.Services
 {
 	public class SharedFileService
 	{
-		LMSDbContext _db = null;
-		UnitOfWork _unitOfWork = null;
-		string _fileDirectory = null;
+		LMSDbContext _db;
+		string _fileDirectory;
 
 		public SharedFileService(LMSDbContext context, string fileDirectory)
 		{
 			_fileDirectory = fileDirectory;
 			_db = context;
-			_unitOfWork = new UnitOfWork(_db);
 		}
 
-		public IEnumerable<SharedFile> GetSharedFilesForCourseById(int courseId)
+		public IEnumerable<SharedFile> GetForUser(string userId)
 		{
-			return _unitOfWork.SharedFileRepository.Get
-				(
-					v => v.CourseId == courseId,
-					sa => sa.OrderBy(x => x.Date),
-					"User"
-				);
+			return _db.SharedFiles.Where(sharedFile => sharedFile.UserId == userId).Include(sharedFile => sharedFile.Course);
 		}
 
-		public SharedFile GetSharedFileById(int id)
+		public IEnumerable<SharedFile> GetForCourse(Course course)
 		{
-			return _unitOfWork.SharedFileRepository.GetById(id);
+			return _db.SharedFiles.Where(sharedFile => sharedFile.CourseId == course.Id).Include(sharedFile => sharedFile.User);
 		}
 
-		public SharedFile GetSharedFileAsUserId(string userId, int fileId)
+		public SharedFile GetById(int sharedFileId)
 		{
-			//Get the sharedfile with specified filedId, where the userId is in the courses of that file
-			var sharedFile = _unitOfWork.SharedFileRepository.Get(
-				v => (v.Id == fileId) && v.Course.Users.FirstOrDefault(e => e.Id == userId) != null)
-				.FirstOrDefault();
-
-			return sharedFile;
+			return _db.SharedFiles.Find(sharedFileId);
 		}
 
-		public FileStream GetPhysicalFile(SharedFile sharedFile)
-		{
-			string filePath = Path.Combine(_fileDirectory, sharedFile.Id.ToString());
-
-			if (File.Exists(filePath) == false)
-				return null;
-
-			FileStream physicalFile = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read, bufferSize: 4096, useAsync: false);
-			physicalFile.Seek(0, SeekOrigin.Begin);
-			return physicalFile;
-		}
-
-		public String GetPhysicalFilePath(SharedFile sharedFile)
+		public string GetPhysicalPath(SharedFile sharedFile)
 		{
 			string filePath = Path.Combine(_fileDirectory, sharedFile.Id.ToString());
 
@@ -70,37 +46,39 @@ namespace ChieftensLMS.Services
 			return filePath;
 		}
 
-		public void DeleteSharedFileAsUser(SharedFile sharedFile, string userId)
-		{
-			if (userId == sharedFile.UserId)
-			{
-				DeleteSharedFile(sharedFile);
-			}
-		}
-
-		public void DeleteSharedFile(SharedFile sharedFile)
+		public void Delete(SharedFile sharedFile)
 		{
 			File.Delete(Path.Combine(_fileDirectory, sharedFile.Id.ToString()));
-			_unitOfWork.SharedFileRepository.Delete(sharedFile.Id);
-			_unitOfWork.Save();
+			_db.Entry(sharedFile).State = EntityState.Deleted;
+			_db.SaveChanges();
 		}
 
-		public void AddSharedFileAsUserId(int courseId, string userId, string name, string fileName, Stream stream)
-		{
-			SharedFile newSharedFile = new SharedFile() { Date = DateTime.Now, CourseId = courseId, UserId = userId, Name = name, FileName = fileName };
-			_unitOfWork.SharedFileRepository.Add(newSharedFile);
-			_unitOfWork.Save();
-
-			string filePath = Path.Combine(_fileDirectory, newSharedFile.Id.ToString());
-
-			using (var file = File.Create(filePath))
-			{
-				stream.Seek(0, SeekOrigin.Begin);
-				stream.CopyTo(file);
-			}
+		//public void DeleteSharedFileAsUser(SharedFile sharedFile, string userId)
+		//{
+		//	if (userId == sharedFile.UserId)
+		//	{
+		//		DeleteSharedFile(sharedFile);
+		//	}
+		//}
 
 
-		}
+
+		//public void AddSharedFileAsUserId(int courseId, string userId, string name, string fileName, Stream stream)
+		//{
+		//	SharedFile newSharedFile = new SharedFile() { Date = DateTime.Now, CourseId = courseId, UserId = userId, Name = name, FileName = fileName };
+		//	_unitOfWork.SharedFileRepository.Add(newSharedFile);
+		//	_unitOfWork.Save();
+
+		//	string filePath = Path.Combine(_fileDirectory, newSharedFile.Id.ToString());
+
+		//	using (var file = File.Create(filePath))
+		//	{
+		//		stream.Seek(0, SeekOrigin.Begin);
+		//		stream.CopyTo(file);
+		//	}
+
+
+		//}
 
 	}
 }

@@ -13,8 +13,8 @@ namespace ChieftensLMS.Classes
 			JsonResult returnObject = new JsonResult();
 			returnObject.Data = new
 			{
-				data = dataObject,
-				success = true
+				Data = dataObject,
+				Success = true
 			};
 			returnObject.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
 			returnObject.ContentType = "application/json; charset=utf-8";
@@ -26,8 +26,8 @@ namespace ChieftensLMS.Classes
 			JsonResult returnObject = new JsonResult();
 			returnObject.Data = new
 			{
-				reason = reason,
-				success = false
+				Reason = reason,
+				Success = false
 			};
 			returnObject.JsonRequestBehavior = JsonRequestBehavior.AllowGet;
 			returnObject.ContentType = "application/json; charset=utf-8";

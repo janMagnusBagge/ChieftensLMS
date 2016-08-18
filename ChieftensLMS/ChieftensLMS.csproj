@@ -180,9 +180,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201608131033387_initial.cs" />
-    <Compile Include="Migrations\201608131033387_initial.Designer.cs">
-      <DependentUpon>201608131033387_initial.cs</DependentUpon>
+    <Compile Include="Migrations\201608180811227_afsasdf.cs" />
+    <Compile Include="Migrations\201608180811227_afsasdf.Designer.cs">
+      <DependentUpon>201608180811227_afsasdf.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ViewModels\AccountViewModels.cs" />
@@ -264,18 +264,16 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Course\Single.cshtml" />
-    <Content Include="Views\Course\All.cshtml" />
-    <Content Include="Views\SharedFile\Create.cshtml" />
-    <Content Include="Views\SharedFile\Delete.cshtml" />
-    <Content Include="Views\SharedFile\Details.cshtml" />
-    <Content Include="Views\SharedFile\Edit.cshtml" />
+    <Content Include="Views\Course\Mine.cshtml" />
     <Content Include="Views\SharedFile\ForCourse.cshtml" />
     <None Include="Uploads\SharedFiles\2" />
-    <Content Include="Views\SharedFile\Add.cshtml" />
     <Content Include="Views\Assignment\Index.cshtml" />
     <Content Include="Views\Assignment\Details.cshtml" />
     <Content Include="Views\Assignment\Create.cshtml" />
     <Content Include="Views\Debug\AllUsers.cshtml" />
+    <Content Include="Views\Course\AllUsers.cshtml" />
+    <Content Include="Views\Course\All.cshtml" />
+    <Content Include="Views\SharedFile\Mine.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -288,8 +286,8 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201608131033387_initial.resx">
-      <DependentUpon>201608131033387_initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201608180811227_afsasdf.resx">
+      <DependentUpon>201608180811227_afsasdf.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

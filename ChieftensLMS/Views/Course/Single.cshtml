@@ -4,10 +4,12 @@
 	ViewBag.Title = "Kurs";
 }
 
+<a href="~/Course/AllUsers/@Model">Deltagare</a>
+<a href="~/SharedFile/ForCourse/@Model">Delade filer</a>
 
-<div ng-controller="courseDetailController" ng-init="getCourse(@Model)">
-	<h2>{{course.Name}}</h2>
-	<h3>{{course.Description}}</h3>
+<div ng-controller="courseSingleController" ng-init="getSingle(@Model)">
+	<h2>{{apiData.course.Name}}</h2>
+	<h3>{{apiData.course.Description}}</h3>
 </div>
 
 
@@ -17,20 +19,21 @@
 
 	(function () {
 
-		angular.module("app").controller("courseDetailController", function ($scope, ApiService) {
-			$scope.course = null;
+		angular.module("app").controller("courseSingleController", function ($scope, ApiService) {
+			
+			$scope.apiData = {};
 
 			var onSuccess = function (data) {
-				$scope.course = data.course;
+				$scope.apiData.course = data.Course;
 			};
 
 			var onFail = function (response) {
-				alert(response.reason);
+				alert(response.Reason);
 			};
 
-			$scope.getCourse = function (id)
+			$scope.getSingle = function (id)
 			{
-				ApiService.GetCourse(onSuccess, onFail, { id: id });
+				ApiService.Course.GetSingle(onSuccess, onFail, { id: id });
 			}
 			
 		});

@@ -6,7 +6,7 @@
 	*/
 	angular.module("app").factory('ApiService', function ($http) {
 		// Dummy placeholder, we dont handle errors atm so this is sent to fail callbacks
-		var dummyFailReason = { reason: "Request/Server error" };
+		var dummyFailReason = { Reason: "Request/Server error" };
 
 		// Debug function for development
 		var debugCall = function (config, response, data) {
@@ -44,14 +44,14 @@
 					$http(config).then(
 					function (response) {
 						debugCall(config, response);
-						if (response.data.success == true)
-							successsCallback(response.data.data);
+						if (response.data.Success == true)
+							successsCallback(response.data.Data);
 						else
-							failCallback({ errorType: "api", reason: response.reason });
+							failCallback({ ErrorType: "api", Reason: response.data.Reason });
 					},
 					function (response) {
 						debugCall(config, response);
-						failCallback({ errorType: "service", reason: response });
+						failCallback({ ErrorType: "service", Reason: response });
 					}
 					);
 				}
@@ -70,14 +70,14 @@
 
 						debugCall(config, response);
 
-						if (response.data.success == true)
-							successsCallback(response.data.data);
+						if (response.data.Success == true)
+							successsCallback(response.data.Data);
 						else
-							failCallback({ errorType: "api", reason: response.reason });
+							failCallback({ ErrorType: "api", Reason: response.data.Reason });
 					},
 					function (response) {
 						debugCall(config, response);
-						failCallback({ errorType: "service", reason: response });
+						failCallback({ ErrorType: "service", Reason: response });
 					});
 				}
 			}
@@ -90,14 +90,14 @@
 					$http(config).then(
 					function (response) {
 						debugCall(config, response);
-						if (response.data.success == true)
-							successsCallback(response.data.data);
+						if (response.data.Success == true)
+							successsCallback(response.data.Data);
 						else
-							failCallback({ errorType: "api", reason: response.reason });
+							failCallback({ errorType: "api", Reason: response.data.Reason });
 					},
 					function (response) {
 						debugCall(config, response);
-						failCallback({ errorType: "service", reason: response });
+						failCallback({ errorType: "service", Reason: response });
 					});
 				}
 			}
@@ -114,11 +114,19 @@
 
 		var CourseApi =
 			{
+				GetMine: generateApiFunction({ method: 'GET', url: '/CourseApi/Mine' }),
 				GetAll: generateApiFunction({ method: 'GET', url: '/CourseApi/All' }),
-				GetSingle: generateApiFunction({ method: 'GET', url: '/CourseApi/Single' })
+				GetSingle: generateApiFunction({ method: 'GET', url: '/CourseApi/Single' }),
+				GetAllUsers: generateApiFunction({ method: 'GET', url: '/CourseApi/AllUsers' })
 			};
 
-
+		var SharedFileApi =
+			{
+				GetForCourse: generateApiFunction({ method: 'GET', url: '/SharedFileApi/ForCourse' }),
+				Download: generateApiFunction({ method: 'GET', url: '/SharedFileApi/Download' }),
+				Delete: generateApiFunction({ method: 'GET', url: '/SharedFileApi/Delete' }),
+				GetMine: generateApiFunction({ method: 'GET', url: '/SharedFileApi/Mine' }),
+			};
 
 
 		var GetDebugApiAllUsers = generateApiFunction({ method: 'GET', url: '/DebugApi/AllUsers' });
@@ -135,6 +143,7 @@
 		// The service with all the API call functions
 		return {
 			Course: CourseApi,
+			SharedFile: SharedFileApi,
 
 			GetDebugApiAllUsers: GetDebugApiAllUsers,
 			GetDebugApiLoginAs: GetDebugApiLoginAs,

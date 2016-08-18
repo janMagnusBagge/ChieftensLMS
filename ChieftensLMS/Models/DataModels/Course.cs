@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -17,8 +18,8 @@ namespace ChieftensLMS.Models
 		public virtual ICollection<SharedFile> SharedFiles { get; set; }
 
 		public virtual ICollection<UserProfile> Users { get; set; }
-
-		
 	}
+
+
 
 }

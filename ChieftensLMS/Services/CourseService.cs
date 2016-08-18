@@ -11,43 +11,41 @@ namespace ChieftensLMS.Services
 {
 	public class CourseService
 	{
-		LMSDbContext _db = null;
-		UnitOfWork _unitOfWork = null;
+		LMSDbContext _db;
 
 		public CourseService(LMSDbContext context)
 		{
 			_db = context;
-			_unitOfWork = new UnitOfWork(_db);
 		}
 
-		public IEnumerable<Course> GetForUserId(string id)
+		public IEnumerable<Course> GetForUserId(string userId)
 		{
-			return _unitOfWork.CourseRepository.Get(v => v.Users.FirstOrDefault(o => o.Id == id) != null);
+			return _db.Courses.Where(course => course.Users.Any(user => user.Id == userId));
 		}
 
 		public IEnumerable<Course> GetAll()
 		{
-			return _unitOfWork.CourseRepository.Get(v => true);
+			return _db.Courses.ToList();
+		}
+		
+		public Course GetById(int courseId)
+		{
+			return _db.Courses.Find(courseId);
 		}
 
-		public Course GetById(int id)
+		public IEnumerable<UserProfile> GetUsersForCourse(Course forCourse)
 		{
-			return _unitOfWork.CourseRepository.GetById(id);
-		}
-		public IEnumerable<UserProfile> GetUsersForCourse(Course requestedCourse)
-		{
-			//var d = _unitOfWork.CourseRepository.GetById(requestedCourse.Id)
-			_unitOfWork.CourseRepository.GetMore(requestedCourse, course => course.Users, s => true);
-			return requestedCourse.Users;
+			return _db.UserProfile.Where(e => e.Courses.Any(f => f.Id == forCourse.Id));
 		}
 
-		public bool HasStudentWithId(int courseId, string userId)
+		public bool HasUserWithId(Course course, string userId)
 		{
-			UserProfile studentHasCourse = _unitOfWork.ApplicationUser.Get(
-				user => (user.Id == userId) && user.Courses.FirstOrDefault(course => course.Id == courseId) != null)
-				.FirstOrDefault();
+			return HasUserWithId(course.Id, userId);
+		}
 
-			return (studentHasCourse != null);
+		public bool HasUserWithId(int courseId, string userId)
+		{
+			return _db.Courses.Any(course => course.Users.Any(user => user.Id == userId));
 		}
 	}
 }
