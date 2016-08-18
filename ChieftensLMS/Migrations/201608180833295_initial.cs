@@ -3,7 +3,7 @@ namespace ChieftensLMS.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class afsasdf : DbMigration
+    public partial class initial : DbMigration
     {
         public override void Up()
         {

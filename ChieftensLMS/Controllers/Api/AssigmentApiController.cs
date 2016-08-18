@@ -38,12 +38,8 @@ namespace ChieftensLMS.Controllers.Api
 					a.Name
 				}
 				);
-			var returnObject = new
-			{
-				data = new { assigments = assigmentsForCourse },
-				success = true
-			};
-			return Json(returnObject, JsonRequestBehavior.AllowGet);
+			
+			return ApiResult.Success(new { assigments = assigmentsForCourse });
 			//return Json(assigmentsForCourse, JsonRequestBehavior.AllowGet);
 		}
 
