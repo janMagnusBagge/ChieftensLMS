@@ -1,7 +1,8 @@
 ﻿@model int?
 @{
-	ViewBag.Title = "Skapa inlämningsuppgift";
+	ViewBag.Title = "Uppdatera inlämningsuppgift";
 }
+
 <div ng-controller="assignmentCreateController" ng-init="GetCourseAssigments(@Model)">
 	<div class="form-group">
 		<label class="control-label col-md-2" for="Name">Namn</label>
@@ -70,3 +71,4 @@
 	}());
 
 </script>
+
