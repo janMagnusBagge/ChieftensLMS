@@ -51,7 +51,7 @@
 			}
 
 			var onSuccess = function (data) {
-				$window.location.href = '../Index/@Model';
+				$window.location.href = '/Assignment/Index/@Model';
 			};
 
 			var onFail = function (response) {
@@ -59,9 +59,11 @@
 			};
 
 			$scope.createAssignment = function () {
+				console.log({courseId: @Model, name: $scope.name, description: $scope.description, date: $scope.date});
 				ApiService.CreateAssignment(onSuccess,onFail,
-				{courseId: @Model, name: $scope.name, description: $scope.description, date: $scope.date}
+				{courseId: @Model, name: $scope.Name, description: $scope.Description, date: $scope.ExpirationDate}
 					);
+
 			}
 
 		});
