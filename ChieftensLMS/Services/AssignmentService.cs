@@ -3,6 +3,7 @@ using ChieftensLMS.DAL;
 using ChieftensLMS.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 
@@ -12,9 +13,11 @@ namespace ChieftensLMS.Services
 	{
 		LMSDbContext _db = null;
 		UnitOfWork _unitOfWork = null;
+		string _fileDirectory = null;
 
-		public AssignmentService(LMSDbContext context)
+		public AssignmentService(LMSDbContext context, string fileDirectory)
 		{
+			_fileDirectory = fileDirectory;
 			_db = context;
 			_unitOfWork = new UnitOfWork(_db);
 		}
@@ -38,6 +41,33 @@ namespace ChieftensLMS.Services
 					sa => sa.OrderBy(x => x.Date),
 					"User"
 				);
+		}
+
+		public TurnIn GetTurnInById(int id)
+		{
+			return _unitOfWork.TurnInRepository.GetById(id);
+		}
+
+		//TODO: if there should be another path then the privously chosen 
+		public void DeleteAssignmentFile(TurnIn turnInFile)
+		{
+			File.Delete(Path.Combine(_fileDirectory, turnInFile.Id.ToString()));
+			_unitOfWork.TurnInRepository.Delete(turnInFile.Id);
+			_unitOfWork.Save();
+		}
+
+		//TODO: Throw exception if could not save
+		public bool CreateAssignment(int courseId, string name, string description, DateTime date)
+		{
+			Assignment assignmentToCreate = new Assignment();
+			assignmentToCreate.CourseId = courseId;
+			assignmentToCreate.Name = name;
+			assignmentToCreate.Description = description;
+			assignmentToCreate.ExpirationDate = date;
+			assignmentToCreate.Date = DateTime.Now;
+			_unitOfWork.AssignmentRepository.Add(assignmentToCreate);
+			_unitOfWork.Save();
+			return true;
 		}
 	}
 }

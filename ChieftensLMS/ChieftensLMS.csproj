@@ -274,9 +274,11 @@
     <Content Include="Views\Course\AllUsers.cshtml" />
     <Content Include="Views\Course\All.cshtml" />
     <Content Include="Views\SharedFile\Mine.cshtml" />
+    <Content Include="Views\Assignment\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Uploads\TurnIns\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

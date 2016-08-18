@@ -139,7 +139,9 @@
 		var GetCourseAssigments = generateApiFunction({ method: 'GET', url: '/AssigmentApi/GetAssignmentForCourse' });
 		var GetAssigment = generateApiFunction({ method: 'GET', url: '/AssigmentApi/GetAssigment' });
 		var FilesForAssignment = generateApiFunction({ method: 'GET', url: '/AssigmentApi/FilesForAssignment' });
-
+		var DeleteAssignmentFile = generateApiFunction({ method: 'GET', url: '/AssigmentApi/DeleteTurnIn' });
+		var CheckIfInTeacher = generateApiFunction({ method: 'GET', url: '/AssigmentApi/CheckIfTeacher' });
+		var CreateAssignment = generateApiFunction({ method: 'GET', url: '/AssigmentApi/CreateAssignment' });
 		// The service with all the API call functions
 		return {
 			Course: CourseApi,
@@ -152,6 +154,9 @@
 			GetCourseAssigments: GetCourseAssigments,
 			GetAssigment: GetAssigment,
 			FilesForAssignment: FilesForAssignment,
+			DeleteAssignmentFile: DeleteAssignmentFile,
+			CheckIfInTeacher: CheckIfInTeacher,
+			CreateAssignment: CreateAssignment,
 			DownloadSharedFile: DownloadSharedFile,
 			DeleteSharedFile: DeleteSharedFile,
 

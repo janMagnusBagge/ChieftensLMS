@@ -22,6 +22,7 @@
 			<td>{{item.Owner ? item.Owner : "You" }}</td>
 			<td>{{item.Date | dateFilter | date:'yyyy-MM-dd'}}</td>
 
+			<td><button type="button" class="btn btn-danger btn-sm" ng-click="deleteAssignmentFile(item.Id)" ng-hide="item.Owner">Radera</button></td>
 			@*<td><a href="~/{{item.Id}}" class="btn btn-success btn-sm">Ladda ner</a> <button type="button" class="btn btn-danger btn-sm" ng-click="deleteSharedFile(item.Id)" ng-hide="item.Owner">Radera</button></td>*@
 		</tr>
 	</table>
@@ -58,6 +59,29 @@
 				ApiService.FilesForAssignment(onFileSuccess, onFileFail, { id: id });
 			}
 			//ApiService.GetAssigments(onSuccess, onFail, courseId);
+
+			//delete parts
+			var onDeleteSuccess = function (data) {
+				var index = -1;
+				for (var i = 0; i < $scope.assignmentFiles.length; i++) {
+					if ($scope.assignmentFiles[i].Id == data.Id) {
+						index = i;
+						break;
+					}
+				}
+
+				if (index != -1)
+					$scope.assignmentFiles.splice(index, 1);
+
+			};
+
+			var onDeleteFail = function (response) {
+				alert("fail " + response.reason);
+			};
+
+			$scope.deleteAssignmentFile = function (id) {
+				ApiService.DeleteAssignmentFile(onDeleteSuccess, onDeleteFail, { id: id });
+			}
 		});
 
 	}());

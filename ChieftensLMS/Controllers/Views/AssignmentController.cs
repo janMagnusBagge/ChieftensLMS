@@ -8,6 +8,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
+using System.Web.Hosting;
 
 namespace ChieftensLMS.Controllers
 {
@@ -19,7 +20,7 @@ namespace ChieftensLMS.Controllers
 		public AssignmentController()
 		{
 			_context = new LMSDbContext();
-			_AssignmentService = new AssignmentService(_context);
+			_AssignmentService = new AssignmentService(_context, HostingEnvironment.MapPath("~\\Uploads\\TurnIns\\"));
 		}
         // GET: Assignment
 		public ActionResult Index(int? id)
@@ -29,22 +30,28 @@ namespace ChieftensLMS.Controllers
 			return View(id);
         }
 
+		//TODO: are we gona put authorize attribute ?
 		public ActionResult Details(int? id)
 		{
-			//var assigment = GetAssigments(3);
-			//return View(assigment);
 			return View(id);
 		}
 
-		public ActionResult Create()
-		{
-			return View();
-		}
-
-		public ActionResult Delete(int? id)
+		[Authorize(Roles = "Teacher")]
+		public ActionResult Create(int? id)
 		{
 			return View(id);
 		}
+
+		[Authorize(Roles = "Teacher")]
+		public ActionResult Edit(int? id)
+		{
+			return View(id);
+		}
+
+		//public ActionResult Delete(int? id)
+		//{
+		//	return View(id);
+		//}
 
 		//public IEnumerable<Assignment> GetAssigments(int courseId)
 		//{
