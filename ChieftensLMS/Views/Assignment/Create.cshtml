@@ -3,7 +3,7 @@
 	ViewBag.Title = "Inlämningsuppgift";
 }
 <div ng-controller="assignmentCreateController" ng-init="GetCourseAssigments(@Model)">
-
+	{{Description}}
 	<div class="form-group">
 		<label class="control-label col-md-2" for="Name">Namn</label>
 		<div class="col-md-10">
@@ -33,7 +33,7 @@
 
 	(function () {
 
-		angular.module("app").controller("assignmentCreateController", function ($scope, ApiService,$window) {
+		angular.module("app").controller("assignmentCreateController", function ($scope, ApiService, $window) {
 			$scope.ifTeacher = null;
 
 
@@ -60,9 +60,8 @@
 
 			$scope.createAssignment = function () {
 				ApiService.CreateAssignment(onSuccess,onFail,
-					{courseId = @Model,name = $scope.name, description = $scope.description, date = $scope.date}
+				{courseId: @Model, name: $scope.name, description: $scope.description, date: $scope.date}
 					);
-				//int courseId, string name, string description, DateTime date
 			}
 
 		});
