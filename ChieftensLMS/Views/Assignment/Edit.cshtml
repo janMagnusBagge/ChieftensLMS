@@ -3,40 +3,40 @@
 	ViewBag.Title = "Uppdatera inlämningsuppgift";
 }
 
-<div ng-controller="assignmentCreateController" ng-init="GetCourseAssigments(@Model)">
+<div ng-controller="assignmentUpdateController" ng-init="GetCourseAssigment(@Model)">
+	<a href="~/Assignment/Index/{{assignment.CourseId}}">Inlämningar för kurs</a>
 	<div class="form-group">
 		<label class="control-label col-md-2" for="Name">Namn</label>
 		<div class="col-md-10">
-			<input id="Name" type="text" class="form-control" ng-model="Name" />
+			<input id="Name" type="text" class="form-control" ng-model="assignment.Name" />
 		</div>
 	</div>
 
 	<div class="form-group">
 		<label class="control-label col-md-2" for="Description">Beskrivning</label>
 		<div class="col-md-10">
-			<input id="Description" type="text" class="form-control" ng-model="Description" />
+			<input id="Description" type="text" class="form-control" ng-model="assignment.Description" />
 		</div>
 	</div>
 
 	<div class="form-group">
 		<label class="control-label col-md-2" for="ExpirationDate">Inlämningsdatum</label>
 		<div class="col-md-10">
-			<input id="ExpirationDate" type="date" class="form-control" ng-model="ExpirationDate" />
+			<input id="ExpirationDate" type="date" class="form-control" ng-model="assignment.ExpirationDate" />
 		</div>
 	</div>
-
+	
 	<div>
-		<button type="button" class="btn btn-danger btn-sm" ng-click="createAssignment()">Skapa inlämningsuppgift</button>
+		<button type="button" class="btn btn-danger btn-sm" ng-click="updateAssignment()">Updatera inlämningsuppgift</button>
 	</div>
 </div>
 <script>
 
 	(function () {
 
-		angular.module("app").controller("assignmentCreateController", function ($scope, ApiService, $window) {
+		angular.module("app").controller("assignmentUpdateController", function ($scope, ApiService, $window) {
 			$scope.ifTeacher = null;
-
-
+			$scope.assignment = null;
 
 			var onTeacherSuccess = function (data) {
 				$scope.ifTeacher = data.isTeacher;
@@ -46,25 +46,43 @@
 				alert("Misslyckades med lärare kontroll");
 			};
 
-			$scope.GetCourseAssigments = function (courseId) {
+			$scope.GetCourseAssigment = function (id) {
+				ApiService.GetAssigment(onloadSuccess, onloadFail, { id: id });
 				ApiService.CheckIfInTeacher(onTeacherSuccess, onTeacherFail); //To show or hide things that only some roles should see or not
 			}
 
 			var onSuccess = function (data) {
-				$window.location.href = '/Assignment/Index/@Model';
+				$window.location.href = '/Assignment/Index/' + $scope.assignment.CourseId;
 			};
 
 			var onFail = function (response) {
-				alert("Misslyckades lägga till");
+				alert("Misslyckades updatera");
 			};
 
-			$scope.createAssignment = function () {
-				console.log({courseId: @Model, name: $scope.name, description: $scope.description, date: $scope.date});
-				ApiService.CreateAssignment(onSuccess,onFail,
-				{courseId: @Model, name: $scope.Name, description: $scope.Description, date: $scope.ExpirationDate}
+			$scope.updateAssignment = function () {
+				@*TODO: Fix so it is assignment send in instead of each parameter*@
+				@*console.log({courseId: @Model, name: $scope.name, description: $scope.description, date: $scope.date});*@
+				ApiService.UpdateAssignment(onSuccess,onFail,
+					{id: @Model, name: $scope.assignment.Name, description: $scope.assignment.Description, date: $scope.assignment.ExpirationDate}
+					//{ assignmentToUpdate: $scope.assignment}
 					);
-
 			}
+
+
+			//Gets witch assignment
+			var onloadSuccess = function (data) {
+				$scope.assignment = data.assignment;
+				$scope.assignment.ExpirationDate = new Date(parseInt(data.assignment.ExpirationDate.substr(6)));
+			};
+
+			var onloadFail = function (response) {
+				alert("Misslyckades");
+			};
+
+			//$scope.getAssignment = function (id) {
+
+			//	ApiService.GetAssigment(onloadSuccess, onloadFail, { id: id });
+			//}
 
 		});
 

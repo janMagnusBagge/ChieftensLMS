@@ -142,6 +142,7 @@
 		var DeleteAssignmentFile = generateApiFunction({ method: 'GET', url: '/AssigmentApi/DeleteTurnIn' });
 		var CheckIfInTeacher = generateApiFunction({ method: 'GET', url: '/AssigmentApi/CheckIfTeacher' });
 		var CreateAssignment = generateApiFunction({ method: 'GET', url: '/AssigmentApi/CreateAssignment' });
+		var UpdateAssignment = generateApiFunction({ method: 'GET', url: '/AssigmentApi/UpdateAssignment' }); 
 		// The service with all the API call functions
 		return {
 			Course: CourseApi,
@@ -157,6 +158,7 @@
 			DeleteAssignmentFile: DeleteAssignmentFile,
 			CheckIfInTeacher: CheckIfInTeacher,
 			CreateAssignment: CreateAssignment,
+			UpdateAssignment: UpdateAssignment,
 			DownloadSharedFile: DownloadSharedFile,
 			DeleteSharedFile: DeleteSharedFile,
 

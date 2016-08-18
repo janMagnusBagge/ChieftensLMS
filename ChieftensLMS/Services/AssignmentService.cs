@@ -3,6 +3,7 @@ using ChieftensLMS.DAL;
 using ChieftensLMS.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -67,6 +68,38 @@ namespace ChieftensLMS.Services
 			assignmentToCreate.Date = DateTime.Now;
 			_unitOfWork.AssignmentRepository.Add(assignmentToCreate);
 			_unitOfWork.Save();
+			return true;
+		}
+
+		//TODO: Throw exception if could not save
+		public bool UpdateAssignment(int id, string name, string description, DateTime date)
+		{
+			Assignment assignmentToUpdate = GetAssignment(id);
+			
+			assignmentToUpdate.Name = name;
+			assignmentToUpdate.Description = description;
+			assignmentToUpdate.ExpirationDate = date;
+
+			return UpdateAssignment(assignmentToUpdate);
+			
+		}
+		//TODO: Throw exception if could not save
+		public bool UpdateAssignment(Assignment assignmentToUpdate)
+		{
+			try
+			{
+				//_unitOfWork.AssignmentRepository.Update(assignmentToUpdate);
+				_db.Assignments.Attach(assignmentToUpdate);
+				_db.Entry(assignmentToUpdate).State = EntityState.Modified;
+				_db.SaveChanges();
+				//_db.Assignments.Entry(assignmentToUpdate).State = EntityState.Modified;
+				//_unitOfWork.Save();
+			}
+			catch (Exception ec)
+			{
+				Console.WriteLine(ec.Message);
+				return false;
+			}
 			return true;
 		}
 	}

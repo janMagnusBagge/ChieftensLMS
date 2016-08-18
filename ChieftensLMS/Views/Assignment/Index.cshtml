@@ -21,6 +21,9 @@
 				<th>
 					Beskrivning
 				</th>
+				<th>
+					Inlämningsdatum
+				</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -33,6 +36,9 @@
 				</td>
 				<td>
 					{{item.ExpirationDate | dateFilter | date:'yyyy-MM-dd'}}
+				</td>
+				<td ng-show="ifTeacher">
+					<a href="~/Assignment/Edit/{{item.Id}}">Updatera</a>
 				</td>
 			</tr>
 		</tbody>

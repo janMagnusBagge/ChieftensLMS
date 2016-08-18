@@ -2,9 +2,9 @@
 @{
     ViewBag.Title = "Inlämningsuppgift";
 }
-
 <h2>Inlämningsuppgift</h2>
 <div ng-controller="assignmentDetailController" ng-init="getAssignment(@Model)">
+	<a href="~/Assignment/Index/{{assignment.CourseId}}">Inlämningar för kurs</a>
 	<h4>{{assignment.Name}}</h4>
 	<h5><b>Beskrivning:</b> {{assignment.Description}}</h5>
 	<h5><b>Inlämningsdatum:</b> {{assignment.ExpirationDate | dateFilter | date:'yyyy-MM-dd'}}</h5>
