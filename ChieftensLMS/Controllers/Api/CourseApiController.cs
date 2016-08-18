@@ -13,7 +13,6 @@ using System.Web.Mvc;
 
 namespace ChieftensLMS.Controllers.Api
 {
-
 	public class CourseApiController : Controller
 	{
 		private LMSDbContext _context;
@@ -33,53 +32,61 @@ namespace ChieftensLMS.Controllers.Api
 			return currentUserRoles;
 		}
 
-		[Authorize]
+		[Authorize(Roles = "Teacher")]
 		public ActionResult All()
 		{
-			string currentUserId = User.Identity.GetUserId();
-			IList<string> currentUserRoles = GetRolesForUser(currentUserId);
-
-			IEnumerable<Course> courseList = null;
-
-			// Get list of courses a student is taking, or all for a teacher
-			if (currentUserRoles.Contains("Teacher"))
-				courseList = _courseService.GetAll();
-			else if (currentUserRoles.Contains("Student"))
-				courseList = _courseService.GetForUserId(currentUserId);
-			else
-				return ApiResult.Fail("Current user is not in Teacher/Student role");
-
-			// Project list before returning
-			var courses = courseList.Select(c => new
+			var courses = _courseService.GetAll().Select(c => new
 			{
-				Id = c.Id,
-				Name = c.Name,
-				Description = c.Description
+				c.Id,
+				c.Name,
+				c.Description
 			});
 
 			return ApiResult.Success(new { Courses = courses });
 		}
 
+		[Authorize]
+		public ActionResult Mine()
+		{
+			string currentUserId = User.Identity.GetUserId();
+			
+			// Project list before returning
+			var courses = _courseService.GetForUserId(currentUserId).Select(c => new
+			{
+				c.Id,
+				c.Name,
+				c.Description
+			});
+
+			return ApiResult.Success(new { Courses = courses });
+		}
+
+		[Authorize]
 		public ActionResult AllUsers(int? id)
 		{
 			if (id == null)
 				return ApiResult.Fail("Invalid argument to api");
 
-			var course = _courseService.GetById((int)id);
+			Course course = _courseService.GetById((int)id);
 
 			if (course == null)
 				return ApiResult.Fail("Course does not exist");
+		
+			var returnData = _courseService.GetUsersForCourse(course).Select(c => new
+			{
+				c.Name,
+				c.SurName
+			});
 
-			return ApiResult.Success(_courseService.GetUsersForCourse(course));
+			return ApiResult.Success(new { Users = returnData });	
 		}
 
 		public ActionResult Single(int? id)
 		{
-
 			if (id == null)
 				return ApiResult.Fail("Invalid argument to api");
 
-			var course = _courseService.GetById((int)id);
+			Course course = _courseService.GetById((int)id);
 
 			if (course == null)
 				return ApiResult.Fail("Course does not exist");
@@ -87,25 +94,22 @@ namespace ChieftensLMS.Controllers.Api
 			string currentUserId = User.Identity.GetUserId();
 			IList<string> currentUserRoles = GetRolesForUser(currentUserId);
 
-			//kolla om studenten är i kursen
-			if (currentUserRoles.Contains("Teacher") || _courseService.HasStudentWithId((int)id, currentUserId))
+			// Needs to be either a student that takes the course or any teacher
+			if (currentUserRoles.Contains("Teacher") || _courseService.HasUserWithId(course, currentUserId))
 			{
 				var returnData = new
 				{
-					course = new
+					Course = new
 					{
-						Id = course.Id,
-						Name = course.Name,
-						Description = course.Description
+						course.Id,
+						course.Name,
+						course.Description
 					}
 				};
 				return ApiResult.Success(returnData);
 			}
 			else
-				return ApiResult.Fail("Current user not in Teacher/Student role");
-
-
-
+				return ApiResult.Fail("No access");
 		}
 
 	}

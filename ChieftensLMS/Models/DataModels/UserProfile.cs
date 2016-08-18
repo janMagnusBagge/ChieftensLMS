@@ -12,8 +12,7 @@ namespace ChieftensLMS.Models
 		public string Name { get; set; }
 		public string SurName { get; set; }
 
-		public virtual ICollection<Course> Courses { get; set; }
-
+		public ICollection<Course> Courses { get; set; }
 	}
 
 }

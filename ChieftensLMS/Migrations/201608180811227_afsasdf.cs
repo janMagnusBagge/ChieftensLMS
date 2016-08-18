@@ -3,7 +3,7 @@ namespace ChieftensLMS.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class initial : DbMigration
+    public partial class afsasdf : DbMigration
     {
         public override void Up()
         {
@@ -11,14 +11,14 @@ namespace ChieftensLMS.Migrations
                 "dbo.Assignments",
                 c => new
                     {
-                        ID = c.Int(nullable: false, identity: true),
+                        Id = c.Int(nullable: false, identity: true),
                         Name = c.String(),
                         Date = c.DateTime(nullable: false),
                         Description = c.String(),
                         ExpirationDate = c.DateTime(nullable: false),
                         CourseId = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => t.ID)
+                .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Courses", t => t.CourseId, cascadeDelete: true)
                 .Index(t => t.CourseId);
             
@@ -36,13 +36,13 @@ namespace ChieftensLMS.Migrations
                 "dbo.Lectures",
                 c => new
                     {
-                        ID = c.Int(nullable: false, identity: true),
+                        Id = c.Int(nullable: false, identity: true),
                         Name = c.String(),
                         Date = c.DateTime(nullable: false),
                         Description = c.String(),
                         CourseId = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => t.ID)
+                .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Courses", t => t.CourseId, cascadeDelete: true)
                 .Index(t => t.CourseId);
             
@@ -50,14 +50,14 @@ namespace ChieftensLMS.Migrations
                 "dbo.SharedFiles",
                 c => new
                     {
-                        ID = c.Int(nullable: false, identity: true),
+                        Id = c.Int(nullable: false, identity: true),
                         Name = c.String(),
                         Date = c.DateTime(nullable: false),
                         FileName = c.String(),
                         UserId = c.String(nullable: false, maxLength: 128),
                         CourseId = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => t.ID)
+                .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Courses", t => t.CourseId, cascadeDelete: true)
                 .ForeignKey("dbo.UserProfiles", t => t.UserId, cascadeDelete: true)
                 .Index(t => t.UserId)
@@ -77,14 +77,14 @@ namespace ChieftensLMS.Migrations
                 "dbo.TurnIns",
                 c => new
                     {
-                        ID = c.Int(nullable: false, identity: true),
+                        Id = c.Int(nullable: false, identity: true),
                         Name = c.String(),
                         Date = c.DateTime(nullable: false),
                         FileName = c.String(),
                         UserId = c.String(nullable: false, maxLength: 128),
                         AssignmentId = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => t.ID)
+                .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Assignments", t => t.AssignmentId, cascadeDelete: true)
                 .ForeignKey("dbo.UserProfiles", t => t.UserId, cascadeDelete: true)
                 .Index(t => t.UserId)

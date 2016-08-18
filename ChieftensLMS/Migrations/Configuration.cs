@@ -75,9 +75,9 @@ namespace ChieftensLMS.Migrations
 
 			List<UserProfile> userProfiles = new List<UserProfile>();
 			for (int i = 0; i < 20; i++)
-				userProfiles.Add( seeder.CreateUserWithRole("T"+i+"@lms.com", "Password@123", "Teacher", "Lärare_"+i, "Efternamn"+i) );
+				userProfiles.Add(seeder.CreateUserWithRole("T" + i + "@lms.com", "Password@123", "Teacher", "Lärare_" + i, "Efternamn" + i));
 			for (int i = 0; i < 20; i++)
-				userProfiles.Add(seeder.CreateUserWithRole("S" + i + "@lms.com", "Password@123", "Student", "Student_"+i, "Efternamn"+i));
+				userProfiles.Add(seeder.CreateUserWithRole("S" + i + "@lms.com", "Password@123", "Student", "Student_" + i, "Efternamn" + i));
 
 
 			for (int i = 0; i < 20; i++)
@@ -97,12 +97,13 @@ namespace ChieftensLMS.Migrations
 					course.Lectures.Add(new Lecture()
 					{
 						Date = DateTime.Now,
-						Name = course.Name + " - lektion " + a, 
+						Name = course.Name + " - lektion " + a,
 						Description = "Beskrivning för " + course.Name + " - lektion " + a
 					});
 				}
 
-				for (int x = 0; x < 40; x++){
+				for (int x = 0; x < 40; x++)
+				{
 					course.SharedFiles.Add(
 					new SharedFile()
 					{
@@ -125,7 +126,7 @@ namespace ChieftensLMS.Migrations
 						Name = course.Name + "_uppgift_" + x,
 						Description = "Beskrivning_" + course.Name + "_uppgift_" + x,
 						Date = DateTime.Now,
-						ExpirationDate = new DateTime(2020,10,20)
+						ExpirationDate = new DateTime(2020, 10, 20)
 					};
 
 					assignment.TurnIns = new List<TurnIn>();
@@ -152,7 +153,7 @@ namespace ChieftensLMS.Migrations
 
 
 
-			
+
 		}
 	}
 }

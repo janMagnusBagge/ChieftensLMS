@@ -1,10 +1,10 @@
 ﻿
 @{
-	ViewBag.Title = "Alla Kurser";
+	ViewBag.Title = "Mina Kurser";
 }
 
-<h2>Alla Kurser</h2>
-<div ng-controller="courseAllController">
+<h2>Mina Kurser</h2>
+<div ng-controller="courseMineController">
 
 	<table class="table">
 
@@ -24,7 +24,7 @@
 
 	(function () {
 
-		angular.module("app").controller("courseAllController", function ($scope, ApiService) {
+		angular.module("app").controller("courseMineController", function ($scope, ApiService) {
 
 			$scope.apiData = {};
 
@@ -36,7 +36,7 @@
 				alert(response.Reason);
 			};
 
-			ApiService.Course.GetAll(onSuccess, onFail);
+			ApiService.Course.GetMine(onSuccess, onFail);
 		});
 
 	}());

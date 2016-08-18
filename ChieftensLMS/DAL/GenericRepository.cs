@@ -25,20 +25,14 @@ namespace ChieftensLMS.DAL
 		}
 
 
-		public virtual T GetMore<X>(T entity,
-			Expression<Func<T, ICollection<X>>> navigationProperty,
-			Expression<Func<X, bool>> predicate
-			) where X : class
+		public virtual T LoadMore<TProperty>(T entity,
+			Expression<Func<T, bool>> predicate,
+			Expression<Func<T, ICollection<TProperty>>> includeProperties
+			) where TProperty : class
 		{
-	
-			var a = _context.Entry(entity).Collection<X>(navigationProperty);
-			var b = a.Query()
-				.Where(predicate).ToList();
+			_context.Entry(entity).Collection(includeProperties).Load();
 
-		
-			var test = entity;
-			var s = _context.Entry(entity);
-			
+
 			return entity;
 		}
 

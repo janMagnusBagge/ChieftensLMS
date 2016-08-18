@@ -42,6 +42,12 @@ namespace ChieftensLMS.Controllers
 			return View(id);
 		}
 
+		[Authorize(Roles = "Teacher")]
+		public ActionResult Edit(int? id)
+		{
+			return View(id);
+		}
+
 		//public ActionResult Delete(int? id)
 		//{
 		//	return View(id);

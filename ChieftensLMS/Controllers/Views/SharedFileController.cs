@@ -17,38 +17,14 @@ namespace ChieftensLMS.Controllers
 {
     public class SharedFileController : Controller
     {
-		private LMSDbContext _context;
-		private SharedFileService _sharedFileService;
-
-		public SharedFileController()
-		{
-			_context = new LMSDbContext();
-			_sharedFileService = new SharedFileService(_context, HostingEnvironment.MapPath("~\\Uploads\\SharedFiles\\"));
-		}
-
-		// GET: SharedFiles
 		public ActionResult ForCourse(int? id)
         {
 			return View(id);
         }
 
-		[HttpPost]
-		public ActionResult Add(HttpPostedFileBase file, SharedFile sharedFile)
-		{
-			if (file != null && file.ContentLength > 0)
-			{ 
-
-					_sharedFileService.AddSharedFileAsUserId(sharedFile.CourseId, User.Identity.GetUserId(), sharedFile.Name, file.FileName, file.InputStream);
-			}
-
-			return Content("hej");
-		}
-
-		public ActionResult Add()
+		public ActionResult Mine()
 		{
 			return View();
 		}
-
-
 	}
 }
