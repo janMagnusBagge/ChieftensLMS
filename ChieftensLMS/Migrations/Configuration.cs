@@ -12,25 +12,24 @@ namespace ChieftensLMS.Migrations
 
 	public class UserSeeder
 	{
-		private LMSDbContext _context;
+		private ApplicationDbContext _context;
 		private UserManager<ApplicationUser> _userManager;
 		private RoleManager<IdentityRole> _roleManager;
 
-		public UserSeeder(LMSDbContext context)
+		public UserSeeder(ApplicationDbContext context)
 		{
-			var _userContext = new ApplicationDbContext();
-			_userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(_userContext));
-			_roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(_userContext));
+			_userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+			_roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
 			_context = context;
 		}
 
-		public UserProfile CreateUserWithRole(string userName, string password, string role, string name, string surname)
+		public ApplicationUser CreateUserWithRole(string userName, string password, string role, string name, string surname)
 		{
 			var foundUser = _userManager.FindByName(userName);
 			if (foundUser != null)
-				return _context.UserProfile.Find(foundUser.Id);
+				return foundUser;
 
-			ApplicationUser user = new ApplicationUser() { UserName = userName, Email = userName };
+			ApplicationUser user = new ApplicationUser() { UserName = userName, Email = userName, Name = name, SurName = surname };
 			_userManager.Create(user, password);
 
 			var foundRole = _roleManager.FindByName(role);
@@ -39,24 +38,20 @@ namespace ChieftensLMS.Migrations
 
 			_userManager.AddToRole(user.Id, role);
 
-			UserProfile returnProfile = new UserProfile() { Id = user.Id, Name = name, SurName = surname };
-
-			_context.UserProfile.Add(returnProfile);
-			_context.SaveChanges();
-			return returnProfile;
+			return user;
 		}
 
 	}
 
 
-	internal sealed class Configuration : DbMigrationsConfiguration<LMSDbContext>
+	internal sealed class Configuration : DbMigrationsConfiguration<ApplicationDbContext>
 	{
 		public Configuration()
 		{
 			AutomaticMigrationsEnabled = false;
 		}
 
-		protected override void Seed(LMSDbContext context)
+		protected override void Seed(ApplicationDbContext context)
 		{
 			//  This method will be called after migrating to the latest version.
 
@@ -73,7 +68,7 @@ namespace ChieftensLMS.Migrations
 
 			UserSeeder seeder = new UserSeeder(context);
 
-			List<UserProfile> userProfiles = new List<UserProfile>();
+			List<ApplicationUser> userProfiles = new List<ApplicationUser>();
 			for (int i = 0; i < 20; i++)
 				userProfiles.Add(seeder.CreateUserWithRole("T" + i + "@lms.com", "Password@123", "Teacher", "Lärare_" + i, "Efternamn" + i));
 			for (int i = 0; i < 20; i++)
@@ -89,7 +84,7 @@ namespace ChieftensLMS.Migrations
 					Assignments = new List<Assignment>(),
 					Lectures = new List<Lecture>(),
 					SharedFiles = new List<SharedFile>(),
-					Users = new List<UserProfile>()
+					Users = new List<ApplicationUser>()
 				};
 
 				for (int a = 0; a < 20; a++)

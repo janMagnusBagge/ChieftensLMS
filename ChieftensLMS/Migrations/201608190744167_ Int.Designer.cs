@@ -7,13 +7,13 @@ namespace ChieftensLMS.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class initial : IMigrationMetadata
+    public sealed partial class Int : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(initial));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Int));
         
         string IMigrationMetadata.Id
         {
-            get { return "201608180833295_initial"; }
+            get { return "201608190744167_ Int"; }
         }
         
         string IMigrationMetadata.Source

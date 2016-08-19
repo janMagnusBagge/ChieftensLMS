@@ -14,12 +14,12 @@ namespace ChieftensLMS.Controllers
 {
     public class AssignmentController : Controller
     {
-		private LMSDbContext _context;
+		private ApplicationDbContext _context;
 		private AssignmentService _AssignmentService;
 
 		public AssignmentController()
 		{
-			_context = new LMSDbContext();
+			_context = new ApplicationDbContext();
 			_AssignmentService = new AssignmentService(_context, HostingEnvironment.MapPath("~\\Uploads\\TurnIns\\"));
 		}
         // GET: Assignment

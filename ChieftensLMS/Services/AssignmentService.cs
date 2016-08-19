@@ -11,11 +11,11 @@ namespace ChieftensLMS.Services
 {
 	public class AssignmentService
 	{
-		LMSDbContext _db = null;
+		ApplicationDbContext _db = null;
 		UnitOfWork _unitOfWork = null;
 		string _fileDirectory = null;
 
-		public AssignmentService(LMSDbContext context, string fileDirectory)
+		public AssignmentService(ApplicationDbContext context, string fileDirectory)
 		{
 			_fileDirectory = fileDirectory;
 			_db = context;

@@ -15,12 +15,12 @@ namespace ChieftensLMS.Controllers.Api
 {
 	public class AssigmentApiController : Controller
 	{
-		private LMSDbContext _context;
+		private ApplicationDbContext _context;
 		private AssignmentService _AssignmentService;
 
 		public AssigmentApiController()
 		{
-			_context = new LMSDbContext();
+			_context = new ApplicationDbContext();
 			_AssignmentService = new AssignmentService(_context, HostingEnvironment.MapPath("~\\Uploads\\TurnIns\\"));
 		}
 

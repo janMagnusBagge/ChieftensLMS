@@ -1,6 +1,7 @@
 ﻿using ChieftensLMS.Controllers;
 using ChieftensLMS.DAL;
 using ChieftensLMS.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -11,9 +12,9 @@ namespace ChieftensLMS.Services
 {
 	public class CourseService
 	{
-		LMSDbContext _db;
+		ApplicationDbContext _db;
 
-		public CourseService(LMSDbContext context)
+		public CourseService(ApplicationDbContext context)
 		{
 			_db = context;
 		}
@@ -33,9 +34,9 @@ namespace ChieftensLMS.Services
 			return _db.Courses.Find(courseId);
 		}
 
-		public IEnumerable<UserProfile> GetUsersForCourse(Course forCourse)
+		public IEnumerable<ApplicationUser> GetUsersForCourse(Course forCourse)
 		{
-			return _db.UserProfile.Where(e => e.Courses.Any(f => f.Id == forCourse.Id));
+			return _db.Users.Where(e => e.Courses.Any(f => f.Id == forCourse.Id));
 		}
 
 		public bool HasUserWithId(Course course, string userId)

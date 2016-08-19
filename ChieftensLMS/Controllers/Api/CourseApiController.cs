@@ -15,12 +15,12 @@ namespace ChieftensLMS.Controllers.Api
 {
 	public class CourseApiController : Controller
 	{
-		private LMSDbContext _context;
+		private ApplicationDbContext _context;
 		private CourseService _courseService;
 
 		public CourseApiController()
 		{
-			_context = new LMSDbContext();
+			_context = new ApplicationDbContext();
 			_courseService = new CourseService(_context);
 		}
 
@@ -75,7 +75,7 @@ namespace ChieftensLMS.Controllers.Api
 			var returnData = _courseService.GetUsersForCourse(course).Select(c => new
 			{
 				c.Name,
-				c.SurName
+				c.SurName,
 			});
 
 			return ApiResult.Success(new { Users = returnData });	
