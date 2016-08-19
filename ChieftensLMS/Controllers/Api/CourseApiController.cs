@@ -18,6 +18,7 @@ namespace ChieftensLMS.Controllers.Api
 	{
 		private ApplicationDbContext _context;
 		private CourseService _courseService;
+		private StudentAccountService _accountService;
 
 		public CourseApiController()
 		{
@@ -115,6 +116,5 @@ namespace ChieftensLMS.Controllers.Api
 			else
 				return ApiResult.Fail("No access");
 		}
-
 	}
 }

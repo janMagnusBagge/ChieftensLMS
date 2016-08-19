@@ -42,5 +42,6 @@ namespace ChieftensLMS.Controllers
 			return View(id);
 		}
 
+
 	}
 }

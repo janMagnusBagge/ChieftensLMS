@@ -30,12 +30,12 @@ namespace ChieftensLMS.Controllers.Api
 					Email = user.UserName,
 					Id = user.Id,
 					Password = "Password@123",
-					Roles = _userManager.GetRoles(user.Id)
+					//Roles = _userManager.GetRoles(user.Id)
 
 				}
 			);
 
-			return ApiResult.Success(new { Blaha = Blaha });
+			return ApiResult.Success(new { Blaha = default(string) });
 		}
     }
 }

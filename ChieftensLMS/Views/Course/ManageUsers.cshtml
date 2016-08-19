@@ -1,0 +1,57 @@
+﻿@model int?
+
+@{
+	ViewBag.Title = "Kursdeltagare";
+}
+
+<h2>Kursdeltagare</h2>
+<div ng-controller="courseAllUsersController" ng-init="GetAllUsers(@Model)">
+
+	<table class="table">
+		<tr>
+			<th>Namn</th>
+			<th>Roll</th>
+		</tr>
+		<tr ng-repeat="user in apiData.users">
+			<td>
+				{{user.Name}} {{user.SurName}}
+			</td>
+			<td>
+				<span ng-repeat="role in user.Roles">{{role}}</span>
+			</td>
+		</tr>
+
+	</table>
+</div>
+
+
+@section scripts {
+
+	<script>
+
+	(function () {
+
+		angular.module("app").controller("courseAllUsersController", function ($scope, ApiService) {
+
+			$scope.apiData = {};
+
+			var onSuccess = function (data) {
+				$scope.apiData.users = data.Users;
+			};
+
+			var onFail = function (response) {
+				alert(response.Reason);
+			};
+
+			$scope.GetAllUsers = function(id)
+			{
+				ApiService.Course.GetAllUsers(onSuccess, onFail, {id:id});
+			}
+
+		});
+
+	}());
+
+	</script>
+
+}
