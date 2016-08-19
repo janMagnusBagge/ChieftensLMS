@@ -24,7 +24,7 @@ namespace ChieftensLMS.Controllers.Api
 			_AssignmentService = new AssignmentService(_context, HostingEnvironment.MapPath("~\\Uploads\\TurnIns\\"));
 		}
 
-		//Auth check needed
+		//TODO: Auth check needed
 		public ActionResult GetAssignmentForCourse(int courseId)
 		{
 			var assigmentsForCourse = _AssignmentService.GetAssignmentForCourse(courseId)
@@ -43,7 +43,7 @@ namespace ChieftensLMS.Controllers.Api
 			//return Json(assigmentsForCourse, JsonRequestBehavior.AllowGet);
 		}
 
-		//Auth check needed
+		//TODO: Auth check needed
 		public ActionResult GetAssigment(int? id)
 		{
 			if (id == null)
@@ -69,6 +69,7 @@ namespace ChieftensLMS.Controllers.Api
 			return ApiResult.Success(returnData);
 		}
 
+		//TODO: Auth check and if teacher is for course
 		// Needs checking if the user has access to this assignment
 		// Right now as long as you are a teacher you can see all the turnins for the course. Should it be changed to only teacher for course ?
 		public ActionResult FilesForAssignment(int? id)
@@ -79,9 +80,9 @@ namespace ChieftensLMS.Controllers.Api
 			if (_AssignmentService.GetAssignment((int)id) == null)
 				return ApiResult.Fail("Invalid assignment");
 
-			var userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-			var role = userManager.GetRoles(User.Identity.GetUserId());
-			bool isTeacher = role.Contains("Teacher");
+			//var userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+			//var role = userManager.GetRoles(User.Identity.GetUserId());
+			bool isTeacher = CheckTeacher();//role.Contains("Teacher");
 			if (isTeacher)
 			{
 				//Get all Assignment files for Assignment and project them to a new model
@@ -147,11 +148,20 @@ namespace ChieftensLMS.Controllers.Api
 		//TODO: Move this out to it's own place so all can pages can use it instead off only that use this ApiController
 		public ActionResult CheckIfTeacher()
 		{
-			var userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-			var role = userManager.GetRoles(User.Identity.GetUserId());
-			bool isTeacher = role.Contains("Teacher");
+			//var userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+			//var role = userManager.GetRoles(User.Identity.GetUserId());
+			bool isTeacher = CheckTeacher();//role.Contains("Teacher");
 
 			return ApiResult.Success(new { isTeacher = isTeacher });
+		}
+
+		//TODO: Move this out to it's own place so all can pages can use it instead off only that use this ApiController
+		private bool CheckTeacher()
+		{
+			var userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+			var role = userManager.GetRoles(User.Identity.GetUserId());
+			return role.Contains("Teacher");
+
 		}
 
 		//TODO: Fix so it throw exception and check if it did or not and return false if did
@@ -161,5 +171,21 @@ namespace ChieftensLMS.Controllers.Api
 			bool ifCreated = true;
 			return ApiResult.Success(new { ifCreated = ifCreated });
 		}
+
+		//TODO: Fix so it throw exception and check if it did or not and return false if did
+		//TODO: Fix so can send in whole asignment
+		public ActionResult UpdateAssignment(int id, string name, string description, DateTime date)
+		{
+
+			bool ifUpdated = _AssignmentService.UpdateAssignment(id, name, description, date); ;
+			return ApiResult.Success(new { ifUpdated = ifUpdated });
+		}
+
+		//public ActionResult UpdateAssignment(Assignment assignmentToUpdate)
+		//{
+		//	_AssignmentService.UpdateAssignment(assignmentToUpdate);
+		//	bool ifUpdated = true;
+		//	return ApiResult.Success(new { ifUpdated = ifUpdated });
+		//}
 	}
 }

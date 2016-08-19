@@ -2,6 +2,7 @@
 @{
 	ViewBag.Title = "Skapa inlämningsuppgift";
 }
+<a href="~/Assignment/Index/@Model">Inlämningar för kurs</a>
 <div ng-controller="assignmentCreateController" ng-init="GetCourseAssigments(@Model)">
 	<div class="form-group">
 		<label class="control-label col-md-2" for="Name">Namn</label>
@@ -34,6 +35,7 @@
 
 		angular.module("app").controller("assignmentCreateController", function ($scope, ApiService, $window) {
 			$scope.ifTeacher = null;
+			//$scope.returnLink = '~/Assignment/Index/' + @Model;
 
 
 
@@ -58,7 +60,7 @@
 			};
 
 			$scope.createAssignment = function () {
-				console.log({courseId: @Model, name: $scope.name, description: $scope.description, date: $scope.date});
+				@*console.log({courseId: @Model, name: $scope.name, description: $scope.description, date: $scope.date});*@
 				ApiService.CreateAssignment(onSuccess,onFail,
 				{courseId: @Model, name: $scope.Name, description: $scope.Description, date: $scope.ExpirationDate}
 					);
