@@ -1,6 +1,7 @@
 ﻿using ChieftensLMS.Controllers;
 using ChieftensLMS.DAL;
 using ChieftensLMS.Models;
+using ChieftensLMS.Models.DTOModels;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -21,14 +22,19 @@ namespace ChieftensLMS.Services
 			_db = context;
 		}
 
+		//KLAR
 		public IEnumerable<SharedFile> GetForUser(string userId)
 		{
-			return _db.SharedFiles.Where(sharedFile => sharedFile.UserId == userId).Include(sharedFile => sharedFile.Course);
+			return _db.SharedFiles.Where(sharedFile => sharedFile.UserId == userId)
+					   .Include(sharedFile => sharedFile.Course)
+					   .ToList();
 		}
 
-		public IEnumerable<SharedFile> GetForCourse(Course course)
+		public IEnumerable<SharedFile> GetForCourse(int courseId)
 		{
-			return _db.SharedFiles.Where(sharedFile => sharedFile.CourseId == course.Id).Include(sharedFile => sharedFile.User);
+			return _db.SharedFiles.Where(sharedFile => sharedFile.CourseId == courseId)
+					  .Include(sharedFile => sharedFile.User)
+					  .ToList();
 		}
 
 		public SharedFile GetById(int sharedFileId)

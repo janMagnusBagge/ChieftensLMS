@@ -16,6 +16,11 @@ namespace ChieftensLMS.Controllers
 {
     public class CourseController : Controller
     {
+		public ActionResult ManageStudents()
+		{
+			return View();
+		}
+
         public ActionResult Mine()
 		{ 
 			return View();

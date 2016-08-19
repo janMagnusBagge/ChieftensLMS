@@ -17,7 +17,7 @@
 					{{user.Name}} {{user.SurName}}
 				</td>
 				<td>
-					{{user.Role}}
+					<span ng-repeat="role in user.Roles">{{role}}</span>
 				</td>
 			</tr>
 
