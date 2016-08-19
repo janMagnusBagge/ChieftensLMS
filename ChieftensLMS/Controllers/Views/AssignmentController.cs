@@ -12,6 +12,7 @@ using System.Web.Hosting;
 
 namespace ChieftensLMS.Controllers
 {
+	[Authorize]
     public class AssignmentController : Controller
     {
 		private ApplicationDbContext _context;

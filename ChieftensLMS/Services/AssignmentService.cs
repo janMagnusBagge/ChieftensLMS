@@ -75,8 +75,17 @@ namespace ChieftensLMS.Services
 			assignmentToCreate.Date = DateTime.Now;
 			//_unitOfWork.AssignmentRepository.Add(assignmentToCreate);
 			//_unitOfWork.Save();
-			_db.Assignments.Add(assignmentToCreate);
-			_db.SaveChanges();
+			try
+			{
+				_db.Assignments.Add(assignmentToCreate);
+				_db.SaveChanges();
+			}
+			catch (Exception ec)
+			{
+				Console.WriteLine(ec.Message);
+				return false;
+			}
+
 			return true;
 		}
 
