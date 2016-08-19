@@ -25,36 +25,43 @@ namespace ChieftensLMS.Services
 
 		internal IEnumerable<Assignment> GetAssignmentForCourse(int courseId)
 		{
-			return _unitOfWork.AssignmentRepository.Get(v => v.CourseId == courseId);
-			//return _unitOfWork.CourseRepository.Get(v => v.Users.FirstOrDefault(o => o.Id == user.Id) != null);
+			//return _unitOfWork.AssignmentRepository.Get(v => v.CourseId == courseId);
+			return _db.Assignments.Where(v => v.CourseId == courseId);
 		}
 
 		internal Assignment GetAssignment(int Id)
 		{
-			return _unitOfWork.AssignmentRepository.GetById(Id);
+			//return _unitOfWork.AssignmentRepository.GetById(Id);
+			return _db.Assignments.Find(Id);
 		}
 
 		internal IEnumerable<TurnIn> GetFilesForAssignmentById(int assignmentId)
 		{
-			return _unitOfWork.TurnInRepository.Get
-				(
-					v => v.AssignmentId == assignmentId,
-					sa => sa.OrderBy(x => x.Date),
-					"User"
-				);
+			//return _unitOfWork.TurnInRepository.Get
+			//	(
+			//		v => v.AssignmentId == assignmentId,
+			//		sa => sa.OrderBy(x => x.Date),
+			//		"User"
+			//	);
+			return _db.TurnIns.Where(turnIn => turnIn.AssignmentId == assignmentId)
+							  .Include(trunIn => trunIn.User)
+							  .OrderBy(x => x.Date);
 		}
 
 		public TurnIn GetTurnInById(int id)
 		{
-			return _unitOfWork.TurnInRepository.GetById(id);
+			//return _unitOfWork.TurnInRepository.GetById(id);
+			return _db.TurnIns.Find(id);
 		}
 
 		//TODO: if there should be another path then the privously chosen 
 		public void DeleteAssignmentFile(TurnIn turnInFile)
 		{
 			File.Delete(Path.Combine(_fileDirectory, turnInFile.Id.ToString()));
-			_unitOfWork.TurnInRepository.Delete(turnInFile.Id);
-			_unitOfWork.Save();
+			_db.Entry(turnInFile).State = EntityState.Deleted;
+			_db.SaveChanges();
+			//_unitOfWork.TurnInRepository.Delete(turnInFile.Id);
+			//_unitOfWork.Save();
 		}
 
 		//TODO: Throw exception if could not save
@@ -66,8 +73,19 @@ namespace ChieftensLMS.Services
 			assignmentToCreate.Description = description;
 			assignmentToCreate.ExpirationDate = date;
 			assignmentToCreate.Date = DateTime.Now;
-			_unitOfWork.AssignmentRepository.Add(assignmentToCreate);
-			_unitOfWork.Save();
+			//_unitOfWork.AssignmentRepository.Add(assignmentToCreate);
+			//_unitOfWork.Save();
+			try
+			{
+				_db.Assignments.Add(assignmentToCreate);
+				_db.SaveChanges();
+			}
+			catch (Exception ec)
+			{
+				Console.WriteLine(ec.Message);
+				return false;
+			}
+
 			return true;
 		}
 

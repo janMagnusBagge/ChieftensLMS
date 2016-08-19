@@ -166,6 +166,7 @@
     <Compile Include="Controllers\Api\CourseApiController.cs" />
     <Compile Include="Controllers\Api\DebugApiController.cs" />
     <Compile Include="Controllers\Api\SharedFileApiController.cs" />
+    <Compile Include="Controllers\Api\StudentAccountAPIController.cs" />
     <Compile Include="Controllers\Views\AccountController.cs" />
     <Compile Include="Controllers\Views\AssignmentController.cs" />
     <Compile Include="Controllers\Views\CourseController.cs" />
@@ -173,6 +174,7 @@
     <Compile Include="Controllers\Views\HomeController.cs" />
     <Compile Include="Controllers\Views\ManageController.cs" />
     <Compile Include="Controllers\Views\SharedFileController.cs" />
+    <Compile Include="Controllers\Views\StudentAccountController.cs" />
     <Compile Include="DAL\UnitOfWork.cs" />
     <Compile Include="DAL\ApplicationDbContext.cs" />
     <Compile Include="DAL\GenericRepository.cs" />
@@ -197,6 +199,7 @@
     <Compile Include="Services\AssignmentService.cs" />
     <Compile Include="Services\CourseService.cs" />
     <Compile Include="Services\SharedFileService.cs" />
+    <Compile Include="Services\StudentAccountService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -278,6 +281,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Uploads\TurnIns\" />
+    <Folder Include="Views\StudentAccount\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

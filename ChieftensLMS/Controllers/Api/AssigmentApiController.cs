@@ -13,6 +13,7 @@ using System.Web.Mvc;
 
 namespace ChieftensLMS.Controllers.Api
 {
+	[Authorize]
 	public class AssigmentApiController : Controller
 	{
 		private ApplicationDbContext _context;
@@ -148,9 +149,7 @@ namespace ChieftensLMS.Controllers.Api
 		//TODO: Move this out to it's own place so all can pages can use it instead off only that use this ApiController
 		public ActionResult CheckIfTeacher()
 		{
-			//var userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-			//var role = userManager.GetRoles(User.Identity.GetUserId());
-			bool isTeacher = CheckTeacher();//role.Contains("Teacher");
+			bool isTeacher = CheckTeacher();
 
 			return ApiResult.Success(new { isTeacher = isTeacher });
 		}
@@ -167,8 +166,7 @@ namespace ChieftensLMS.Controllers.Api
 		//TODO: Fix so it throw exception and check if it did or not and return false if did
 		public ActionResult CreateAssignment(int courseId, string name, string description, DateTime date)
 		{
-			_AssignmentService.CreateAssignment(courseId, name, description, date);
-			bool ifCreated = true;
+			bool ifCreated = _AssignmentService.CreateAssignment(courseId, name, description, date);
 			return ApiResult.Success(new { ifCreated = ifCreated });
 		}
 

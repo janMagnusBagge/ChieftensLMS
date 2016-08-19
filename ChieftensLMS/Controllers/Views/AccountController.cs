@@ -136,7 +136,8 @@ namespace ChieftensLMS.Controllers
 
         //
         // GET: /Account/Register
-        [AllowAnonymous]
+        //[AllowAnonymous]
+		[Authorize(Roles = "Teacher")]
         public ActionResult Register()
         {
             return View();
@@ -145,7 +146,8 @@ namespace ChieftensLMS.Controllers
         //
         // POST: /Account/Register
         [HttpPost]
-        [AllowAnonymous]
+        //[AllowAnonymous]
+		[Authorize(Roles = "Teacher")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
