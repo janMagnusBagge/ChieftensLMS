@@ -173,16 +173,15 @@
     <Compile Include="Controllers\Views\HomeController.cs" />
     <Compile Include="Controllers\Views\ManageController.cs" />
     <Compile Include="Controllers\Views\SharedFileController.cs" />
-    <Compile Include="DAL\LMSDbContext.cs" />
     <Compile Include="DAL\UnitOfWork.cs" />
     <Compile Include="DAL\ApplicationDbContext.cs" />
     <Compile Include="DAL\GenericRepository.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201608180833295_initial.cs" />
-    <Compile Include="Migrations\201608180833295_initial.Designer.cs">
-      <DependentUpon>201608180833295_initial.cs</DependentUpon>
+    <Compile Include="Migrations\201608190744167_ Int.cs" />
+    <Compile Include="Migrations\201608190744167_ Int.Designer.cs">
+      <DependentUpon>201608190744167_ Int.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ViewModels\AccountViewModels.cs" />
@@ -190,7 +189,6 @@
     <Compile Include="Models\DataModels\Course.cs" />
     <Compile Include="Models\DataModels\ApplicationUser.cs" />
     <Compile Include="Models\DataModels\Lecture.cs" />
-    <Compile Include="Models\DataModels\UserProfile.cs" />
     <Compile Include="Models\ViewModels\ManageViewModels.cs" />
     <Compile Include="Models\DataModels\SharedFile.cs" />
     <Compile Include="Models\DataModels\TurnIn.cs" />
@@ -288,8 +286,8 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201608180833295_initial.resx">
-      <DependentUpon>201608180833295_initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201608190744167_ Int.resx">
+      <DependentUpon>201608190744167_ Int.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

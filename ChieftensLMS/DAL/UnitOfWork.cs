@@ -10,18 +10,18 @@ namespace ChieftensLMS.DAL
 	public class UnitOfWork : IDisposable
 	{
 		private bool _disposed = false;
-		private LMSDbContext _context;
-		private GenericRepository<UserProfile> _userProfileRepository;
+		private ApplicationDbContext _context;
+		private GenericRepository<ApplicationUser> _userProfileRepository;
 		private GenericRepository<Assignment> _assignmentRepository;
 		private GenericRepository<Course> _courseRepository;
 		private GenericRepository<Lecture> _lectureRepository;
 		private GenericRepository<SharedFile> _sharedFileRepository;
 		private GenericRepository<TurnIn> _turnInRepository;
 
-		public UnitOfWork(LMSDbContext context)
+		public UnitOfWork(ApplicationDbContext context)
 		{
 			_context = context;
-			_userProfileRepository = new GenericRepository<UserProfile>(_context);
+			_userProfileRepository = new GenericRepository<ApplicationUser>(_context);
 			_assignmentRepository = new GenericRepository<Assignment>(_context);
 			_courseRepository = new GenericRepository<Course>(_context);
 			_lectureRepository = new GenericRepository<Lecture>(_context);
@@ -29,7 +29,7 @@ namespace ChieftensLMS.DAL
 			_turnInRepository = new GenericRepository<TurnIn>(_context);
 		}
 
-		public GenericRepository<UserProfile> ApplicationUser
+		public GenericRepository<ApplicationUser> ApplicationUser
 		{
 			get
 			{

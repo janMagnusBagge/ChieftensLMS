@@ -9,10 +9,10 @@ namespace ChieftensLMS.DAL
 {
 	public class GenericRepository<T> where T : class
 	{
-		LMSDbContext _context;
+		ApplicationDbContext _context;
 		DbSet<T> dbSet;
 
-		public GenericRepository(LMSDbContext context)
+		public GenericRepository(ApplicationDbContext context)
 		{
 			context.Configuration.LazyLoadingEnabled = false;
 			this._context = context;

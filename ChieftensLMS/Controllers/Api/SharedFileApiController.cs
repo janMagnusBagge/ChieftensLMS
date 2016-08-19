@@ -18,13 +18,13 @@ namespace ChieftensLMS.Controllers
 {
 	public class SharedFileApiController : Controller
 	{
-		private LMSDbContext _db;
+		private ApplicationDbContext _db;
 		private SharedFileService _sharedFileService;
 		private CourseService _courseService;
 
 		public SharedFileApiController()
 		{
-			_db = new LMSDbContext();
+			_db = new ApplicationDbContext();
 			_sharedFileService = new SharedFileService(_db, HostingEnvironment.MapPath("~\\Uploads\\SharedFiles\\"));
 			_courseService = new CourseService(_db);
 		}

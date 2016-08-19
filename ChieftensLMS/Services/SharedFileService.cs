@@ -12,10 +12,10 @@ namespace ChieftensLMS.Services
 {
 	public class SharedFileService
 	{
-		LMSDbContext _db;
+		ApplicationDbContext _db;
 		string _fileDirectory;
 
-		public SharedFileService(LMSDbContext context, string fileDirectory)
+		public SharedFileService(ApplicationDbContext context, string fileDirectory)
 		{
 			_fileDirectory = fileDirectory;
 			_db = context;

@@ -16,7 +16,7 @@ namespace ChieftensLMS.Models
 		public string FileName { get; set; }
 
 		[ForeignKey("UserId")]
-		public UserProfile User { get; set; }
+		public ApplicationUser User { get; set; }
 
 		[StringLength(128), Required]
 		public string UserId { get; set; }
