@@ -128,6 +128,9 @@
 				GetMine: generateApiFunction({ method: 'GET', url: '/SharedFileApi/Mine' }),
 			};
 
+		var ManageCourseApi = {
+			GetAllStudents: generateApiFunction({ method: 'GET', url: '/CourseManageApi/AllStudents' }),
+		};
 
 		var GetDebugApiAllUsers = generateApiFunction({ method: 'GET', url: '/DebugApi/AllUsers' });
 		var GetDebugApiLoginAs = generateApiFunction({ method: 'GET', url: '/DebugApi/LoginAs' });

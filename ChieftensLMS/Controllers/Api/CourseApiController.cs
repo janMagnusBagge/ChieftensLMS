@@ -1,6 +1,7 @@
 ﻿using ChieftensLMS.Classes;
 using ChieftensLMS.DAL;
 using ChieftensLMS.Models;
+using ChieftensLMS.Models.DTOModels;
 using ChieftensLMS.Services;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
@@ -17,6 +18,7 @@ namespace ChieftensLMS.Controllers.Api
 	{
 		private ApplicationDbContext _context;
 		private CourseService _courseService;
+		private StudentAccountService _accountService;
 
 		public CourseApiController()
 		{
@@ -24,43 +26,50 @@ namespace ChieftensLMS.Controllers.Api
 			_courseService = new CourseService(_context);
 		}
 
-		public IList<string> GetRolesForUser(string id)
+		private ApplicationUserManager GetUserManager()
 		{
-			var _userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-			IList<string> currentUserRoles = _userManager.GetRoles(id);
-
-			return currentUserRoles;
+			return HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
 		}
 
+		private string GetCurrentUserId()
+		{
+			return User.Identity.GetUserId();
+		}
+
+		// TODO: Ta bort? Ska alla kurser kunna visas?
 		[Authorize(Roles = "Teacher")]
 		public ActionResult All()
 		{
-			var courses = _courseService.GetAll().Select(c => new
-			{
-				c.Id,
-				c.Name,
-				c.Description
-			});
+			var coursesJsonData = _courseService.GetAll()
+				.Select(course => new
+				{
+					course.Id,
+					course.Name,
+					course.Description
+				});
 
-			return ApiResult.Success(new { Courses = courses });
+			return ApiResult.Success(new { Courses = coursesJsonData });
 		}
 
+		//KLAR
 		[Authorize]
 		public ActionResult Mine()
 		{
-			string currentUserId = User.Identity.GetUserId();
-			
-			// Project list before returning
-			var courses = _courseService.GetForUserId(currentUserId).Select(c => new
-			{
-				c.Id,
-				c.Name,
-				c.Description
-			});
+			var coursesJsonData = _courseService.GetForUserId(GetCurrentUserId())
+						.Select(course =>
+							new
+							{
+								Id = course.Id,
+								Name = course.Name,
+								Description = course.Description
+							}
+						);
 
-			return ApiResult.Success(new { Courses = courses });
+
+			return ApiResult.Success(new { Courses = coursesJsonData });
 		}
 
+		//KLAR
 		[Authorize]
 		public ActionResult AllUsers(int? id)
 		{
@@ -71,16 +80,15 @@ namespace ChieftensLMS.Controllers.Api
 
 			if (course == null)
 				return ApiResult.Fail("Course does not exist");
-		
-			var returnData = _courseService.GetUsersForCourse(course).Select(c => new
-			{
-				c.Name,
-				c.SurName,
-			});
 
-			return ApiResult.Success(new { Users = returnData });	
+			// Dont need projection here, its done in the method and returned as a DTO
+			var courseUsersJsonData = _courseService.GetUsersForCourse(course.Id);
+
+			return ApiResult.Success(new { Users = courseUsersJsonData });
 		}
 
+		//KLAR
+		[Authorize]
 		public ActionResult Single(int? id)
 		{
 			if (id == null)
@@ -91,26 +99,22 @@ namespace ChieftensLMS.Controllers.Api
 			if (course == null)
 				return ApiResult.Fail("Course does not exist");
 
-			string currentUserId = User.Identity.GetUserId();
-			IList<string> currentUserRoles = GetRolesForUser(currentUserId);
-
 			// Needs to be either a student that takes the course or any teacher
-			if (currentUserRoles.Contains("Teacher") || _courseService.HasUserWithId(course, currentUserId))
+			if (GetUserManager().IsInRole(GetCurrentUserId(), "Teacher") || _courseService.HasUserWithId(course.Id, GetCurrentUserId()))
 			{
-				var returnData = new
+				var courseJsonData = new
 				{
 					Course = new
 					{
-						course.Id,
-						course.Name,
-						course.Description
+						Id = course.Id,
+						Name = course.Name,
+						Description = course.Description
 					}
 				};
-				return ApiResult.Success(returnData);
+				return ApiResult.Success(courseJsonData);
 			}
 			else
 				return ApiResult.Fail("No access");
 		}
-
 	}
 }
