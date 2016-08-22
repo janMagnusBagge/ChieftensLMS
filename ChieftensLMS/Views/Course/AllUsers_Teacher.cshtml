@@ -21,7 +21,7 @@
 					<span ng-repeat="role in user.Roles">{{role}}</span>
 				</td>
 				<td>
-					<button type="button" class="btn btn-danger" ng-click="RemoveUserFromCourse(user.UserId)">Ta bort</button>
+					<button ng-hide="user.UserId == apiData.UserId" type="button" class="btn btn-danger" ng-click="RemoveUserFromCourse(user.UserId)">Ta bort</button>
 				</td>
 			</tr>
 

@@ -109,7 +109,7 @@ namespace ChieftensLMS.Services
 		//KLAR
 		public bool RemoveUserFromCourse(int courseId, string userId, string asUser)
 		{
-			if ((IsValidCourse(courseId) && isValidUser(userId) && IsTeacherForCourse(asUser, courseId)) == false)
+			if ((IsValidCourse(courseId) && isValidUser(userId) && IsTeacherForCourse(asUser, courseId) && (userId != asUser)) == false)
 				return false;
 
 			ApplicationUser userWithCourse = _db.Users.Include(e => e.Courses).First(e => e.Id == userId && e.Courses.Any(c => c.Id == courseId));

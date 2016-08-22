@@ -41,7 +41,7 @@ namespace ChieftensLMS.Controllers.Api
 			if (result == null)
 				return ApiResult.Fail("");
 			else
-				return ApiResult.Success(new { Users = result });
+				return ApiResult.Success(new { UserId = _currentUserId, Users = result });
 		}
 
 		//KLAR
