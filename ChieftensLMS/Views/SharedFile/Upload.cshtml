@@ -1,24 +1,43 @@
-﻿
+﻿@model int
+
 @{
 	ViewBag.Title = "Upload";
 }
-<h2>Upload</h2>
-Ladda upp en delad fil
+<h2>Dela fil</h2>
 <div ng-controller="MyCtrl">
-	
-	<form name="form">
-		<div ng-show="file.name"><b>Filnamn:</b> {{file.name}}<br /></div>
 
-		<button type="button" class="btn btn-success" ngf-select ng-model="file" name="file">Välj fil</button>
-		<button type="button" class="btn btn-danger" ng-click="upload(file)">Ladda upp</button>
-	</form>
-	
-	<div class="progress">
-		<div class="progress-bar" role="progressbar" aria-valuenow="{{progressPercentage}}"
-			 aria-valuemin="0" aria-valuemax="{{maxProgress}}" style="width:{{progressPercentage}}%">
-			<span class="sr-only">{{progressPercentage}}% Complete</span>
+	<form name="form" novalidate>
+		<div class="form-group">
+			<label for="Name">Namn</label><br />
+			<input type="text" id="Name" name="Name" class="form-control" ng-model="Name" required />
 		</div>
-	</div>
+
+		<div class="form-group">
+			<div class="alert alert-danger" role="alert" ng-show="form.Name.$error.required && form.Name.$touched">Kursnamn krävs!</div>
+		</div>
+
+		<div class="form-group">
+			<b>Vald fil:</b><br />
+			{{file.name ? file.name : "Välj fil att ladda upp"}}<br />
+		</div>
+
+		<div class="form-group">
+			<button type="button" class="btn btn-success" ngf-select ng-model="file" name="file">Välj fil</button>
+			<button type="button" class="btn btn-danger" ng-click="upload(file)">Ladda upp</button>
+		</div>
+
+
+		<div class="form-group">
+			<div class="progress">
+				<div class="progress-bar" role="progressbar" aria-valuenow="{{progressPercentage}}"
+					 aria-valuemin="0" aria-valuemax="{{maxProgress}}" style="width:{{progressPercentage}}%">
+					<span class="sr-only">{{progressPercentage}}% Klart</span>
+				</div>
+			</div>
+		</div>
+	</form>
+
+
 </div>
 
 
@@ -27,23 +46,14 @@ Ladda upp en delad fil
 	<script src="~/Scripts/ng-file-upload.js"></script>
 	<script>
 		(function () {
-			//inject directives and services.
 			var app = angular.module('app', ['ngFileUpload']);
 
 			app.controller('MyCtrl', ['$scope', 'Upload', function ($scope, Upload) {
 
-				// upload later on form submit or something similar
-				//$scope.submit = function () {
-				//	if ($scope.form.file.$valid && $scope.file) {
-				//		$scope.upload($scope.file);
-				//	}
-				//};
-
-				// upload on file select or drop
 				$scope.upload = function (file) {
 					Upload.upload({
-						url: '/SharedFileApi/Upload',
-						data: { file: file}
+						url: '/SharedFileApi/Upload/',
+						data: { file: file, name: $scope.Name, fileName: file.name, courseId: @Model }
 					}).then(function (resp) {
 						console.log(resp);
 					}, function (resp) {

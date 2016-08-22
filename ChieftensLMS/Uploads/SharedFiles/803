@@ -1,0 +1,60 @@
+;CURSOR MOVEMENT
+;AltGr + W            Up arrow key
+;AltGr + S            Down arrow key
+;AltGr + A            Left arrow key
+;AltGr + D            Right arrow key
+;AltGr + Q            Home key
+;AltGr + E            End key
+<^>!a::SendInput {Left}
+<^>!d::SendInput {Right}
+<^>!s::SendInput {Down}
+<^>!w::SendInput {Up}
+<^>!q::SendInput {Home}
+<^>!e::SendInput {End}
+
+;SELECTION
+;AltGr + Shift + W        Shift + Up arrow key
+;AltGr + Shift + S        Shift + Down arrow key
+;AltGr + Shift + A        Shift + Left arrow key
+;AltGr + Shift + D        Shift + Right arrow key
+;AltGr + Shift + Q        Shift + Home key
+;AltGr + Shift + E        Shift + End key
+<^>!+a::SendInput {Shift Down}{Left}{Shift Up}
+<^>!+d::SendInput {Shift Down}{Right}{Shift Up}
+<^>!+s::SendInput {Shift Down}{Down}{Shift Up}
+<^>!+w::SendInput {Shift Down}{Up}{Shift Up}
+<^>!+q::SendInput {Shift Down}{Home}{Shift Up}
+<^>!+e::SendInput {Shift Down}{End}{Shift Up}
+
+;DELETE
+;AltGr + Shift + Backspace    Delete Key
+;AltGr + Backspace        Delete Key
+<^>!+Backspace::SendInput {Del}
+<^>!Backspace::SendInput {Del}
+
+;DELETE LINE
+;AltGr + Shift + Space        Delete Line
+;AltGr + Space            Delete Line
+;<^>!+Space::SendInput {Home}{Shift Down}{End}{Shift up}{Del}
+;<^>!Space::SendInput {Home}{Shift Down}{End}{Shift up}{Del}
+
+;SPECIAL CHARACTERS SHORTCUTS
+;NOTE: This is here because the Swedish keyboard has really painful shortcuts for these.
+;You can remove these if you like, or rebind them to what suits you (just change the letters in the script lines)
+;Left Shift + Alt + I        '(' Character
+;Left Shift + Alt + O        ')' Character
+;Left Shift + Alt + K        '{' Character
+;Left Shift + Alt + L        '}' Character
+;Left Shift + Alt + P        '[' Character
+;Left Shift + Alt + Å        ']' Character
+^!i::SendInput {(}
+^!o::SendInput {)}
+^!k::SendInput {{}
+^!l::SendInput {}}
+^!p::SendInput {[}
+^!å::SendInput {]}
+
+;VOLUME FOR APPLE KEYBOARD
+F16::SendInput {Volume_Mute}
+F17::SendInput {Volume_Down}
+F18::SendInput {Volume_Up}

@@ -1,4 +1,5 @@
 ﻿using ChieftensLMS.DAL;
+using ChieftensLMS.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -176,22 +177,28 @@ namespace ChieftensLMS.Services
 
 
 
-		//public void AddSharedFileAsUserId(int courseId, string userId, string name, string fileName, Stream stream)
-		//{
-		//	SharedFile newSharedFile = new SharedFile() { Date = DateTime.Now, CourseId = courseId, UserId = userId, Name = name, FileName = fileName };
-		//	_unitOfWork.SharedFileRepository.Add(newSharedFile);
-		//	_unitOfWork.Save();
+		public int? AddSharedFile(int courseId, string userId, string name, string fileName, Stream stream)
+		{
+			if (IsInCourse(courseId, userId) == false)
+				return null;
 
-		//	string filePath = Path.Combine(_fileDirectory, newSharedFile.Id.ToString());
+			SharedFile newSharedFile = new SharedFile()
+				{ Date = DateTime.Now, CourseId = courseId, UserId = userId, Name = name, FileName = fileName };
 
-		//	using (var file = File.Create(filePath))
-		//	{
-		//		stream.Seek(0, SeekOrigin.Begin);
-		//		stream.CopyTo(file);
-		//	}
+			_db.SharedFiles.Add(newSharedFile);
+			_db.SaveChanges();
 
+			string filePath = Path.Combine(_fileDirectory, newSharedFile.Id.ToString());
+			using (var file = File.Create(filePath))
+			{
+				stream.Seek(0, SeekOrigin.Begin);
+				stream.CopyTo(file);
+			}
 
-		//}
+			
+			return newSharedFile.Id;
+
+		}
 
 	}
 }

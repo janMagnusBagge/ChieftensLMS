@@ -71,9 +71,17 @@ namespace ChieftensLMS.Controllers
 				return ApiResult.Success(new { Id = id});
 		}
 
-		public ActionResult Upload(HttpPostedFileBase file)
+		[Authorize]
+		public ActionResult Upload(HttpPostedFileBase file, string name, int? courseId)
 		{
-			return ApiResult.Success(file.FileName);
+			if (string.IsNullOrWhiteSpace(file.FileName) || string.IsNullOrWhiteSpace(name) || courseId == null)
+				return ApiResult.Fail("");
+
+			int? result = _sharedFileService.AddSharedFile((int)courseId, _currentUserId, name, file.FileName, file.InputStream);
+			if (result == null)
+				return ApiResult.Fail("");
+			else
+				return ApiResult.Success(new { FileId = result });
 		}
 
 	}
