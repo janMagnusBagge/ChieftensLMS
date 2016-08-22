@@ -3,6 +3,8 @@
 }
 
 <h2>Mina Delade Filer</h2>
+
+
 <div ng-controller="sharedFileMineController">
 
 	<table class="table">
@@ -66,6 +68,7 @@
 			
 
 			$scope.Delete = function (id) {
+
 				ApiService.Get("/SharedFileApi/Delete", onDeleteSuccess, onDeleteFail, { id: id });
 			}
 

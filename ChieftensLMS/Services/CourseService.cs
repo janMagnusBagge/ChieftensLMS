@@ -173,9 +173,29 @@ namespace ChieftensLMS.Services
 		// Checks if a user is in a role
 		public bool IsTeacherForCourse(string userId, int courseId)
 		{
-			return _db.Roles.Any(r => r.Name == "Teacher" && r.Users.Any(u => u.UserId == userId));
+			return _db.Roles.Any(r => r.Name == "Teacher" && r.Users.Any(u => u.UserId == userId) && _db.Courses.Any(c => c.Id == courseId && c.Users.Any(u => u.Id == userId)));
 		}
-		
 
+		// Checks if a user is in a role
+		public bool IsTeacher(string userId)
+		{
+			return _db.Roles.Any(r => r.Name == "Teacher");
+		}
+
+		public int? CreateCourse(string name, string description, string asUser)
+		{
+			if (IsTeacher(asUser) == false)
+				return null;
+
+			Course courseToCreate = new Course() {
+				Name = name,
+				Description = description,
+				Users = new List<ApplicationUser>() { _db.Users.Find(asUser) }
+			};
+
+			courseToCreate = _db.Courses.Add(courseToCreate);
+			_db.SaveChanges();
+			return courseToCreate.Id;
+		}
 	}
 }

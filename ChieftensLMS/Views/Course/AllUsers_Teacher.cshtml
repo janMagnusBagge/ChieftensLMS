@@ -50,9 +50,8 @@
 
 			var onRemoveSuccess = function (data) {
 				var index = -1;
-
 				for (var i = 0; i < $scope.apiData.Users.length; i++) {
-					if ($scope.apiData.Users[i].UserId == userIdToRemove) {
+					if ($scope.apiData.Users[i].UserId == data.UserId) {
 						index = i;
 						break;
 					}
@@ -60,14 +59,15 @@
 
 				if (index != -1)
 					$scope.apiData.Users.splice(index, 1);
+
 			};
 
 			var onRemoveFail = function (response) {
 				alert(response.Reason);
 			};
 
+
 			$scope.RemoveUserFromCourse = function (id) {
-				userIdToRemove = id;
 				ApiService.Get("/CourseApi/RemoveUserFromCourse", onRemoveSuccess, onRemoveFail, { userId: id, courseId: @Model });
 			}
 

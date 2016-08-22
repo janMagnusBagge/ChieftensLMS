@@ -39,5 +39,11 @@ namespace ChieftensLMS.Controllers
 			return View("AddUser_Teacher", id);
 		}
 
+		[Authorize(Roles = "Teacher")]
+		public ActionResult AddCourse()
+		{
+			return View();
+		}
+
 	}
 }

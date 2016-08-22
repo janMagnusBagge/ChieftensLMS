@@ -1,0 +1,69 @@
+﻿
+@{
+	ViewBag.Title = "Lägg till kurs";
+}
+
+
+<div ng-controller="courseAddCourseController">
+	<div ng-hide="IsCreated">
+		<h2>Lägg till kurs (Admin)</h2>
+		<form novalidate name="form" >
+			<div class="form-group">
+				<label for="Name">Kursnamn:</label>
+				<input type="text" class="form-control" ng-model="Name" name="Name" id="Name" required>
+			</div>
+			<div class="alert alert-danger" role="alert" ng-show="form.Name.$error.required && form.Name.$touched">Kursnamn krävs!</div>
+
+			<div class="form-group">
+				<label for="Description">Beskrivning:</label>
+				<textarea class="form-control" ng-model="Description" name="Description" id="Description" required></textarea>
+			</div>
+			<div class="alert alert-danger" role="alert" ng-show="form.Description.$error.required && form.Description.$touched">Beskrivning krävs!</div>
+			<div class="form-group">
+				<input type="button" ng-click="CreateCourse()" class="btn btn-success" value="Skapa kurs">
+			</div>
+		</form>
+	</div>
+	<div ng-show="IsCreated">
+		<h2>Kurs skapad!</h2><br />
+		<a href="/Course/Single/{{CreatedCourseId}}">Gå till kurs</a>
+	</div>
+</div>
+
+
+
+@section scripts {
+
+	<script>
+
+	(function () {
+
+		angular.module("app").controller("courseAddCourseController", function ($scope, ApiService) {
+
+
+
+			var onAddSuccess = function (data) {
+				$scope.IsCreated = true;
+				$scope.CreatedCourseId = data.CourseId;
+			};
+
+			var onAddFail = function (response) {
+				alert(response.Reason);
+			};
+
+			$scope.CreateCourse = function () {
+				$scope.form.Name.$touched = true;
+				$scope.form.Description.$touched = true;
+
+				ApiService.Get("/CourseApi/CreateCourse", onAddSuccess, onAddFail, { name: $scope.Name, description: $scope.Description });
+			};
+
+
+
+		});
+
+	}());
+
+	</script>
+
+}

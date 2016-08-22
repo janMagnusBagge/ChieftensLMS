@@ -29,20 +29,12 @@ namespace ChieftensLMS.Controllers
 			if (id == null)
 				return ApiResult.Fail("Invalid request");
 
-			CourseDTO course = _courseService.GetCourseById((int)id, _currentUserId);
+			var result = _sharedFileService.GetSharedFilesWithOwnerForCourse((int)id, _currentUserId);
 
-			if (course == null)
-				return ApiResult.Fail("Course does not exist");
-
-			// Needs to be either a student that takes the course or any teacher
-			if (_userManager.IsInRole(_currentUserId, "Teacher") || _courseService.HasUser(course.Id, _currentUserId))
-			{
-				return ApiResult.Success(new { UserId = _currentUserId,  SharedFiles = _sharedFileService.GetSharedFilesWithOwnerForCourse(course.Id) });
-			}
+			if (result == null)
+				return ApiResult.Fail("");
 			else
-			{
-				return ApiResult.Fail("No access");
-			}
+				return ApiResult.Success(new { UserId = _currentUserId, SharedFiles = result });
 		}
 
 		[Authorize]
@@ -51,24 +43,18 @@ namespace ChieftensLMS.Controllers
 			if (id == null)
 				return ApiResult.Fail("Invalid request");
 
-			SharedFileDTO sharedFile = _sharedFileService.GetById((int)id);
+			var result = _sharedFileService.GetById((int)id, _currentUserId);
 
-			if (sharedFile == null)
-				return ApiResult.Fail("Invalid file");
-			
-			if (_userManager.IsInRole(_currentUserId, "Teacher") || _courseService.HasUser(sharedFile.CourseId , _currentUserId) || sharedFile.OwnerId == _currentUserId)
-			{
-				string physicalFileToReturn = _sharedFileService.GetPhysicalPath(sharedFile.Id);
+			if (result == null)
+				return ApiResult.Fail("");
 
+			string physicalFileToReturn = _sharedFileService.GetPhysicalPath(result.Id);
 				if (physicalFileToReturn == null)
-					return ApiResult.Fail("File deleted from server");
+					return ApiResult.Fail("");
 
-				string mimeType = MimeMapping.GetMimeMapping(sharedFile.FileName);
+			string mimeType = MimeMapping.GetMimeMapping(result.FileName);
 
-				return File(physicalFileToReturn, mimeType, sharedFile.FileName);
-			}
-			else
-				return ApiResult.Fail("No Access");
+			return File(physicalFileToReturn, mimeType, result.FileName);
 		}
 
 		[Authorize]
@@ -77,21 +63,12 @@ namespace ChieftensLMS.Controllers
 			if (id == null)
 				return ApiResult.Fail("Bad request");
 
-			var sharedFile = _sharedFileService.GetById((int)id);
+			var result = _sharedFileService.Delete((int)id, _currentUserId);
 
-			if (sharedFile == null)
-				return ApiResult.Fail("Invalid file");
-
-			// Only delete if the file is owned by user or ANY teacher
-			if (_userManager.IsInRole(_currentUserId, "Teacher") || sharedFile.OwnerId == _currentUserId)
-			{
-				_sharedFileService.Delete(sharedFile.Id);
-				return ApiResult.Success(new { Id = id });
-			}
+			if (result == false)
+				return ApiResult.Fail("");
 			else
-				return ApiResult.Fail("No access to delete this shared file");
-			
-
+				return ApiResult.Success(new { Id = id});
 		}
 
 	}
