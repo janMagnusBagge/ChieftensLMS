@@ -24,18 +24,34 @@ namespace ChieftensLMS.Controllers.Api
 		{
 
 			var users = _studentAccountService.GetAll();
-			var usersAndRoles = users.Select(user =>	
+			var usersWithRoles = users
+				.Where(user => _studentAccountService.GetRolesUser(user.Id) != null)
+				.Select(user =>	
 				new
 				{
 					Email = user.UserName,
 					Id = user.Id,
-					Password = "Password@123",
-					Roles = _userManager.GetRoles(user.Id)
-
+					Roles = _studentAccountService.GetRolesUser(user.Id)
 				}
 			);
 
-			return ApiResult.Success(new { Blaha = Blaha });
+			var usersWithoutRoles = users
+				.Where(user => _studentAccountService.GetRolesUser(user.Id) == null)
+				.Select(user =>
+				new
+				{
+					Email = user.UserName,
+					Id = user.Id,
+				}
+			);
+
+			var returnData = new
+			{
+				usersWithoutRoles = usersWithoutRoles,
+				usersWithRoles = usersWithRoles
+			};
+
+			return ApiResult.Success(new { returnData = returnData });
 		}
     }
 }
