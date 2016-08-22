@@ -1,4 +1,6 @@
 ﻿@model ChieftensLMS.Models.IndexViewModel
+@using Microsoft.AspNet.Identity
+@using Microsoft.AspNet.Identity.Owin
 @{
     ViewBag.Title = "Manage";
 }
@@ -7,7 +9,7 @@
 
 <p class="text-success">@ViewBag.StatusMessage</p>
 <div>
-    <h4>Change your account settings</h4>
+    <h4>Change @Model.Name account settings</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>Password:</dt>
@@ -23,6 +25,14 @@
             }
             ]
         </dd>
+		@{var _userManager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();}
+		@if (Request.IsAuthenticated && _userManager.IsInRole(User.Identity.GetUserId(), "Teacher"))
+		{
+			<dt>Roll:</dt>
+			<dd>
+				@Html.DropDownList("Roles", Model.RolesSelect,"Välj roll")
+			</dd>
+		}
         @*<dt>External Logins:</dt>
         <dd>
             @Model.Logins.Count [

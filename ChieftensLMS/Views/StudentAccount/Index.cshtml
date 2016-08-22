@@ -3,9 +3,59 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Accounts</h2>
 
-
+<div ng-controller="studentAccountController" ng-init="GetAccounts()">
+	@*<div>
+		<button type="button" class="btn btn-danger btn-sm" ng-click="createAssignment()" ng-show="ifTeacher">Skapa inlämningsuppgift</button>
+	</div>*@
+	<h3>Konton som inte har roller</h3>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>
+					E-post
+				</th>
+				<th>
+					Roller
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="item in usersWithoutRoles">
+				<td>
+					<a href="~/Manage/?id={{item.Id}}">{{item.Email}}</a>
+				</td>
+				<td>
+					<span ng-repeat="role in item.Roles">{{role}}</span>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<h3>Konton som har roller</h3>
+	<table class="table">
+		<thead>
+			<tr>
+				<th>
+					E-post
+				</th>
+				<th>
+					Roller
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="item in usersWithRoles">
+				<td>
+					<a href="~/Manage/?id={{item.Id}}">{{item.Email}}</a>
+				</td>
+				<td>
+					<span ng-repeat="role in item.Roles">{{role}}</span>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
 
 <script>
 
@@ -18,17 +68,18 @@
 
 
 			var onSuccess = function (data) {
-				$scope.usersWithoutRoles = returnData.usersWithoutRoles;
-				$scope.usersWithRoles = returnData.usersWithRoles;
+				$scope.usersWithoutRoles = data.returnData.usersWithoutRoles;
+				$scope.usersWithRoles = data.returnData.usersWithRoles;
 			};
 
 			var onFail = function (response) {
 				alert("Misslyckades");
 			};
 
-			$scope.GetCourseAssigments = function (courseId) {
+			$scope.GetAccounts = function () {
 
 				//ApiService.GetCourseAssigments(onSuccess, onFail, { courseId: courseId });
+				ApiService.GetAccounts(onSuccess, onFail);
 				ApiService.CheckIfInTeacher(onTeacherSuccess, onTeacherFail); //To show or hide things that only some roles should see or not
 			}
 

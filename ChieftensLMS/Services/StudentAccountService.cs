@@ -39,6 +39,12 @@ namespace ChieftensLMS.Services
 			return _db.Users.ToList();
 		}
 
+		public ApplicationUser GetUser(string id)
+		{
+			//RoleManager<IdentityRole> _roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(_db));
+			return _db.Users.FirstOrDefault(u => u.Id == id);
+		}
+
 		public IEnumerable<IdentityRole> GetAllRoles()
 		{
 			
@@ -52,5 +58,6 @@ namespace ChieftensLMS.Services
 			var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(_db));
 			return userManager.GetRoles(Id);
 		}
+
 	}
 }

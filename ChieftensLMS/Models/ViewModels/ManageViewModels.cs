@@ -2,11 +2,15 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
+//using System.Web.Mvc;
 
 namespace ChieftensLMS.Models
 {
     public class IndexViewModel
     {
+		public string Id { get; set; } //Add to be able to show who
+		public string Name { get; set; } //Add to be able to show who
+		public IEnumerable<System.Web.Mvc.SelectListItem> RolesSelect { get; set; } //Add to be able to show who
         public bool HasPassword { get; set; }
         public IList<UserLoginInfo> Logins { get; set; }
         public string PhoneNumber { get; set; }

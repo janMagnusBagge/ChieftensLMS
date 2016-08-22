@@ -167,6 +167,9 @@
 		var CheckIfInTeacher = generateApiFunction({ method: 'GET', url: '/AssigmentApi/CheckIfTeacher' });
 		var CreateAssignment = generateApiFunction({ method: 'GET', url: '/AssigmentApi/CreateAssignment' });
 		var UpdateAssignment = generateApiFunction({ method: 'GET', url: '/AssigmentApi/UpdateAssignment' });
+
+		var GetAccounts = generateApiFunction({ method: 'GET', url: '/StudentAccountAPI/GetAll' });
+
 		// The service with all the API call functions
 		return {
 			Get: Get,
@@ -183,6 +186,8 @@
 			CheckIfInTeacher: CheckIfInTeacher,
 			CreateAssignment: CreateAssignment,
 			UpdateAssignment: UpdateAssignment,
+
+			GetAccounts: GetAccounts,
 
 			Add: Add,
 			Remove: Remove
