@@ -1,25 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
-using System.Net;
-using System.Web;
-using System.Web.Mvc;
-using ChieftensLMS.DAL;
-using ChieftensLMS.Models;
-using ChieftensLMS.Services;
-using Microsoft.AspNet.Identity.EntityFramework;
+﻿using ChieftensLMS.Classes;
 using Microsoft.AspNet.Identity;
+using System.Web.Mvc;
 
 namespace ChieftensLMS.Controllers
 {
-    public class CourseController : Controller
+    public class CourseController : LMSController
     {
-		public ActionResult ManageStudents()
-		{
-			return View();
-		}
 
         public ActionResult Mine()
 		{ 
@@ -31,9 +17,14 @@ namespace ChieftensLMS.Controllers
 			return View();
 		}
 
+		[Authorize]
 		public ActionResult AllUsers(int? id)
 		{
-			return View(id);
+			// Teachers have a special view with more options
+			if (_userManager.IsInRole(_currentUserId, "Teacher"))
+				return View("AllUsers_Teacher", id);
+			else
+				return View(id);
 		}
 
 
@@ -42,6 +33,11 @@ namespace ChieftensLMS.Controllers
 			return View(id);
 		}
 
+		[Authorize(Roles = "Teacher")]
+		public ActionResult AddUser(int? id)
+		{
+			return View("AddUser_Teacher", id);
+		}
 
 	}
 }

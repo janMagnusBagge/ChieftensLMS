@@ -1,16 +1,41 @@
-﻿using ChieftensLMS.Controllers;
-using ChieftensLMS.DAL;
-using ChieftensLMS.Models;
-using ChieftensLMS.Models.DTOModels;
+﻿using ChieftensLMS.DAL;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
-using System.Web;
 
 namespace ChieftensLMS.Services
 {
+	public class SharedFileDTO
+	{
+		public string Name { get; set; }
+		public int Id { get; set; }
+		public DateTime Date { get; set; }
+		public int CourseId { get; set; }
+		public string OwnerId { get; set; }
+		public string FileName { get; set; }
+	}
+
+	public class SharedFileWithCourseDTO
+	{
+		public string Name { get; set; }
+		public int Id { get; set; }
+		public DateTime Date { get; set; }
+		public int CourseId { get; set; }
+		public string CourseName { get; set; }
+	}
+
+	public class SharedFileWithOwnerDTO
+	{
+		public string Name { get; set; }
+		public int Id { get; set; }
+		public DateTime Date { get; set; }
+		public string OwnerId { get; set; }
+		public string OwnerName { get; set; }
+		public string OwnerSurname { get; set; }
+	}
+
 	public class SharedFileService
 	{
 		ApplicationDbContext _db;
@@ -23,27 +48,60 @@ namespace ChieftensLMS.Services
 		}
 
 		//KLAR
-		public IEnumerable<SharedFile> GetForUser(string userId)
+		public IEnumerable<SharedFileWithCourseDTO> GetSharedFilesWithCourseForUser(string userId)
 		{
+			if (isValidUser(userId) == false)
+				return null;
+
 			return _db.SharedFiles.Where(sharedFile => sharedFile.UserId == userId)
 					   .Include(sharedFile => sharedFile.Course)
-					   .ToList();
+					   .Select(sf => new SharedFileWithCourseDTO()
+					   {
+						   Id = sf.Id,
+						   CourseId = sf.CourseId,
+						   CourseName = sf.Course.Name,
+						   Date = sf.Date,
+						   Name = sf.Name
+					   })
+					   .AsEnumerable();
 		}
 
-		public IEnumerable<SharedFile> GetForCourse(int courseId)
+		public IEnumerable<SharedFileWithOwnerDTO> GetSharedFilesWithOwnerForCourse(int courseId)
 		{
+			
+
 			return _db.SharedFiles.Where(sharedFile => sharedFile.CourseId == courseId)
 					  .Include(sharedFile => sharedFile.User)
-					  .ToList();
+					  .Select(sf => new SharedFileWithOwnerDTO()
+					  {
+						  Id = sf.Id,
+						  Date = sf.Date,
+						  Name = sf.Name,
+						  OwnerId = sf.UserId,
+						  OwnerName = sf.User.Name,
+						  OwnerSurname = sf.User.SurName
+					  })
+					  .AsEnumerable();
 		}
 
-		public SharedFile GetById(int sharedFileId)
+		public SharedFileDTO GetById(int sharedFileId)
 		{
-			return _db.SharedFiles.Find(sharedFileId);
+			var sf = _db.SharedFiles.Find(sharedFileId);
+			return new SharedFileDTO()
+			{
+				Id = sf.Id,
+				CourseId = sf.CourseId,
+				Name = sf.Name,
+				Date = sf.Date,
+				FileName = sf.FileName,
+				OwnerId = sf.UserId
+			};
 		}
 
-		public string GetPhysicalPath(SharedFile sharedFile)
+		public string GetPhysicalPath(int sharedFileId)
 		{
+			var sharedFile = _db.SharedFiles.Find(sharedFileId);
+
 			string filePath = Path.Combine(_fileDirectory, sharedFile.Id.ToString());
 
 			if (File.Exists(filePath) == false)
@@ -52,12 +110,39 @@ namespace ChieftensLMS.Services
 			return filePath;
 		}
 
-		public void Delete(SharedFile sharedFile)
+		public void Delete(int sharedFileId)
 		{
+			var sharedFile = _db.SharedFiles.Find(sharedFileId);
+
 			File.Delete(Path.Combine(_fileDirectory, sharedFile.Id.ToString()));
 			_db.Entry(sharedFile).State = EntityState.Deleted;
 			_db.SaveChanges();
 		}
+
+		public bool isValidUser(string userId)
+		{
+			return _db.Users.Find(userId) != null;
+		}
+
+		public bool IsValidCourse(int courseId)
+		{
+			return _db.Courses.Find(courseId) != null;
+		}
+
+		// Checks if a user is in a course
+		public bool IsInCourse(int courseId, string userId)
+		{
+			return _db.Courses.Any(c => c.Id == courseId && c.Users.Any(u => u.Id == userId));
+		}
+
+		// Checks if a user is in a role
+		public bool IsTeacherForCourse(string userId, int courseId)
+		{
+			return _db.Roles.Any(r => r.Name == "Teacher" && r.Users.Any(u => u.UserId == userId));
+		}
+
+
+
 
 		//public void DeleteSharedFileAsUser(SharedFile sharedFile, string userId)
 		//{

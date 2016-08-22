@@ -15,9 +15,9 @@
 			<th></th>
 			<th></th>
 		</tr>
-		<tr ng-repeat="file in apiData.sharedFiles">
+		<tr ng-repeat="file in apiData.SharedFiles">
 			<td>{{file.Name}}</td>
-			<td>{{file.Owner ? file.Owner : "Du" }}</td>
+			<td>{{file.OwnerId != apiData.UserId ? file.OwnerName : "Du" }}</td>
 			<td>{{file.Date | dateFilter | date:'yyyy-MM-dd'}}</td>
 			
 			<td><a href="~/SharedFileApi/Download/{{file.Id}}" class="btn btn-success btn-sm">Ladda ner</a> <button type="button" class="btn btn-danger btn-sm" ng-click="Delete(file.Id)" ng-show="file.Owner==null">Radera</button></td>
@@ -35,7 +35,7 @@
 			$scope.apiData = {};
 
 			var onSuccess = function (data) {
-				$scope.apiData.sharedFiles = data.SharedFiles;
+				$scope.apiData = data;
 			};
 
 			var onFail = function (response) {
@@ -61,11 +61,11 @@
 
 			$scope.GetForCourse = function (id)
 			{
-				ApiService.SharedFile.GetForCourse(onSuccess, onFail, { id: id });
+				ApiService.Get("/SharedFileApi/ForCourse", onSuccess, onFail, { id: id });
 			}
 
 			$scope.Delete = function (id) {
-				ApiService.SharedFile.Delete(onDeleteSuccess, onDeleteFail, { id: id });
+				ApiService.Get("/SharedFileApi/Delete", onDeleteSuccess, onDeleteFail, { id: id });
 			}
 
 		});
