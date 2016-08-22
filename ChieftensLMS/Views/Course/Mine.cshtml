@@ -36,7 +36,7 @@
 				alert(response.Reason);
 			};
 
-			ApiService.Course.GetMine(onSuccess, onFail);
+			ApiService.Get("/CourseApi/Mine", onSuccess, onFail);
 		});
 
 	}());

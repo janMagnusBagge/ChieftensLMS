@@ -69,7 +69,7 @@
 			};
 
 			var onLoginSuccess = function (data) {
-				ApiService.GetDebugApiLoginAs(onLoginSuccess, onLoginFail, { email: email });
+				console.log("================== User Switched ==================");
 			};
 
 			var onLoginFail = function (response) {
@@ -77,10 +77,11 @@
 			};
 
 			$scope.loginAs = function (email) {
-				ApiService.GetDebugApiLoginAs(onLoginSuccess, onLoginFail, { email: email });
+				ApiService.Get("/DebugApi/LoginAs", onLoginSuccess, onLoginFail, { email: email });
 			};
 
-			ApiService.GetDebugApiAllUsers(onSuccess, onFail);
+			ApiService.Get("/DebugApi/AllUsers", onSuccess, onFail);
+			
 
 		});
 

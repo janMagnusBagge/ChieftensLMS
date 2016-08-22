@@ -47,7 +47,7 @@
 			@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })*@
 			
 			@{var _userManager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();}
-			@if (_userManager.IsInRole(User.Identity.GetUserId(), "Teacher"))
+			@if (User.Identity.IsAuthenticated && _userManager.IsInRole(User.Identity.GetUserId(), "Teacher"))
 			{
 				@Html.ActionLink("Mina Kurser", "Mine", "Course", null, new { @class = "btn btn-default btn-sm" })
 				@Html.ActionLink("Alla Kurser (Kräver teacher)", "All", "Course", null, new { @class = "btn btn-default btn-sm" })

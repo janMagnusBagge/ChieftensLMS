@@ -4,13 +4,13 @@
 	ViewBag.Title = "Kurs";
 }
 
-<a href="~/Course/AllUsers/@Model">Deltagare</a>
-<a href="~/SharedFile/ForCourse/@Model">Delade filer</a>
-<a href="~/Course/ManageStudents/@Model">Redigera deltagare</a>
+<a href="~/Course/AddUser/@Model" class="btn btn-sm btn-primary">Lägg till detagare</a>
+<a href="~/Course/AllUsers/@Model" class="btn btn-sm btn-primary">Deltagare</a>
+<a href="~/SharedFile/ForCourse/@Model" class="btn btn-sm btn-primary">Delade filer</a>
 
 <div ng-controller="courseSingleController" ng-init="getSingle(@Model)">
-	<h2>{{apiData.course.Name}}</h2>
-	<h3>{{apiData.course.Description}}</h3>
+	<h2>{{apiData.Name}}</h2>
+	<h3>{{apiData.Description}}</h3>
 </div>
 
 
@@ -25,7 +25,7 @@
 			$scope.apiData = {};
 
 			var onSuccess = function (data) {
-				$scope.apiData.course = data.Course;
+				$scope.apiData = data;
 			};
 
 			var onFail = function (response) {
@@ -34,7 +34,7 @@
 
 			$scope.getSingle = function (id)
 			{
-				ApiService.Course.GetSingle(onSuccess, onFail, { id: id });
+				ApiService.Get("/CourseApi/Single", onSuccess, onFail, { id: id });
 			}
 			
 		});

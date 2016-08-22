@@ -45,7 +45,7 @@
 
 			$scope.GetAllUsers = function(id)
 			{
-				ApiService.Course.GetAllUsers(onSuccess, onFail, {id:id});
+				ApiService.Get("/CourseApi/AllUsers", onSuccess, onFail, { id: id });
 			}
 			
 		});

@@ -36,7 +36,8 @@
 				alert(response.Reason);
 			};
 
-			ApiService.Course.GetAll(onSuccess, onFail);
+			ApiService.Get("/CourseApi/All", onSuccess, onFail);
+			
 		});
 
 	}());

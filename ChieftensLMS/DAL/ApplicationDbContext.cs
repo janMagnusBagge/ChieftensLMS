@@ -3,6 +3,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Linq;
@@ -37,19 +38,33 @@ namespace ChieftensLMS.DAL
 			base.OnModelCreating(modelBuilder);
 
 			modelBuilder.HasDefaultSchema("dbo");
-			
 
 			modelBuilder.Entity<ApplicationUser>()
-				.HasMany(p => p.Courses)
-				.WithMany(s => s.Users)
-				.Map(c =>
-				{
-					c.MapLeftKey("UserId");
-					c.MapRightKey("CourseId");
-					c.ToTable("CourseUsers");
-				});
-
+			.HasMany(s => s.Courses)
+			.WithMany(c => c.Users)
+			.Map(cs =>
+			{
+				cs.MapLeftKey("UserId");
+				cs.MapRightKey("CourseId");
+				cs.ToTable("CourseUsers");
+			});
 		}
 
 	}
+
+	//[Table(name: "CourseUsers")]
+	//public class CourseUser
+	//{
+	//	[ForeignKey("CourseId")]
+	//	public Course Course { get; set; }
+
+	//	[ForeignKey("UserId")]
+	//	public ApplicationUser User { get; set; }
+
+	//	[Key, Column(Order = 0)]
+	//	public string UserId { get; set; }
+
+	//	[Key, Column(Order = 1)]
+	//	public int CourseId { get; set; }
+	//}
 }

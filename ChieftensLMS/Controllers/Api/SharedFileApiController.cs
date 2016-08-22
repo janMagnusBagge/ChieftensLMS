@@ -1,82 +1,43 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
-using System.Net;
-using System.Web;
+﻿using System.Web;
 using System.Web.Mvc;
-using ChieftensLMS.DAL;
-using ChieftensLMS.Models;
 using ChieftensLMS.Services;
 using Microsoft.AspNet.Identity;
-using System.Web.Hosting;
 using ChieftensLMS.Classes;
-using Microsoft.AspNet.Identity.Owin;
-using ChieftensLMS.Models.DTOModels;
 
 namespace ChieftensLMS.Controllers
 {
-	public class SharedFileApiController : Controller
+	public class SharedFileApiController : LMSController
 	{
-		private ApplicationDbContext _context;
-		private SharedFileService _sharedFileService;
-		private CourseService _courseService;
-
-		public SharedFileApiController()
-		{
-			_context = new ApplicationDbContext();
-			_sharedFileService = new SharedFileService(_context, HostingEnvironment.MapPath("~\\Uploads\\SharedFiles\\"));
-			_courseService = new CourseService(_context);
-		}
-
-		private ApplicationUserManager GetUserManager()
-		{
-			return HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-		}
-
-		private string GetCurrentUserId()
-		{
-			return User.Identity.GetUserId();
-		}
+		private SharedFileService _sharedFileService = LMSHelper.GetSharedFileService();
+		private CourseService _courseService = LMSHelper.GetCourseService();
 
 		[Authorize]
 		public ActionResult Mine()
 		{
+			var result = _sharedFileService.GetSharedFilesWithCourseForUser(_currentUserId);
 
-			var sharedFilesJsonData = _sharedFileService.GetForUser(GetCurrentUserId()).Select(sf => new
-			{
-				Name = sf.Name,
-				Id = sf.Id,
-				Date = sf.Date,
-				CourseId = sf.CourseId,
-				CourseName = sf.Course.Name
-			});
-
-			return ApiResult.Success(new { SharedFiles = sharedFilesJsonData });
+			if (result == null)
+				return ApiResult.Fail("");
+			else
+				return ApiResult.Success(new { SharedFiles = result });
 		}
 
+		//FIX EVERYTHING BElOW THIS, ALSO CHECK COMMENTS ON THIS AND THE OTHER SERVICE
 		[Authorize]
 		public ActionResult ForCourse(int? id)
 		{
 			if (id == null)
 				return ApiResult.Fail("Invalid request");
 
-			Course course = _courseService.GetById((int)id);
+			CourseDTO course = _courseService.GetCourseById((int)id, _currentUserId);
 
 			if (course == null)
 				return ApiResult.Fail("Course does not exist");
 
 			// Needs to be either a student that takes the course or any teacher
-			if (GetUserManager().IsInRole(GetCurrentUserId(), "Teacher") || _courseService.HasUserWithId(course.Id, GetCurrentUserId()))
+			if (_userManager.IsInRole(_currentUserId, "Teacher") || _courseService.HasUser(course.Id, _currentUserId))
 			{
-				var sharedFiles = _sharedFileService.GetForCourse(course.Id).Select(s => new {
-					Id = s.Id,
-					Name = s.Name,
-					Date = s.Date,
-					Owner = (s.UserId == GetCurrentUserId()) ? null : s.User.Name + " " + s.User.SurName
-				});
-				return ApiResult.Success(new { SharedFiles = sharedFiles });
+				return ApiResult.Success(new { UserId = _currentUserId,  SharedFiles = _sharedFileService.GetSharedFilesWithOwnerForCourse(course.Id) });
 			}
 			else
 			{
@@ -90,14 +51,14 @@ namespace ChieftensLMS.Controllers
 			if (id == null)
 				return ApiResult.Fail("Invalid request");
 
-			SharedFile sharedFile = _sharedFileService.GetById((int)id);
+			SharedFileDTO sharedFile = _sharedFileService.GetById((int)id);
 
 			if (sharedFile == null)
 				return ApiResult.Fail("Invalid file");
 			
-			if (GetUserManager().IsInRole(GetCurrentUserId(), "Teacher") || _courseService.HasUserWithId(sharedFile.CourseId , GetCurrentUserId()) || sharedFile.UserId == GetCurrentUserId())
+			if (_userManager.IsInRole(_currentUserId, "Teacher") || _courseService.HasUser(sharedFile.CourseId , _currentUserId) || sharedFile.OwnerId == _currentUserId)
 			{
-				string physicalFileToReturn = _sharedFileService.GetPhysicalPath(sharedFile);
+				string physicalFileToReturn = _sharedFileService.GetPhysicalPath(sharedFile.Id);
 
 				if (physicalFileToReturn == null)
 					return ApiResult.Fail("File deleted from server");
@@ -122,9 +83,9 @@ namespace ChieftensLMS.Controllers
 				return ApiResult.Fail("Invalid file");
 
 			// Only delete if the file is owned by user or ANY teacher
-			if (GetUserManager().IsInRole(GetCurrentUserId(), "Teacher") || sharedFile.UserId == GetCurrentUserId())
+			if (_userManager.IsInRole(_currentUserId, "Teacher") || sharedFile.OwnerId == _currentUserId)
 			{
-				_sharedFileService.Delete(sharedFile);
+				_sharedFileService.Delete(sharedFile.Id);
 				return ApiResult.Success(new { Id = id });
 			}
 			else

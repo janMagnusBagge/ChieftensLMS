@@ -1,72 +1,32 @@
 ﻿using ChieftensLMS.Classes;
-using ChieftensLMS.DAL;
-using ChieftensLMS.Models;
-using ChieftensLMS.Models.DTOModels;
 using ChieftensLMS.Services;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Security.Principal;
-using System.Web;
 using System.Web.Mvc;
 
 namespace ChieftensLMS.Controllers.Api
 {
-	public class CourseApiController : Controller
+	public class CourseApiController : LMSController
 	{
-		private ApplicationDbContext _context;
-		private CourseService _courseService;
-		private StudentAccountService _accountService;
-
-		public CourseApiController()
-		{
-			_context = new ApplicationDbContext();
-			_courseService = new CourseService(_context);
-		}
-
-		private ApplicationUserManager GetUserManager()
-		{
-			return HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-		}
-
-		private string GetCurrentUserId()
-		{
-			return User.Identity.GetUserId();
-		}
+		private CourseService _courseService = LMSHelper.GetCourseService();
 
 		// TODO: Ta bort? Ska alla kurser kunna visas?
 		[Authorize(Roles = "Teacher")]
 		public ActionResult All()
 		{
-			var coursesJsonData = _courseService.GetAll()
-				.Select(course => new
-				{
-					course.Id,
-					course.Name,
-					course.Description
-				});
-
-			return ApiResult.Success(new { Courses = coursesJsonData });
+			return ApiResult.Success(new { Courses = _courseService.GetAllCourses() });
 		}
 
 		//KLAR
 		[Authorize]
 		public ActionResult Mine()
 		{
-			var coursesJsonData = _courseService.GetForUserId(GetCurrentUserId())
-						.Select(course =>
-							new
-							{
-								Id = course.Id,
-								Name = course.Name,
-								Description = course.Description
-							}
-						);
+			var result = _courseService.GetCoursesForUser(_currentUserId);
 
-
-			return ApiResult.Success(new { Courses = coursesJsonData });
+			if (result == null)
+				return ApiResult.Fail("");
+			else
+				return ApiResult.Success(new { Courses = result });
 		}
 
 		//KLAR
@@ -76,15 +36,12 @@ namespace ChieftensLMS.Controllers.Api
 			if (id == null)
 				return ApiResult.Fail("Invalid argument to api");
 
-			Course course = _courseService.GetById((int)id);
+			var result = _courseService.GetUsersWithRolesForCourse((int)id, _currentUserId);
 
-			if (course == null)
-				return ApiResult.Fail("Course does not exist");
-
-			// Dont need projection here, its done in the method and returned as a DTO
-			var courseUsersJsonData = _courseService.GetUsersForCourse(course.Id);
-
-			return ApiResult.Success(new { Users = courseUsersJsonData });
+			if (result == null)
+				return ApiResult.Fail("");
+			else
+				return ApiResult.Success(new { Users = result });
 		}
 
 		//KLAR
@@ -94,27 +51,58 @@ namespace ChieftensLMS.Controllers.Api
 			if (id == null)
 				return ApiResult.Fail("Invalid argument to api");
 
-			Course course = _courseService.GetById((int)id);
-
-			if (course == null)
-				return ApiResult.Fail("Course does not exist");
-
-			// Needs to be either a student that takes the course or any teacher
-			if (GetUserManager().IsInRole(GetCurrentUserId(), "Teacher") || _courseService.HasUserWithId(course.Id, GetCurrentUserId()))
-			{
-				var courseJsonData = new
-				{
-					Course = new
-					{
-						Id = course.Id,
-						Name = course.Name,
-						Description = course.Description
-					}
-				};
-				return ApiResult.Success(courseJsonData);
-			}
+			var result = _courseService.GetCourseById((int)id, _currentUserId);
+			
+			if (result == null)
+				return ApiResult.Fail("");
 			else
-				return ApiResult.Fail("No access");
+				return ApiResult.Success(result);
+	
+				
 		}
+
+		[Authorize(Roles ="Teacher" )]
+		public ActionResult RemoveUserFromCourse(string userId, int? courseId)
+		{
+			if (userId == null || courseId == null)
+				return ApiResult.Fail("Invalid argument to api");
+
+			var result = _courseService.RemoveUserFromCourse((int)courseId, userId, _currentUserId);
+
+			if (result == false)
+				return ApiResult.Fail("");
+			else
+				return ApiResult.Success("");
+		}
+
+		[Authorize(Roles = "Teacher")]
+		public ActionResult UsersNotInCourse(int? id)
+		{
+			if (id == null)
+				return ApiResult.Fail("Invalid argument to api");
+
+			var result = _courseService.GetUsersNotInCourse((int)id, _currentUserId);
+
+			if (result == null)
+				return ApiResult.Fail("");
+			else
+				return ApiResult.Success(new { Users = result });
+		}
+
+		[Authorize(Roles = "Teacher")]
+		public ActionResult AddUser(int? courseId, string userId)
+		{
+			if (courseId == null || userId == null)
+				return ApiResult.Fail("Invalid argument to api");
+
+			var result = _courseService.AddUser(userId, (int)courseId, _currentUserId);
+
+			if (result == false)
+				return ApiResult.Fail("");
+			else
+				return ApiResult.Success("");
+		}
+
+		
 	}
 }

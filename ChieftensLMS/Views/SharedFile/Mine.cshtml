@@ -13,7 +13,7 @@
 			<th></th>
 			<th></th>
 		</tr>
-		<tr ng-repeat="file in apiData.sharedFiles">
+		<tr ng-repeat="file in apiData.SharedFiles">
 			<td>{{file.Name}}</td>
 			<td><a href="~/Course/Single/{{file.CourseId}}">{{file.CourseName}}</a></td>
 			<td>{{file.Date | dateFilter | date:'yyyy-MM-dd'}}</td>
@@ -35,7 +35,7 @@
 			$scope.apiData = {};
 
 			var onSuccess = function (data) {
-				$scope.apiData.sharedFiles = data.SharedFiles;
+				$scope.apiData = data;
 			};
 
 			var onFail = function (response) {
@@ -44,15 +44,15 @@
 
 			var onDeleteSuccess = function (data) {
 				var index = -1;
-				for (var i = 0; i < $scope.apiData.sharedFiles.length; i++) {
-					if ($scope.apiData.sharedFiles[i].Id == data.Id) {
+				for (var i = 0; i < $scope.apiData.SharedFiles.length; i++) {
+					if ($scope.apiData.SharedFiles[i].Id == data.Id) {
 						index = i;
 						break;
 					}
 				}
 
 				if (index != -1)
-					$scope.apiData.sharedFiles.splice(index, 1);
+					$scope.apiData.SharedFiles.splice(index, 1);
 
 			};
 
@@ -61,11 +61,12 @@
 			};
 
 
-			ApiService.SharedFile.GetMine(onSuccess, onFail);
+			ApiService.Get("/SharedFileApi/Mine", onSuccess, onFail);
+
 			
 
 			$scope.Delete = function (id) {
-				ApiService.SharedFile.Delete(onDeleteSuccess, onDeleteFail, { id: id });
+				ApiService.Get("/SharedFileApi/Delete", onDeleteSuccess, onDeleteFail, { id: id });
 			}
 
 		});

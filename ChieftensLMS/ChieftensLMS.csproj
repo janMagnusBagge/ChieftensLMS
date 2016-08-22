@@ -162,9 +162,10 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Classes\ApiResult.cs" />
+    <Compile Include="Classes\LMSController.cs" />
+    <Compile Include="Classes\LMSHelper.cs" />
     <Compile Include="Controllers\Api\AssigmentApiController.cs" />
     <Compile Include="Controllers\Api\CourseApiController.cs" />
-    <Compile Include="Controllers\Api\CourseManageApiController.cs" />
     <Compile Include="Controllers\Api\DebugApiController.cs" />
     <Compile Include="Controllers\Api\SharedFileApiController.cs" />
     <Compile Include="Controllers\Api\StudentAccountAPIController.cs" />
@@ -182,12 +183,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201608190744167_ Int.cs" />
-    <Compile Include="Migrations\201608190744167_ Int.Designer.cs">
-      <DependentUpon>201608190744167_ Int.cs</DependentUpon>
+    <Compile Include="Migrations\201608211217111_hej.cs" />
+    <Compile Include="Migrations\201608211217111_hej.Designer.cs">
+      <DependentUpon>201608211217111_hej.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\DTOModels\UserRolesDTO.cs" />
     <Compile Include="Models\ViewModels\AccountViewModels.cs" />
     <Compile Include="Models\DataModels\Assignment.cs" />
     <Compile Include="Models\DataModels\Course.cs" />
@@ -278,7 +278,8 @@
     <Content Include="Views\Course\All.cshtml" />
     <Content Include="Views\SharedFile\Mine.cshtml" />
     <Content Include="Views\Assignment\Edit.cshtml" />
-    <Content Include="Views\Course\ManageUsers.cshtml" />
+    <Content Include="Views\Course\AllUsers_Teacher.cshtml" />
+    <Content Include="Views\Course\AddUser_Teacher.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -293,8 +294,8 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201608190744167_ Int.resx">
-      <DependentUpon>201608190744167_ Int.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201608211217111_hej.resx">
+      <DependentUpon>201608211217111_hej.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
