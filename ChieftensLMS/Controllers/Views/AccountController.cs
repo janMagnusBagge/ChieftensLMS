@@ -157,7 +157,8 @@ namespace ChieftensLMS.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+                    //Kopplat bort denna för att inte bli inloggad när man skapar kontot. Detta för att bara är lärare som ska kunna skapa kontot så att man inte blir utloggad från det kontot
+					//await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
