@@ -109,7 +109,7 @@ namespace ChieftensLMS.Services
 		//KLAR
 		public bool RemoveUserFromCourse(int courseId, string userId, string asUser)
 		{
-			if ((IsValidCourse(courseId) && isValidUser(userId) && IsTeacherForCourse(asUser, courseId)) == false)
+			if ((IsValidCourse(courseId) && isValidUser(userId) && IsTeacherForCourse(asUser, courseId) && (userId != asUser)) == false)
 				return false;
 
 			ApplicationUser userWithCourse = _db.Users.Include(e => e.Courses).First(e => e.Id == userId && e.Courses.Any(c => c.Id == courseId));
@@ -173,9 +173,41 @@ namespace ChieftensLMS.Services
 		// Checks if a user is in a role
 		public bool IsTeacherForCourse(string userId, int courseId)
 		{
-			return _db.Roles.Any(r => r.Name == "Teacher" && r.Users.Any(u => u.UserId == userId));
+			return _db.Roles.Any(r => r.Name == "Teacher" && r.Users.Any(u => u.UserId == userId) && _db.Courses.Any(c => c.Id == courseId && c.Users.Any(u => u.Id == userId)));
 		}
-		
 
+		// Checks if a user is in a role
+		public bool IsTeacher(string userId)
+		{
+			return _db.Roles.Any(r => r.Name == "Teacher");
+		}
+
+		public int? CreateCourse(string name, string description, string asUser)
+		{
+			if (IsTeacher(asUser) == false)
+				return null;
+
+			Course courseToCreate = new Course() {
+				Name = name,
+				Description = description,
+				Users = new List<ApplicationUser>() { _db.Users.Find(asUser) }
+			};
+
+			courseToCreate = _db.Courses.Add(courseToCreate);
+			_db.SaveChanges();
+			return courseToCreate.Id;
+		}
+
+		public bool EditCourse(int courseId, string name, string description, string asUser)
+		{
+			if (IsTeacherForCourse(asUser, courseId) == false)
+				return false;
+
+			Course courseToEdit = _db.Courses.Find(courseId);
+			courseToEdit.Name = name;
+			courseToEdit.Description = description;
+			_db.SaveChanges();
+			return true;
+		}
 	}
 }

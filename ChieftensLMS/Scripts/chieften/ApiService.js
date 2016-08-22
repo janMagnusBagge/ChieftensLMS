@@ -41,14 +41,14 @@
 
 				$http(config).then(
 				function (response) {
-					debugCall(config, response);
+					debugCall(config, response, data);
 					if (response.data.Success == true)
-						successsCallback(response.data.Data);
+						successCallback(response.data.Data);
 					else
 						failCallback({ ErrorType: "api", Reason: response.data.Reason });
 				},
 				function (response) {
-					debugCall(config, response);
+					debugCall(config, response, data);
 					failCallback({ ErrorType: "service", Reason: response });
 				});
 				

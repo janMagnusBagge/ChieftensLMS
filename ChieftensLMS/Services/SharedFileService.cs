@@ -66,9 +66,11 @@ namespace ChieftensLMS.Services
 					   .AsEnumerable();
 		}
 
-		public IEnumerable<SharedFileWithOwnerDTO> GetSharedFilesWithOwnerForCourse(int courseId)
+		// KLAR
+		public IEnumerable<SharedFileWithOwnerDTO> GetSharedFilesWithOwnerForCourse(int courseId, string asUser)
 		{
-			
+			if (IsInCourse(courseId, asUser) == false)
+				return null;
 
 			return _db.SharedFiles.Where(sharedFile => sharedFile.CourseId == courseId)
 					  .Include(sharedFile => sharedFile.User)
@@ -84,9 +86,16 @@ namespace ChieftensLMS.Services
 					  .AsEnumerable();
 		}
 
-		public SharedFileDTO GetById(int sharedFileId)
+		public SharedFileDTO GetById(int sharedFileId, string asUser)
 		{
 			var sf = _db.SharedFiles.Find(sharedFileId);
+
+			if (sf == null)
+				return null;
+
+			if ((IsInCourse(sf.CourseId, asUser) || sf.UserId == asUser) == false)
+				return null;
+
 			return new SharedFileDTO()
 			{
 				Id = sf.Id,
@@ -102,22 +111,35 @@ namespace ChieftensLMS.Services
 		{
 			var sharedFile = _db.SharedFiles.Find(sharedFileId);
 
-			string filePath = Path.Combine(_fileDirectory, sharedFile.Id.ToString());
+			if (sharedFile == null)
+				return null;
 
+			string filePath = Path.Combine(_fileDirectory, sharedFile.Id.ToString());
 			if (File.Exists(filePath) == false)
 				return null;
 
 			return filePath;
 		}
 
-		public void Delete(int sharedFileId)
+		public bool Delete(int sharedFileId, string asUser)
 		{
 			var sharedFile = _db.SharedFiles.Find(sharedFileId);
+
+			if (sharedFile == null)
+				return false;
+
+			if ((IsTeacherForCourse(asUser, sharedFile.CourseId) || sharedFile.UserId == asUser) == false)
+				return false;
 
 			File.Delete(Path.Combine(_fileDirectory, sharedFile.Id.ToString()));
 			_db.Entry(sharedFile).State = EntityState.Deleted;
 			_db.SaveChanges();
+			return true;
 		}
+
+
+
+
 
 		public bool isValidUser(string userId)
 		{
@@ -138,7 +160,7 @@ namespace ChieftensLMS.Services
 		// Checks if a user is in a role
 		public bool IsTeacherForCourse(string userId, int courseId)
 		{
-			return _db.Roles.Any(r => r.Name == "Teacher" && r.Users.Any(u => u.UserId == userId));
+			return _db.Roles.Any(r => r.Name == "Teacher" && r.Users.Any(u => u.UserId == userId) && _db.Courses.Any(c => c.Id == courseId && c.Users.Any(u => u.Id == userId)));
 		}
 
 
