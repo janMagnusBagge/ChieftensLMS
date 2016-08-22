@@ -1,0 +1,65 @@
+﻿
+@{
+	ViewBag.Title = "Upload";
+}
+<h2>Upload</h2>
+Ladda upp en delad fil
+<div ng-controller="MyCtrl">
+	
+	<form name="form">
+		<div ng-show="file.name"><b>Filnamn:</b> {{file.name}}<br /></div>
+
+		<button type="button" class="btn btn-success" ngf-select ng-model="file" name="file">Välj fil</button>
+		<button type="button" class="btn btn-danger" ng-click="upload(file)">Ladda upp</button>
+	</form>
+	
+	<div class="progress">
+		<div class="progress-bar" role="progressbar" aria-valuenow="{{progressPercentage}}"
+			 aria-valuemin="0" aria-valuemax="{{maxProgress}}" style="width:{{progressPercentage}}%">
+			<span class="sr-only">{{progressPercentage}}% Complete</span>
+		</div>
+	</div>
+</div>
+
+
+@section scripts {
+	<script src="~/Scripts/ng-file-upload-shim.js"></script>
+	<script src="~/Scripts/ng-file-upload.js"></script>
+	<script>
+		(function () {
+			//inject directives and services.
+			var app = angular.module('app', ['ngFileUpload']);
+
+			app.controller('MyCtrl', ['$scope', 'Upload', function ($scope, Upload) {
+
+				// upload later on form submit or something similar
+				//$scope.submit = function () {
+				//	if ($scope.form.file.$valid && $scope.file) {
+				//		$scope.upload($scope.file);
+				//	}
+				//};
+
+				// upload on file select or drop
+				$scope.upload = function (file) {
+					Upload.upload({
+						url: '/SharedFileApi/Upload',
+						data: { file: file}
+					}).then(function (resp) {
+						console.log(resp);
+					}, function (resp) {
+						console.log(resp);
+					}, function (evt) {
+						$scope.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+						$scope.maxProgress = evt.total;
+					});
+
+				};
+
+
+			}]);
+
+
+
+		}());
+	</script>
+}

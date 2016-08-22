@@ -1,4 +1,6 @@
-﻿using System.Web.Mvc;
+﻿using ChieftensLMS.Classes;
+using System.Web;
+using System.Web.Mvc;
 
 namespace ChieftensLMS.Controllers
 {
@@ -10,6 +12,11 @@ namespace ChieftensLMS.Controllers
         }
 
 		public ActionResult Mine()
+		{
+			return View();
+		}
+
+		public ActionResult Upload()
 		{
 			return View();
 		}

@@ -71,5 +71,10 @@ namespace ChieftensLMS.Controllers
 				return ApiResult.Success(new { Id = id});
 		}
 
+		public ActionResult Upload(HttpPostedFileBase file)
+		{
+			return ApiResult.Success(file.FileName);
+		}
+
 	}
 }
