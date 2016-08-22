@@ -282,6 +282,7 @@
     <Content Include="Views\Course\AddUser_Teacher.cshtml" />
     <Content Include="Views\StudentAccount\Index.cshtml" />
     <Content Include="Views\Course\CreateCourse.cshtml" />
+    <Content Include="Views\Course\Single_Teacher.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

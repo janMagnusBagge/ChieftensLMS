@@ -28,9 +28,13 @@ namespace ChieftensLMS.Controllers
 		}
 
 
+		[Authorize]
 		public ActionResult Single(int? id)
 		{
-			return View(id);
+			if (_userManager.IsInRole(_currentUserId, "Teacher"))
+				return View("Single_Teacher", id);
+			else
+				return View(id);
 		}
 
 		[Authorize(Roles = "Teacher")]

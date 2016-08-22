@@ -160,7 +160,7 @@ namespace ChieftensLMS.Services
 		// Checks if a user is in a role
 		public bool IsTeacherForCourse(string userId, int courseId)
 		{
-			return _db.Roles.Any(r => r.Name == "Teacher" && r.Users.Any(u => u.UserId == userId));
+			return _db.Roles.Any(r => r.Name == "Teacher" && r.Users.Any(u => u.UserId == userId) && _db.Courses.Any(c => c.Id == courseId && c.Users.Any(u => u.Id == userId)));
 		}
 
 

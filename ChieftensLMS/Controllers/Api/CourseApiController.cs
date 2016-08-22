@@ -52,16 +52,16 @@ namespace ChieftensLMS.Controllers.Api
 				return ApiResult.Fail("Invalid argument to api");
 
 			var result = _courseService.GetCourseById((int)id, _currentUserId);
-			
+
 			if (result == null)
 				return ApiResult.Fail("");
 			else
 				return ApiResult.Success(result);
-	
-				
+
+
 		}
 
-		[Authorize(Roles ="Teacher" )]
+		[Authorize(Roles = "Teacher")]
 		public ActionResult RemoveUserFromCourse(string userId, int? courseId)
 		{
 			if (userId == null || courseId == null)
@@ -117,6 +117,16 @@ namespace ChieftensLMS.Controllers.Api
 			return ApiResult.Success(new { CourseId = result });
 		}
 
-		
+		public ActionResult EditCourse(int? courseId, string name, string description)
+		{
+			if (courseId == null || string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(description))
+				return ApiResult.Fail("");
+
+
+			_courseService.EditCourse((int)courseId, name, description, _currentUserId);
+			return ApiResult.Success("");
+		}
+
+
 	}
 }

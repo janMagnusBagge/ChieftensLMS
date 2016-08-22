@@ -197,5 +197,17 @@ namespace ChieftensLMS.Services
 			_db.SaveChanges();
 			return courseToCreate.Id;
 		}
+
+		public bool EditCourse(int courseId, string name, string description, string asUser)
+		{
+			if (IsTeacherForCourse(asUser, courseId) == false)
+				return false;
+
+			Course courseToEdit = _db.Courses.Find(courseId);
+			courseToEdit.Name = name;
+			courseToEdit.Description = description;
+			_db.SaveChanges();
+			return true;
+		}
 	}
 }

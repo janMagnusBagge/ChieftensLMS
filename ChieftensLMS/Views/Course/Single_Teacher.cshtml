@@ -1,0 +1,109 @@
+﻿@model int?
+
+@{
+	ViewBag.Title = "Kurs (Admin)";
+}
+
+<a href="~/Course/AddUser/@Model" class="btn btn-sm btn-primary">Lägg till detagare</a>
+<a href="~/Course/AllUsers/@Model" class="btn btn-sm btn-primary">Deltagare</a>
+<a href="~/SharedFile/ForCourse/@Model" class="btn btn-sm btn-primary">Delade filer</a>
+
+<div ng-controller="courseSingleController" ng-init="getSingle(@Model)">
+	<div ng-hide="editMode">
+		<h2>{{apiData.Name}} (Admin) <span class="btn btn-default glyphicon glyphicon-pencil" ng-click="enableEditMode()"></span></h2>
+		<h3>{{apiData.Description}}</h3>
+	</div>
+
+	<div ng-show="editMode">
+		<div ng-hide="IsCreated">
+			<h2>Redigera kurs (Admin)</h2>
+			<form novalidate name="form">
+				<div class="form-group">
+					<input type="text" class="form-control" ng-model="apiData.Name" name="Name" id="Name" required>
+				</div>
+				<div class="alert alert-danger" role="alert" ng-show="form.Name.$error.required && form.Name.$touched">Kursnamn krävs!</div>
+
+				<div class="form-group">
+					<textarea class="form-control" ng-model="apiData.Description" name="Description" id="Description" required></textarea>
+				</div>
+				<div class="alert alert-danger" role="alert" ng-show="form.Description.$error.required && form.Description.$touched">Beskrivning krävs!</div>
+				<div class="form-group">
+					<input type="button" ng-click="saveChanges()" class="btn btn-success" value="Skapa kurs">
+					<input type="button" ng-click="cancelEdit()" class="btn btn-danger" value="Ångra">
+				</div>
+			</form>
+		</div>
+		<div ng-show="IsCreated">
+			<h2>Kurs skapad!</h2><br />
+			<a href="/Course/Single/{{CreatedCourseId}}">Gå till kurs</a>
+		</div>
+	</div>
+
+</div>
+
+
+@section scripts {
+
+	<script>
+
+	(function () {
+
+		angular.module("app").controller("courseSingleController", function ($scope, ApiService) {
+
+			$scope.apiData = {};
+			var originalName;
+			var originalDescription;
+
+			var onSuccess = function (data) {
+				$scope.apiData = data;
+			};
+
+			var onFail = function (response) {
+				alert(response.Reason);
+			};
+
+			var onEditSuccess = function (data) {
+				
+			};
+
+			var onEditFail = function (response) {
+				alert(response.Reason);
+			};
+
+
+
+			$scope.enableEditMode = function () {
+				$scope.editMode = true;
+				originalName = $scope.apiData.Name;
+				originalDescription = $scope.apiData.Description;
+			};
+
+			$scope.saveChanges = function () {
+				if ($scope.apiData.Name != originalName && $scope.apiData.Description != originalDescription)
+				{
+					ApiService.Post("/CourseApi/EditCourse", onEditSuccess, onEditFail, {courseId: @Model, name: $scope.apiData.Name, description: $scope.apiData.Description});
+					$scope.editMode = false;
+				}
+				else
+				{
+					$scope.cancelEdit();
+				}
+			}
+
+			$scope.cancelEdit = function () {
+				$scope.apiData.Name = originalName;
+				$scope.apiData.Description = originalDescription;
+				$scope.editMode = false;
+			};
+
+			$scope.getSingle = function (id) {
+				ApiService.Get("/CourseApi/Single", onSuccess, onFail, { id: @Model });
+			};
+
+		});
+
+	}());
+
+	</script>
+
+}
