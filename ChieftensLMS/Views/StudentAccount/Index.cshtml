@@ -1,0 +1,48 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+
+
+<script>
+
+	(function () {
+
+		angular.module("app").controller("studentAccountController", function ($scope, ApiService, $window) {
+			$scope.usersWithoutRoles = null;
+			$scope.usersWithRoles = null;
+			$scope.ifTeacher = null;
+
+
+			var onSuccess = function (data) {
+				$scope.usersWithoutRoles = returnData.usersWithoutRoles;
+				$scope.usersWithRoles = returnData.usersWithRoles;
+			};
+
+			var onFail = function (response) {
+				alert("Misslyckades");
+			};
+
+			$scope.GetCourseAssigments = function (courseId) {
+
+				//ApiService.GetCourseAssigments(onSuccess, onFail, { courseId: courseId });
+				ApiService.CheckIfInTeacher(onTeacherSuccess, onTeacherFail); //To show or hide things that only some roles should see or not
+			}
+
+			var onTeacherSuccess = function (data) {
+				$scope.ifTeacher = data.isTeacher;
+			};
+
+			var onTeacherFail = function (response) {
+				alert("Misslyckades med om lärare kontroll");
+			};
+
+			
+		});
+
+	}());
+
+</script>

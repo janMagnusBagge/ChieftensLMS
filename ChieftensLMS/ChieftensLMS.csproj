@@ -279,11 +279,11 @@
     <Content Include="Views\SharedFile\Mine.cshtml" />
     <Content Include="Views\Assignment\Edit.cshtml" />
     <Content Include="Views\Course\ManageUsers.cshtml" />
+    <Content Include="Views\StudentAccount\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Uploads\TurnIns\" />
-    <Folder Include="Views\StudentAccount\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
