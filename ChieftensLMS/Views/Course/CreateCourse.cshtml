@@ -4,7 +4,7 @@
 }
 
 
-<div ng-controller="courseAddCourseController">
+<div ng-controller="courseCreateCourseController">
 	<div ng-hide="IsCreated">
 		<h2>Lägg till kurs (Admin)</h2>
 		<form novalidate name="form" >
@@ -38,9 +38,7 @@
 
 	(function () {
 
-		angular.module("app").controller("courseAddCourseController", function ($scope, ApiService) {
-
-
+		angular.module("app").controller("courseCreateCourseController", function ($scope, ApiService) {
 
 			var onAddSuccess = function (data) {
 				$scope.IsCreated = true;
@@ -55,7 +53,9 @@
 				$scope.form.Name.$touched = true;
 				$scope.form.Description.$touched = true;
 
-				ApiService.Get("/CourseApi/CreateCourse", onAddSuccess, onAddFail, { name: $scope.Name, description: $scope.Description });
+				if ($scope.form.$valid) {
+					ApiService.Get("/CourseApi/CreateCourse", onAddSuccess, onAddFail, { name: $scope.Name, description: $scope.Description });
+				}
 			};
 
 
