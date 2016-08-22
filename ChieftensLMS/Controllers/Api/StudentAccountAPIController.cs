@@ -25,7 +25,7 @@ namespace ChieftensLMS.Controllers.Api
 
 			var users = _studentAccountService.GetAll();
 			var usersWithRoles = users
-				.Where(user => _studentAccountService.GetRolesUser(user.Id) != null)
+				.Where(user => _studentAccountService.GetRolesUser(user.Id).Count() !=0)
 				//.Where(user => UserManager.IsInRole(user.Id, _studentAccountService.GetAllRoles().FirstOrDefault(e => e.Id == user.Id)) == true)
 				.Select(user =>	
 				new
@@ -37,7 +37,7 @@ namespace ChieftensLMS.Controllers.Api
 			);
 
 			var usersWithoutRoles = users
-				.Where(user => _studentAccountService.GetRolesUser(user.Id) == null)
+				.Where(user => _studentAccountService.GetRolesUser(user.Id).Count() == 0)
 				.Select(user =>
 				new
 				{
