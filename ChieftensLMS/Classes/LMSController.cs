@@ -1,4 +1,6 @@
 ﻿using ChieftensLMS.DAL;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +13,7 @@ namespace ChieftensLMS.Classes
 	{
 		protected ApplicationDbContext _context = LMSHelper.GetApplicationContext();
 		protected ApplicationUserManager _userManager = LMSHelper.GetUserManager();
+		protected RoleManager<IdentityRole> _roleManger = LMSHelper.GetRoleManager();
 		protected string _currentUserId = LMSHelper.GetCurrectUserId();
 	}
 }
