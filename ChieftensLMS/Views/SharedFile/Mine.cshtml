@@ -34,6 +34,7 @@
 	(function () {
 
 		angular.module("app").controller("sharedFileMineController", function ($scope, ApiService) {
+			console.log($scope);
 			$scope.apiData = {};
 
 			var onSuccess = function (data) {
@@ -70,6 +71,10 @@
 			$scope.Delete = function (id) {
 
 				ApiService.Get("/SharedFileApi/Delete", onDeleteSuccess, onDeleteFail, { id: id });
+			}
+
+			$scope.test = function () {
+				$state.reload();
 			}
 
 		});
