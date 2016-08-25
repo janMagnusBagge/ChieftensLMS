@@ -49,5 +49,10 @@ namespace ChieftensLMS.Controllers
 			return View();
 		}
 
+		public ActionResult Compiled(int? id)
+		{
+			return View(id);
+		}
+
 	}
 }

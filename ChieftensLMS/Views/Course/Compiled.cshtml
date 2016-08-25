@@ -1,0 +1,30 @@
+﻿@model int?
+
+@{
+	ViewBag.Title = "Compiled";
+}
+
+<h2>Compiled</h2>
+
+<div ng-controller="courseController">
+	
+	@{Html.RenderAction("Single", new { id = Model });}
+	@{Html.RenderAction("AllUsers", new { id = Model });}
+
+</div>
+
+@section scripts {
+
+	<script>
+		(function () {
+			angular.module("app").controller("courseController", function ($scope, ApiService) {
+
+				
+
+			});
+
+		}());
+	</script>
+
+}
+

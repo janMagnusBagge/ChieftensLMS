@@ -48,7 +48,7 @@
 
 			<div class="form-group">
 				<button type="button" class="btn btn-success" ngf-select ng-model="file" name="file"><span class="glyphicon glyphicon-folder-open"></span> Välj fil</button>
-				<button type="button" class="btn btn-danger" ng-click="upload(file)"><span class="glyphicon glyphicon-upload"></span> Ladda upp</button>
+				<button type="button" class="btn btn-danger" ng-click="upload(file, @Model)"><span class="glyphicon glyphicon-upload"></span> Ladda upp</button>
 			</div>
 		</div>
 
@@ -58,46 +58,6 @@
 
 </div>
 
-
-@section scripts {
-	<script src="~/Scripts/ng-file-upload-shim.js"></script>
-	<script src="~/Scripts/ng-file-upload.js"></script>
-	<script>
-		(function () {
-			var app = angular.module('app', ['ngFileUpload']);
-
-			app.controller('sharedFileUploadController', function ($scope, Upload) {
-
-				$scope.uploadStatus = '';
-
-				$scope.upload = function (file) {
-
-					if ($scope.form.$valid == false){
-						$scope.form.Name.$touched = true;
-						return;
-					}
-
-					$scope.uploadStatus = 'uploading';
-
-					Upload.upload({
-						url: '/SharedFileApi/Upload/',
-						data: { file: file, name: $scope.Name, fileName: file.name, courseId: @Model }
-					}).then(function (resp) {
-						console.log(resp);
-						$scope.uploadStatus = 'complete';
-					}, function (resp) {
-						console.log(resp);
-						$scope.uploadStatus = 'error';
-					}, function (evt) {
-						$scope.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-						$scope.maxProgress = evt.total;
-					});
-
-				};
-
-
-			});
-
-		}());
-	</script>
-}
+<script src="~/Scripts/ng-file-upload-shim.js"></script>
+<script src="~/Scripts/ng-file-upload.js"></script>
+<script src="~/Scripts/sharedFileControllers/sharedFileUploadController.js"></script>

@@ -5,7 +5,7 @@
 }
 
 <h2>Kursdeltagare (Admin)</h2>
-<div ng-controller="courseAllUsersController" ng-init="GetAllUsers(@Model)">
+<div ng-controller="courseAllUsersTeacherController" ng-init="GetAllUsers(@Model)">
 
 	<table class="table">
 		<tr>
@@ -21,65 +21,11 @@
 					<span ng-repeat="role in user.Roles">{{role}}</span>
 				</td>
 				<td>
-					<button ng-hide="user.UserId == apiData.UserId" type="button" class="btn btn-danger" ng-click="RemoveUserFromCourse(user.UserId)">Ta bort</button>
+					<button ng-hide="user.UserId == apiData.UserId" type="button" class="btn btn-danger" ng-click="RemoveUserFromCourse(user.UserId, @Model)">Ta bort</button>
 				</td>
 			</tr>
 
 	</table>
 </div>
 
-
-@section scripts {
-	
-<script>
-
-	(function () {
-
-		angular.module("app").controller("courseAllUsersController", function ($scope, ApiService) {
-
-			$scope.apiData = {};
-			var userIdToRemove = -1;
-
-			var onSuccess = function (data) {
-				$scope.apiData = data;
-			};
-
-			var onFail = function (response) {
-				alert(response.Reason);
-			};
-
-			var onRemoveSuccess = function (data) {
-				var index = -1;
-				for (var i = 0; i < $scope.apiData.Users.length; i++) {
-					if ($scope.apiData.Users[i].UserId == data.UserId) {
-						index = i;
-						break;
-					}
-				}
-
-				if (index != -1)
-					$scope.apiData.Users.splice(index, 1);
-
-			};
-
-			var onRemoveFail = function (response) {
-				alert(response.Reason);
-			};
-
-
-			$scope.RemoveUserFromCourse = function (id) {
-				ApiService.Get("/CourseApi/RemoveUserFromCourse", onRemoveSuccess, onRemoveFail, { userId: id, courseId: @Model });
-			}
-
-			$scope.GetAllUsers = function(id)
-			{
-				ApiService.Get("/CourseApi/AllUsers", onSuccess, onFail, { id: id });
-			}
-			
-		});
-
-	}());
-
-</script>
-	
-}
+<script src="~/Scripts/courseControllers/courseAllUsersTeacherController.js"></script>
