@@ -16,18 +16,12 @@
 				<th>
 					E-post
 				</th>
-				<th>
-					Roller
-				</th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr ng-repeat="item in usersWithoutRoles">
 				<td>
 					<a href="~/Manage/?id={{item.Id}}">{{item.Email}}</a>
-				</td>
-				<td>
-					<span ng-repeat="role in item.Roles">{{role}}</span>
 				</td>
 			</tr>
 		</tbody>

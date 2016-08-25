@@ -120,5 +120,19 @@ namespace ChieftensLMS.Services
 			}
 			return true;
 		}
+
+		public string GetPhysicalPath(int turnInFileId)
+		{
+			var turnInFile = _db.TurnIns.Find(turnInFileId);
+
+			if (turnInFile == null)
+				return null;
+
+			string filePath = Path.Combine(_fileDirectory, turnInFile.FileName.ToString());
+			if (File.Exists(filePath) == false)
+				return null;
+
+			return filePath;
+		}
 	}
 }

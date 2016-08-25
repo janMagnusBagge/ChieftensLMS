@@ -179,11 +179,24 @@ namespace ChieftensLMS.Controllers.Api
 			return ApiResult.Success(new { ifUpdated = ifUpdated });
 		}
 
-		//public ActionResult UpdateAssignment(Assignment assignmentToUpdate)
-		//{
-		//	_AssignmentService.UpdateAssignment(assignmentToUpdate);
-		//	bool ifUpdated = true;
-		//	return ApiResult.Success(new { ifUpdated = ifUpdated });
-		//}
+		[Authorize]
+		public ActionResult Download(int? id)
+		{
+			if (id == null)
+				return ApiResult.Fail("Invalid request");
+
+			var result = _AssignmentService.GetTurnInById((int)id);
+
+			if (result == null)
+				return ApiResult.Fail("");
+
+			string physicalFileToReturn = _AssignmentService.GetPhysicalPath(result.Id);
+			if (physicalFileToReturn == null)
+				return ApiResult.Fail("");
+
+			string mimeType = MimeMapping.GetMimeMapping(result.FileName);
+
+			return File(physicalFileToReturn, mimeType, result.FileName);
+		}
 	}
 }
