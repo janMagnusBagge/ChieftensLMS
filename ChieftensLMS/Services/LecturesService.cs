@@ -48,6 +48,36 @@ namespace ChieftensLMS.Services
 				});
 		}
 
+		//TODO: Should we take out the orderby in the return so we dont need to use ToList on it?
+		public List<LectureDTO> GetLecturesForUser(string userId)
+		{
+			CourseService _CourseService = new CourseService(_db);
+			
+			//IEnumerable<CourseDTO> coursesForUser = _CourseService.GetCoursesForUser(userId);
+
+			List<LectureDTO> lectures = new List<LectureDTO>();
+			string courseName = "";
+			foreach(CourseDTO course in _CourseService.GetCoursesForUser(userId))
+			{
+				
+				courseName = (course != null) ? course.Name : "";
+				lectures.AddRange(
+				_db.Lectures.Where(lecture => lecture.CourseId == course.Id)
+				.Select(lecture => new LectureDTO
+				{
+					Description = lecture.Description,
+					Id = lecture.Id,
+					Name = lecture.Name,
+					Date = lecture.Date,
+					TimeInMin = lecture.TimeInMin,
+					CourseName = courseName
+				})
+				);
+			}
+
+			return lectures.OrderBy(lecture => lecture.Date).ToList();
+		}
+
 		//TODO Move out so you can use this in course and in this at the same time without having it 2 places
 		public bool IsValidCourse(int courseId)
 		{

@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace ChieftensLMS.Controllers.Api
 {
+	[Authorize]
     public class LecturesApiController : Controller
     {
 		private ApplicationDbContext _context;
@@ -20,14 +21,26 @@ namespace ChieftensLMS.Controllers.Api
 			_LecturesService = new LecturesService(_context);
 		}
 
-        
-		[Authorize]
 		public ActionResult GetLecturesForCourse(int? courseId)
 		{
 			if (courseId == null)
 				return ApiResult.Fail("Invalid argument to api");
 
 			var result = _LecturesService.GetLecturesForCourse((int)courseId);
+
+			if (result == null)
+				return ApiResult.Fail("");
+			else
+				return ApiResult.Success(new { Lectures = result });
+		}
+
+		
+		public ActionResult GetLecturesForUser(string userId)
+		{
+			if (userId == null)
+				return ApiResult.Fail("Invalid argument to api");
+
+			var result = _LecturesService.GetLecturesForUser(userId);
 
 			if (result == null)
 				return ApiResult.Fail("");
