@@ -14,6 +14,7 @@ namespace ChieftensLMS.Models
 		public string Name { get; set; }
 		public DateTime Date { get; set; }
 		public string Description { get; set; }
+		public int TimeInMin { get; set; }
 
 		[ForeignKey("CourseId")]
 		public Course Course { get; set; }
