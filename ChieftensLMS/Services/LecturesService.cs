@@ -7,6 +7,7 @@ using System.Web;
 
 namespace ChieftensLMS.Services
 {
+	#region DTO Classes
 	public class LectureDTO
 	{
 		public int Id { get; set; }
@@ -15,7 +16,10 @@ namespace ChieftensLMS.Services
 		public string Description { get; set; }
 		public int CourseId { get; set; }
 		public int TimeInMin { get; set; }
+		public string CourseName { get; set; }
 	}
+	#endregion
+
 	public class LecturesService
 	{
 		ApplicationDbContext _db;
@@ -25,8 +29,12 @@ namespace ChieftensLMS.Services
 			_db = context;
 		}
 
-		public IEnumerable<LectureDTO> GetCoursesForCourse(int courseId)
+		public IEnumerable<LectureDTO> GetLecturesForCourse(int courseId)
 		{
+			if (IsValidCourse(courseId) == false)
+				return null;
+			Course course = _db.Courses.Find(courseId);
+			string courseName = (course!=null)?course.Name:"";
 
 			return _db.Lectures.Where(lecture => lecture.CourseId == courseId)
 				.Select(lecture => new LectureDTO
@@ -35,8 +43,15 @@ namespace ChieftensLMS.Services
 					Id = lecture.Id,
 					Name = lecture.Name,
 					Date = lecture.Date,
-					TimeInMin = lecture.TimeInMin
+					TimeInMin = lecture.TimeInMin,
+					CourseName = courseName
 				});
+		}
+
+		//TODO Move out so you can use this in course and in this at the same time without having it 2 places
+		public bool IsValidCourse(int courseId)
+		{
+			return _db.Courses.Find(courseId) != null;
 		}
 	}
 }

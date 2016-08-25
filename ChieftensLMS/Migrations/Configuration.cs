@@ -93,7 +93,8 @@ namespace ChieftensLMS.Migrations
 					{
 						Date = DateTime.Now,
 						Name = course.Name + " - lektion " + a,
-						Description = "Beskrivning för " + course.Name + " - lektion " + a
+						Description = "Beskrivning för " + course.Name + " - lektion " + a,
+						TimeInMin = 60
 					});
 				}
 

@@ -1,0 +1,61 @@
+﻿
+@{
+    ViewBag.Title = "Lektioner";
+}
+
+<div ng-controller="lecturesIndexController" ng-init="GetLectures(@Model)">
+	<h2>Lektioner för kurs {{lectures[1].CourseName}}</h2>
+
+
+	<table class="table">
+		<tr>
+			<th>Namn</th>
+			<th>Datum</th>
+			<th>Starttid</th>
+			<th>Hur lång tid i minuter</th>
+		</tr>
+		<tr ng-repeat="lecture in lectures">
+			<td>
+				{{lecture.Name}}
+			</td>
+			<td>
+				{{lecture.Date | dateFilter | date:'yyyy-MM-dd'}}
+			</td>
+			<td>
+				{{lecture.Date | dateFilter | date:'HH:MM'}}
+			</td>
+			<td>
+				{{lecture.TimeInMin}}
+			</td>
+
+		</tr>
+
+	</table>
+</div>
+
+<script>
+
+	(function () {
+
+		angular.module("app").controller("lecturesIndexController", function ($scope, ApiService, $window) {
+			$scope.lectures = null;
+
+			var onSuccess = function (data) {
+				$scope.lectures = data.Lectures;
+			};
+
+			var onFail = function (response) {
+				alert(response.Reason);
+			};
+
+			$scope.GetLectures = function (courseId) {
+				//ApiService.GetCourseAssigments(onSuccess, onFail, { courseId: courseId });
+				ApiService.Get("/LecturesApi/GetLecturesForCourse", onSuccess, onFail, { courseId: courseId });
+			}
+
+
+		});
+
+	}());
+
+</script>
