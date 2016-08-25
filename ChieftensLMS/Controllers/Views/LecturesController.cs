@@ -9,9 +9,9 @@ namespace ChieftensLMS.Controllers.Views
     public class LecturesController : Controller
     {
         // GET: Lectures
-        public ActionResult Index()
+        public ActionResult Index(int? id)
         {
-            return View();
+            return View(id);
         }
     }
 }

@@ -299,12 +299,12 @@
     <Content Include="Views\Course\CreateCourse.cshtml" />
     <Content Include="Views\Course\Single_Teacher.cshtml" />
     <Content Include="Views\SharedFile\Upload.cshtml" />
+    <Content Include="Views\Lectures\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Uploads\SharedFiles\" />
     <Folder Include="Views\LecturesApi\" />
-    <Folder Include="Views\Lectures\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
