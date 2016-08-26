@@ -8,13 +8,15 @@
 <div ng-controller="lecturesController" ng-init="GetLectures(@Model)">
 
 	<table class="table">
-		<tr>
-			<th>Kurs</th>
-			<th>Lektionnamn</th>
-			<th>Datum</th>
-			<th>Starttid</th>
-			<th>Hur lång tid i minuter</th>
-		</tr>
+		<thead>
+			<tr>
+				<th>Kurs</th>
+				<th>Lektionnamn</th>
+				<th>Datum</th>
+				<th>Starttid</th>
+				<th>Hur lång tid i minuter</th>
+			</tr>
+		</thead>
 		<tr ng-repeat="lecture in lectures">
 			<td>
 				{{lecture.CourseName}}
