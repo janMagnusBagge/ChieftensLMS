@@ -5,7 +5,7 @@
 }
 
 <h2>Lägg till detagare (Admin)</h2>
-<div ng-controller="courseAddUserController" ng-init="GetUsersNotInCourse(@Model)">
+<div ng-controller="courseAddUserTeacherController" ng-init="GetUsersNotInCourse(@Model)">
 
 	<table class="table">
 		<tr>
@@ -17,66 +17,11 @@
 				{{user.Name}} {{user.SurName}}
 			</td>
 			<td>
-				<button type="button" class="btn btn-success" ng-click="AddUserToCourse(user.UserId)">Lägg till</button>
+				<button type="button" class="btn btn-success" ng-click="AddUserToCourse(user.UserId, @Model)">Lägg till</button>
 			</td>
 		</tr>
 
 	</table>
 </div>
 
-
-@section scripts {
-
-	<script>
-
-	(function () {
-
-		angular.module("app").controller("courseAddUserController", function ($scope, ApiService) {
-
-			$scope.apiData = {};
-			var userIdToRemove = -1;
-
-			var onSuccess = function (data) {
-				$scope.apiData = data;
-			};
-
-			var onFail = function (response) {
-				alert(response.Reason);
-			};
-
-			var onAddSuccess = function (data) {
-				var index = -1;
-				for (var i = 0; i < $scope.apiData.Users.length; i++) {
-					if ($scope.apiData.Users[i].UserId == data.UserId) {
-						index = i;
-						break;
-					}
-				}
-
-				if (index != -1)
-					$scope.apiData.Users.splice(index, 1);
-
-			};
-
-			var onAddFail = function (response) {
-				alert(response.Reason);
-			};
-
-			$scope.AddUserToCourse = function (id) {
-
-				userIdToRemove = id;
-				ApiService.Get("/CourseApi/AddUser", onAddSuccess, onAddFail, { userId: id, courseId: @Model });
-			}
-
-			$scope.GetUsersNotInCourse = function (id)
-			{
-				ApiService.Get("/CourseApi/UsersNotInCourse", onSuccess, onFail, { id: id });
-			}
-
-		});
-
-	}());
-
-	</script>
-
-}
+<script src="~/Scripts/courseControllers/courseAddUserTeacherController.js"></script>

@@ -226,6 +226,14 @@
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\chieften\ApiService.js" />
     <Content Include="Scripts\chieften\app.js" />
+    <Content Include="Scripts\courseControllers\courseAddUserTeacherController.js" />
+    <Content Include="Scripts\courseControllers\courseAllController.js" />
+    <Content Include="Scripts\courseControllers\courseAllUsersController.js" />
+    <Content Include="Scripts\courseControllers\courseAllUsersTeacherController.js" />
+    <Content Include="Scripts\courseControllers\courseCreateCourseController.js" />
+    <Content Include="Scripts\courseControllers\courseMineController.js" />
+    <Content Include="Scripts\courseControllers\courseSingleController.js" />
+    <Content Include="Scripts\courseControllers\courseSingleTeacherController.js" />
     <Content Include="Scripts\FileAPI.flash.swf" />
     <Content Include="Scripts\FileAPI.js" />
     <Content Include="Scripts\FileAPI.min.js" />
@@ -245,6 +253,9 @@
     <Content Include="Scripts\ng-file-upload.min.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\sharedFileControllers\sharedFileForCourseController.js" />
+    <Content Include="Scripts\sharedFileControllers\sharedFileMineController.js" />
+    <Content Include="Scripts\sharedFileControllers\sharedFileUploadController.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Uploads\TurnIns\2.txt" />
     <Content Include="Web.config" />
@@ -300,6 +311,9 @@
     <Content Include="Views\Course\Single_Teacher.cshtml" />
     <Content Include="Views\SharedFile\Upload.cshtml" />
     <Content Include="Views\Lectures\Index.cshtml" />
+    <Content Include="Views\Course\Compiled.cshtml" />
+    <Content Include="Views\SharedFile\ForCourse_Teacher.cshtml" />
+    <Content Include="Views\SharedFile\CourseOverview.cshtml" />
     <Content Include="Views\Lectures\MyLectures.cshtml" />
   </ItemGroup>
   <ItemGroup>

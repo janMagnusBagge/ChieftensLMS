@@ -3,73 +3,61 @@
 @{
 	ViewBag.Title = "Upload";
 }
-<h2>Dela fil</h2>
-<div ng-controller="MyCtrl">
 
-	<form name="form" novalidate>
-		<div class="form-group">
-			<label for="Name">Namn</label><br />
-			<input type="text" id="Name" name="Name" class="form-control" ng-model="Name" required />
-		</div>
+<div ng-controller="sharedFileUploadController">
 
-		<div class="form-group">
-			<div class="alert alert-danger" role="alert" ng-show="form.Name.$error.required && form.Name.$touched">Kursnamn krävs!</div>
-		</div>
+	<div ng-show="uploadStatus == 'complete'">
+		<h2>Klar!</h2>
+		<p>Uppladdning klar</p>
+	</div>
+	<div ng-show="uploadStatus == 'uploading'">
+		<h2>Laddar upp fil</h2>
+		<p>Vänta...</p>
+	</div>
+	<div ng-show="uploadStatus == 'error'">
+		<h2>Fel!</h2>
+		<p>Ett fel inträffade, filen kunde inte laddas upp</p>
+	</div>
 
-		<div class="form-group">
-			<b>Vald fil:</b><br />
-			{{file.name ? file.name : "Välj fil att ladda upp"}}<br />
-		</div>
-
-		<div class="form-group">
-			<button type="button" class="btn btn-success" ngf-select ng-model="file" name="file">Välj fil</button>
-			<button type="button" class="btn btn-danger" ng-click="upload(file)">Ladda upp</button>
-		</div>
-
-
-		<div class="form-group">
-			<div class="progress">
-				<div class="progress-bar" role="progressbar" aria-valuenow="{{progressPercentage}}"
-					 aria-valuemin="0" aria-valuemax="{{maxProgress}}" style="width:{{progressPercentage}}%">
-					<span class="sr-only">{{progressPercentage}}% Klart</span>
-				</div>
+	<div class="form-group" ng-show="uploadStatus != ''">
+		<div class="progress">
+			<div class="progress-bar" role="progressbar" aria-valuenow="{{progressPercentage}}"
+				 aria-valuemin="0" aria-valuemax="{{maxProgress}}" style="width:{{progressPercentage}}%">
+				<span class="sr-only">{{progressPercentage}}% Klart</span>
 			</div>
 		</div>
+	</div>
+
+	<form name="form" novalidate>
+		<div ng-hide="uploadStatus != ''">
+			<h2>Ladda upp fil</h2>
+
+			<div class="form-group">
+				<label for="Name">Namn</label><br />
+				<input type="text" id="Name" name="Name" class="form-control" ng-model="Name" required />
+			</div>
+
+			<div class="form-group">
+				<div class="alert alert-danger" role="alert" ng-show="form.Name.$error.required && form.Name.$touched">Namn krävs!</div>
+			</div>
+
+			<div class="form-group">
+				<b>Vald fil:</b><br />
+				{{file.name ? file.name : "Välj fil att ladda upp"}}<br />
+			</div>
+
+			<div class="form-group">
+				<button type="button" class="btn btn-success" ngf-select ng-model="file" name="file"><span class="glyphicon glyphicon-folder-open"></span> Välj fil</button>
+				<button type="button" class="btn btn-danger" ng-click="upload(file, @Model)"><span class="glyphicon glyphicon-upload"></span> Ladda upp</button>
+			</div>
+		</div>
+
+		
 	</form>
 
 
 </div>
 
-
-@section scripts {
-	<script src="~/Scripts/ng-file-upload-shim.js"></script>
-	<script src="~/Scripts/ng-file-upload.js"></script>
-	<script>
-		(function () {
-			var app = angular.module('app', ['ngFileUpload']);
-
-			app.controller('MyCtrl', ['$scope', 'Upload', function ($scope, Upload) {
-
-				$scope.upload = function (file) {
-					Upload.upload({
-						url: '/SharedFileApi/Upload/',
-						data: { file: file, name: $scope.Name, fileName: file.name, courseId: @Model }
-					}).then(function (resp) {
-						console.log(resp);
-					}, function (resp) {
-						console.log(resp);
-					}, function (evt) {
-						$scope.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-						$scope.maxProgress = evt.total;
-					});
-
-				};
-
-
-			}]);
-
-
-
-		}());
-	</script>
-}
+<script src="~/Scripts/ng-file-upload-shim.js"></script>
+<script src="~/Scripts/ng-file-upload.js"></script>
+<script src="~/Scripts/sharedFileControllers/sharedFileUploadController.js"></script>
