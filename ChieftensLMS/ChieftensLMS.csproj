@@ -300,6 +300,7 @@
     <Content Include="Views\Course\Single_Teacher.cshtml" />
     <Content Include="Views\SharedFile\Upload.cshtml" />
     <Content Include="Views\Lectures\Index.cshtml" />
+    <Content Include="Views\Lectures\MyLectures.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

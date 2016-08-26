@@ -6,6 +6,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace ChieftensLMS.Controllers.Api
 {
@@ -35,8 +38,9 @@ namespace ChieftensLMS.Controllers.Api
 		}
 
 		
-		public ActionResult GetLecturesForUser(string userId)
+		public ActionResult GetLecturesForUser(string id)
 		{
+			var userId = (id != null ? (id.Trim() != "" ? id : User.Identity.GetUserId()) : User.Identity.GetUserId());//User.Identity.GetUserId();
 			if (userId == null)
 				return ApiResult.Fail("Invalid argument to api");
 

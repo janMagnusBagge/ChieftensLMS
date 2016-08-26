@@ -13,5 +13,10 @@ namespace ChieftensLMS.Controllers.Views
         {
             return View(id);
         }
+
+		public ActionResult MyLectures(string id)
+		{
+			 return View(id);
+		}
     }
 }

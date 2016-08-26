@@ -44,6 +44,7 @@ namespace ChieftensLMS.Services
 					Name = lecture.Name,
 					Date = lecture.Date,
 					TimeInMin = lecture.TimeInMin,
+					CourseId = lecture.CourseId,
 					CourseName = courseName
 				});
 		}
@@ -53,16 +54,17 @@ namespace ChieftensLMS.Services
 		{
 			CourseService _CourseService = new CourseService(_db);
 			
-			//IEnumerable<CourseDTO> coursesForUser = _CourseService.GetCoursesForUser(userId);
+			IEnumerable<CourseDTO> coursesForUser = _CourseService.GetCoursesForUser(userId).ToList();
+			if (coursesForUser == null)
+				return null;
 
 			List<LectureDTO> lectures = new List<LectureDTO>();
 			string courseName = "";
-			foreach(CourseDTO course in _CourseService.GetCoursesForUser(userId))
+			foreach (CourseDTO course in coursesForUser)
 			{
-				
 				courseName = (course != null) ? course.Name : "";
 				lectures.AddRange(
-				_db.Lectures.Where(lecture => lecture.CourseId == course.Id)
+				 _db.Lectures.Where(lecture => lecture.CourseId == course.Id)
 				.Select(lecture => new LectureDTO
 				{
 					Description = lecture.Description,
@@ -70,8 +72,9 @@ namespace ChieftensLMS.Services
 					Name = lecture.Name,
 					Date = lecture.Date,
 					TimeInMin = lecture.TimeInMin,
+					CourseId = lecture.CourseId,
 					CourseName = courseName
-				})
+				}).ToList()
 				);
 			}
 

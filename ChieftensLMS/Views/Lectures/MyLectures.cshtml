@@ -1,20 +1,24 @@
-﻿@model int?
+﻿@model string
 @{
-    ViewBag.Title = "Lektioner";
+    ViewBag.Title = "MyLectures";
 }
 
-<div ng-controller="lecturesIndexController" ng-init="GetLectures(@Model)">
-	<h2>Lektioner för kurs {{lectures[1].CourseName}}</h2>
+<h2>Mina lektioner</h2>
 
+<div ng-controller="lecturesController" ng-init="GetLectures(@Model)">
 
 	<table class="table">
 		<tr>
-			<th>Namn</th>
+			<th>Kurs</th>
+			<th>Lektionnamn</th>
 			<th>Datum</th>
 			<th>Starttid</th>
 			<th>Hur lång tid i minuter</th>
 		</tr>
 		<tr ng-repeat="lecture in lectures">
+			<td>
+				{{lecture.CourseName}}
+			</td>
 			<td>
 				{{lecture.Name}}
 			</td>
@@ -27,7 +31,7 @@
 			<td>
 				{{lecture.TimeInMin}}
 			</td>
-
+			
 		</tr>
 
 	</table>
@@ -37,7 +41,7 @@
 
 	(function () {
 
-		angular.module("app").controller("lecturesIndexController", function ($scope, ApiService, $window) {
+		angular.module("app").controller("lecturesController", function ($scope, ApiService, $window) {
 			$scope.lectures = null;
 
 			var onSuccess = function (data) {
@@ -50,7 +54,7 @@
 
 			$scope.GetLectures = function (courseId) {
 				//ApiService.GetCourseAssigments(onSuccess, onFail, { courseId: courseId });
-				ApiService.Get("/LecturesApi/GetLecturesForCourse", onSuccess, onFail, { courseId: courseId });
+				ApiService.Get("/LecturesApi/GetLecturesForUser", onSuccess, onFail, { courseId: courseId });
 			}
 
 
