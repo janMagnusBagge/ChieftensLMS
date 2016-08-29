@@ -128,7 +128,7 @@ namespace ChieftensLMS.Services
 			if (turnInFile == null)
 				return null;
 
-			string filePath = Path.Combine(_fileDirectory, turnInFile.FileName.ToString());
+			string filePath = Path.Combine(_fileDirectory, turnInFile.Id.ToString());
 			if (File.Exists(filePath) == false)
 				return null;
 

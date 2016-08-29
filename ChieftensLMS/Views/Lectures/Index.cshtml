@@ -8,12 +8,14 @@
 
 
 	<table class="table">
-		<tr>
-			<th>Namn</th>
-			<th>Datum</th>
-			<th>Starttid</th>
-			<th>Hur lång tid i minuter</th>
-		</tr>
+		<thead>
+			<tr>
+				<th>Namn</th>
+				<th>Datum</th>
+				<th>Starttid</th>
+				<th>Hur lång tid i minuter</th>
+			</tr>
+		</thead>
 		<tr ng-repeat="lecture in lectures">
 			<td>
 				{{lecture.Name}}
