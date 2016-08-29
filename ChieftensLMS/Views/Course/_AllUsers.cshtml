@@ -1,13 +1,12 @@
 ﻿@model int?
 
 @{
-	ViewBag.Title = "Kursdeltagare";
+	Layout = null;
 }
 
-<h2>Kursdeltagare</h2>
 <div ng-controller="courseAllUsersController" ng-init="GetAllUsers(@Model)">
 
-	<table class="table">
+	<table class="table table-condensed">
 		<tr>
 			<th>Namn</th>
 			<th>Roll</th>

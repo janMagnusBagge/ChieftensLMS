@@ -1,17 +1,15 @@
 ﻿
 @{
-	ViewBag.Title = "Mina Kurser";
+	Layout = null;
 }
-<a href="~/Course/CreateCourse" class="btn btn-sm btn-primary">Lägg till kurs</a>
 
-<h2>Mina Kurser</h2>
 <div ng-controller="courseMineController">
 
 	<table class="table">
 
 			<tr ng-repeat="course in apiData.courses">
 				<td >
-					<a href="~/Course/Single/{{course.Id}}">{{course.Name}}</a> <i>{{course.Description}}</i>	
+					<a href="~/Course/Details/{{course.Id}}">{{course.Name}}</a> <i>{{course.Description}}</i>	
 				</td>
 			</tr>
 

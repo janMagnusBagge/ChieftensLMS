@@ -1,0 +1,37 @@
+﻿@model int?
+
+<div ng-controller="courseOverviewController">
+	<h3>Ladda upp fil</h3>
+	<div class="well">
+		@{Html.RenderPartial("_Upload", Model);}
+	</div>
+
+
+	<h3>Delade filer för kurs</h3>
+	<div class="panel panel-default">
+		<div class="panel-body">
+			@{
+				if (User.IsInRole("Teacher"))
+				{
+					Html.RenderPartial("_ForCourse_Teacher", Model);
+				}
+				else
+				{
+					Html.RenderPartial("_ForCourse", Model);
+				}
+			}
+		</div>
+	</div>
+
+</div>
+<script>
+
+	angular.module('app').controller('courseOverviewController', function ($scope) {
+		$scope.$on("sharedFileUploadController_uploadComplete", function () {
+			$scope.$broadcast("sharedFileForCourseController_refresh");
+		})
+	});
+
+</script>
+
+

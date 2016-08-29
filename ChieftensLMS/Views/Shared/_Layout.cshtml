@@ -9,6 +9,8 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 	<script src="~/Scripts/angular.js"></script>
+	<script src="~/Scripts/ng-file-upload-shim.js"></script>
+	<script src="~/Scripts/ng-file-upload.js"></script>
 	<script src="~/Scripts/chieften/app.js"></script>
 	<script src="~/Scripts/chieften/ApiService.js"></script>
 
@@ -51,16 +53,14 @@
 			@{var _userManager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();}
 			@if (Request.IsAuthenticated && _userManager.IsInRole(User.Identity.GetUserId(), "Teacher"))
 			{
-				@Html.ActionLink("Mina Kurser", "Mine", "Course", null, new { @class = "btn btn-default btn-sm" })
-				@Html.ActionLink("Alla Kurser (Kräver teacher)", "All", "Course", null, new { @class = "btn btn-default btn-sm" })
+				@Html.ActionLink("Mina Kurser", "Overview", "Course", null, new { @class = "btn btn-default btn-sm" })
 				@Html.ActionLink("Mina Delade Filer", "Mine", "SharedFile", null, new { @class = "btn btn-default btn-sm" })
 				@Html.ActionLink("Skapa konto", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "btn btn-default btn-sm" })
 				@Html.ActionLink("Konton", "Index", "StudentAccount", null, new { @class = "btn btn-default btn-sm" })
 			}
 			else
 			{
-				@Html.ActionLink("Mina Kurser", "Mine", "Course", null, new { @class = "btn btn-default btn-sm" })
-				@Html.ActionLink("Alla Kurser (Kräver teacher)", "All", "Course", null, new { @class = "btn btn-default btn-sm" })
+				@Html.ActionLink("Mina Kurser", "Overview", "Course", null, new { @class = "btn btn-default btn-sm" })
 				@Html.ActionLink("Mina Delade Filer", "Mine", "SharedFile", null, new { @class = "btn btn-default btn-sm" })
 			}
 		</div>

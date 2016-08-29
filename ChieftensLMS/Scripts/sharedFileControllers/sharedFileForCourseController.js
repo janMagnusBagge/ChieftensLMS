@@ -2,6 +2,7 @@
 (function () {
 	angular.module("app").controller("sharedFileForCourseController", function ($scope, ApiService) {
 		$scope.apiData = {};
+		$scope.id;
 
 		var onSuccess = function (data) {
 			$scope.apiData = data;
@@ -29,13 +30,17 @@
 			alert(response.Reason);
 		};
 
-		$scope.GetForCourse = function (id) {
-			ApiService.Get("/SharedFileApi/ForCourse", onSuccess, onFail, { id: id });
+		$scope.GetForCourse = function () {
+			ApiService.Get("/SharedFileApi/ForCourse", onSuccess, onFail, { id: $scope.id });
 		}
 
 		$scope.Delete = function (id) {
 			ApiService.Get("/SharedFileApi/Delete", onDeleteSuccess, onDeleteFail, { id: id });
 		}
+
+		$scope.$on("sharedFileForCourseController_refresh", function () {
+			$scope.GetForCourse();
+		})
 
 	});
 

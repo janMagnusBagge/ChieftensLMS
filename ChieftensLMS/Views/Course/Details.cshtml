@@ -1,0 +1,20 @@
+﻿@model int?
+
+	<h3>Kurs</h3>
+	<div class="well">
+
+			@if (User.IsInRole("Teacher"))
+			{
+				Html.RenderPartial("_Single_Teacher", Model);
+			}
+			else
+			{
+				Html.RenderPartial("_Single", Model);
+			}
+
+	</div>
+
+
+<a href="/SharedFile/Course/@Model" class="btn btn-default">Delade filer</a>
+<a href="/Course/Users/@Model" class="btn btn-default">Medlemmar</a>
+

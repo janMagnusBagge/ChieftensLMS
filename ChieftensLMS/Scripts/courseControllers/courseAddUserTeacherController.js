@@ -25,6 +25,7 @@
 			if (index != -1)	
 				$scope.apiData.Users.splice(index, 1);
 
+			$scope.$emit("courseAddUserTeacherController_added");
 		};
 
 		var onAddFail = function (response) {
@@ -37,10 +38,14 @@
 			ApiService.Get("/CourseApi/AddUser", onAddSuccess, onAddFail, { userId: id, courseId: courseId });
 		}
 
-		$scope.GetUsersNotInCourse = function (id)
+		$scope.GetUsersNotInCourse = function ()
 		{
-			ApiService.Get("/CourseApi/UsersNotInCourse", onSuccess, onFail, { id: id });
+			ApiService.Get("/CourseApi/UsersNotInCourse", onSuccess, onFail, { id: $scope.id });
 		}
+
+		$scope.$on("courseAddUserTeacherController_refresh", function () {
+			$scope.GetUsersNotInCourse();
+		})
 
 	});
 

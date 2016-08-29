@@ -1,0 +1,31 @@
+﻿@model int?
+
+@{
+	Layout = null;
+}
+
+<div ng-controller="sharedFileForCourseController" ng-init="id=@Model; GetForCourse()">
+
+	<table class="table table-condensed">
+		<thead>
+			<tr>
+				<th>Namn</th>
+				<th>Ägare</th>
+				<th>Uppladdat</th>
+				<th></th>
+			</tr>
+
+		</thead>
+		<tr ng-repeat="file in apiData.SharedFiles">
+			<td>{{file.Name}}</td>
+			<td>{{file.OwnerId != apiData.UserId ? file.OwnerName : "Du" }}</td>
+			<td>{{file.Date | dateFilter | date:'yyyy-MM-dd'}}</td>
+			
+			<td class="text-right"><a href="~/SharedFileApi/Download/{{file.Id}}" class="btn btn-success btn-sm">Ladda ner</a> <button type="button" class="btn btn-danger btn-sm" ng-click="Delete(file.Id)" ng-show="file.OwnerId == apiData.UserId ">Radera</button></td>
+		</tr>
+	</table>
+
+</div>
+
+
+<script src="~/Scripts/sharedFileControllers/sharedFileForCourseController.js"></script>

@@ -1,5 +1,5 @@
 ﻿(function () {
-	var app = angular.module("app", []);
+	var app = angular.module('app', ['ngFileUpload']);
 
 	// Filter to convert date format from server to js
 	app.filter("dateFilter", function () {

@@ -6,50 +6,17 @@ namespace ChieftensLMS.Controllers
 {
     public class CourseController : LMSController
     {
-
-        public ActionResult Mine()
-		{ 
-			return View();
-        }
-
-		public ActionResult All()
+		public ActionResult Overview()
 		{
 			return View();
 		}
 
-		[Authorize]
-		public ActionResult AllUsers(int? id)
+		public ActionResult Users(int? id)
 		{
-			// Teachers have a special view with more options
-			if (_userManager.IsInRole(_currentUserId, "Teacher"))
-				return View("AllUsers_Teacher", id);
-			else
-				return View(id);
+			return View(id);
 		}
 
-
-		[Authorize]
-		public ActionResult Single(int? id)
-		{
-			if (_userManager.IsInRole(_currentUserId, "Teacher"))
-				return View("Single_Teacher", id);
-			else
-				return View(id);
-		}
-
-		[Authorize(Roles = "Teacher")]
-		public ActionResult AddUser(int? id)
-		{
-			return View("AddUser_Teacher", id);
-		}
-
-		[Authorize(Roles = "Teacher")]
-		public ActionResult CreateCourse()
-		{
-			return View();
-		}
-
-		public ActionResult Compiled(int? id)
+		public ActionResult Details(int? id)
 		{
 			return View(id);
 		}

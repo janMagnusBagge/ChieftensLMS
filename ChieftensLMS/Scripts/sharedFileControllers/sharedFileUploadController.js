@@ -1,14 +1,14 @@
 ﻿(function () {
-	var app = angular.module('app', ['ngFileUpload']);
 
-	app.controller('sharedFileUploadController', function ($scope, Upload) {
+	angular.module("app").controller('sharedFileUploadController', function ($scope, Upload) {
 
 		$scope.uploadStatus = '';
-
+		
 		$scope.upload = function (file, courseId) {
-
+			
 			if ($scope.form.$valid == false){
-				$scope.form.Name.$touched = true;
+				$scope.form.Name.$setTouched();
+				$scope.form.File.$setTouched();
 				return;
 			}
 
@@ -20,6 +20,7 @@
 			}).then(function (resp) {
 				console.log(resp);
 				$scope.uploadStatus = 'complete';
+				$scope.$emit("sharedFileUploadController_uploadComplete");
 			}, function (resp) {
 				console.log(resp);
 				$scope.uploadStatus = 'error';
@@ -29,6 +30,15 @@
 			});
 
 		};
+		
+		$scope.reset = function () {
+			$scope.uploadStatus = '';
+
+			$scope.form.$setUntouched();
+			$scope.Name = undefined;
+			$scope.File = undefined;
+		
+		}
 
 
 	});

@@ -1,0 +1,28 @@
+﻿<div ng-controller="courseOverviewController">
+
+	@if (User.IsInRole("Teacher"))
+	{
+		<h3>Skapa kurs</h3>
+			<div class="well">
+				@{Html.RenderPartial("_CreateCourse");}
+			</div>
+	}
+
+
+	<h3>Mina kurser</h3>
+	<div class="panel panel-default">
+		<div class="panel-body">
+			@{Html.RenderPartial("_Mine");}
+		</div>
+	</div>
+</div>
+
+<script>
+
+	angular.module('app').controller('courseOverviewController', function ($scope) {
+		$scope.$on("courseCreateCourseController_created", function () {
+			$scope.$broadcast("courseMineController_refresh");
+		})
+	});
+
+</script>

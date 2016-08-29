@@ -1,0 +1,12 @@
+﻿@model int?
+
+@{
+	Layout = null;
+}
+
+<div ng-controller="courseSingleController" ng-init="getSingle(@Model)">
+	<h3>{{apiData.Name}}</h3>
+	<h4>{{apiData.Description}}</h4>
+</div>
+
+<script src="~/Scripts/courseControllers/courseSingleController.js"></script>

@@ -1,13 +1,12 @@
 ﻿@model int?
 
 @{
-	ViewBag.Title = "Kursdeltagare (Admin)";
+	Layout = null;
 }
 
-<h2>Kursdeltagare (Admin)</h2>
-<div ng-controller="courseAllUsersTeacherController" ng-init="GetAllUsers(@Model)">
+<div ng-controller="courseAllUsersTeacherController" ng-init="id=@Model; GetAllUsers()">
 
-	<table class="table">
+	<table class="table table-condensed">
 		<tr>
 			<th>Namn</th>
 			<th>Roll</th>
@@ -20,8 +19,8 @@
 				<td>
 					<span ng-repeat="role in user.Roles">{{role}}</span>
 				</td>
-				<td>
-					<button ng-hide="user.UserId == apiData.UserId" type="button" class="btn btn-danger" ng-click="RemoveUserFromCourse(user.UserId, @Model)">Ta bort</button>
+				<td class="text-right">
+					<button ng-hide="user.UserId == apiData.UserId" type="button" class="btn btn-danger btn-sm" ng-click="RemoveUserFromCourse(user.UserId, @Model)">Ta bort</button>
 				</td>
 			</tr>
 

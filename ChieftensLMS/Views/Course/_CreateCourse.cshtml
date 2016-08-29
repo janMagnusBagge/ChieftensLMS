@@ -1,13 +1,14 @@
 ﻿
 @{
 	ViewBag.Title = "Lägg till kurs";
+	Layout = null;
 }
 
 
 <div ng-controller="courseCreateCourseController">
+
 	<div ng-hide="IsCreated">
-		<h2>Lägg till kurs (Admin)</h2>
-		<form novalidate name="form" >
+		<form name="form" novalidate>
 			<div class="form-group">
 				<label for="Name">Kursnamn:</label>
 				<input type="text" class="form-control" ng-model="Name" name="Name" id="Name" required>
@@ -25,8 +26,8 @@
 		</form>
 	</div>
 	<div ng-show="IsCreated">
-		<h2>Kurs skapad!</h2><br />
-		<a href="/Course/Single/{{CreatedCourseId}}">Gå till kurs</a>
+		<p>Kurs skapad!</p>
+		<button class="btn btn-success" ng-click="reset()">Skapa en till</button> <a class="btn btn-success" href="/Course/Single/{{CreatedCourseId}}">Gå till kurs</a> 
 	</div>
 </div>
 

@@ -1,0 +1,26 @@
+﻿@model int?
+
+@{
+	Layout = null;
+}
+
+<div ng-controller="courseAddUserTeacherController" ng-init="id=@Model; GetUsersNotInCourse()">
+
+	<table class="table table-condensed">
+		<tr>
+			<th>Namn</th>
+			<th></th>
+		</tr>
+		<tr ng-repeat="user in apiData.Users">
+			<td>
+				{{user.Name}} {{user.SurName}}
+			</td>
+			<td class="text-right">
+				<button type="button" class="btn btn-success btn-sm" ng-click="AddUserToCourse(user.UserId, @Model)">Lägg till</button>
+			</td>
+		</tr>
+
+	</table>
+</div>
+
+<script src="~/Scripts/courseControllers/courseAddUserTeacherController.js"></script>

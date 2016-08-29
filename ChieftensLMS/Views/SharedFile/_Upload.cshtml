@@ -1,37 +1,39 @@
-﻿@model int
+﻿@model int?
 
 @{
-	ViewBag.Title = "Upload";
+	Layout = null;
 }
 
 <div ng-controller="sharedFileUploadController">
 
 	<div ng-show="uploadStatus == 'complete'">
-		<h2>Klar!</h2>
 		<p>Uppladdning klar</p>
+
 	</div>
 	<div ng-show="uploadStatus == 'uploading'">
-		<h2>Laddar upp fil</h2>
 		<p>Vänta...</p>
 	</div>
 	<div ng-show="uploadStatus == 'error'">
-		<h2>Fel!</h2>
 		<p>Ett fel inträffade, filen kunde inte laddas upp</p>
+		
 	</div>
 
-	<div class="form-group" ng-show="uploadStatus != ''">
-		<div class="progress">
+
+		<div class="progress" ng-show="uploadStatus != ''">
 			<div class="progress-bar" role="progressbar" aria-valuenow="{{progressPercentage}}"
 				 aria-valuemin="0" aria-valuemax="{{maxProgress}}" style="width:{{progressPercentage}}%">
 				<span class="sr-only">{{progressPercentage}}% Klart</span>
 			</div>
 		</div>
+
+	<div>
+		<button class="btn btn-success" ng-show="uploadStatus == 'complete'" ng-click="reset()">Ladda upp ny fil</button>
+		<button class="btn btn-success" ng-show="uploadStatus == 'error'" ng-click="reset()">Prova igen</button> 
 	</div>
+
 
 	<form name="form" novalidate>
 		<div ng-hide="uploadStatus != ''">
-			<h2>Ladda upp fil</h2>
-
 			<div class="form-group">
 				<label for="Name">Namn</label><br />
 				<input type="text" id="Name" name="Name" class="form-control" ng-model="Name" required />
@@ -43,12 +45,12 @@
 
 			<div class="form-group">
 				<b>Vald fil:</b><br />
-				{{file.name ? file.name : "Välj fil att ladda upp"}}<br />
+				{{File.name ? File.name : "Välj fil att ladda upp"}}<br />
 			</div>
-
+		
 			<div class="form-group">
-				<button type="button" class="btn btn-success" ngf-select ng-model="file" name="file"><span class="glyphicon glyphicon-folder-open"></span> Välj fil</button>
-				<button type="button" class="btn btn-danger" ng-click="upload(file, @Model)"><span class="glyphicon glyphicon-upload"></span> Ladda upp</button>
+				<button type="button" class="btn btn-success" ngf-select ng-model="File" name="File" required><span class="glyphicon glyphicon-folder-open"></span> Välj fil</button>
+				<button type="button" class="btn btn-danger" ng-click="upload(File, @Model)"><span class="glyphicon glyphicon-upload"></span> Ladda upp</button>
 			</div>
 		</div>
 
@@ -58,6 +60,4 @@
 
 </div>
 
-<script src="~/Scripts/ng-file-upload-shim.js"></script>
-<script src="~/Scripts/ng-file-upload.js"></script>
 <script src="~/Scripts/sharedFileControllers/sharedFileUploadController.js"></script>

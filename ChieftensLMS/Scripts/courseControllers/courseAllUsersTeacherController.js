@@ -24,7 +24,7 @@
 
 			if (index != -1)
 				$scope.apiData.Users.splice(index, 1);
-
+			$scope.$emit("courseAllUsersTeacherController_removed");
 		};
 
 		var onRemoveFail = function (response) {
@@ -36,10 +36,14 @@
 			ApiService.Get("/CourseApi/RemoveUserFromCourse", onRemoveSuccess, onRemoveFail, { userId: id, courseId: courseId });
 		}
 
-		$scope.GetAllUsers = function(id)
+		$scope.GetAllUsers = function()
 		{
-			ApiService.Get("/CourseApi/AllUsers", onSuccess, onFail, { id: id });
+			ApiService.Get("/CourseApi/AllUsers", onSuccess, onFail, { id: $scope.id });
 		}
+
+		$scope.$on("courseAllUsersTeacherController_refresh", function () {
+			$scope.GetAllUsers();
+		})
 			
 	});
 

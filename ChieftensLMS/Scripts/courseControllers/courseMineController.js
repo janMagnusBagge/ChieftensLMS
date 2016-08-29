@@ -13,6 +13,10 @@
 		};
 
 		ApiService.Get("/CourseApi/Mine", onSuccess, onFail);
+
+		$scope.$on("courseMineController_refresh", function () {
+			ApiService.Get("/CourseApi/Mine", onSuccess, onFail);
+		});
 	});
 
 }());
