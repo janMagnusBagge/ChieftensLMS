@@ -17,6 +17,24 @@ namespace ChieftensLMS.Services
 		public int CourseId { get; set; }
 		public int TimeInMin { get; set; }
 		public string CourseName { get; set; }
+		public TimeSpan StartTime { get; set; }
+
+		public LectureDTO()
+		{
+			
+		}
+
+		public LectureDTO(Lecture lecture)
+		{
+			Id = lecture.Id;
+			Name = lecture.Name;
+			Date = lecture.Date;
+			Description = lecture.Description;
+			CourseId = lecture.CourseId;
+			TimeInMin = lecture.TimeInMin;
+			CourseName = lecture.CourseId.ToString();
+			StartTime = new TimeSpan(Date.Hour,Date.Minute,Date.Second);
+		}
 	}
 	#endregion
 
@@ -81,10 +99,30 @@ namespace ChieftensLMS.Services
 			return lectures.OrderBy(lecture => lecture.Date).ToList();
 		}
 
+
+		public LectureDTO GetLecture(int lectureId)
+		{
+			if (IsValidLecture(lectureId) == false)
+				return null;
+
+			Course course = _db.Courses.Find(_db.Lectures.Find(lectureId).Id);
+			string courseName = (course != null) ? course.Name : "";
+
+			LectureDTO lectureDTO = new LectureDTO(_db.Lectures.SingleOrDefault(lecture => lecture.Id == lectureId));
+
+			lectureDTO.CourseName = courseName;
+			return lectureDTO;
+		}
+
 		//TODO Move out so you can use this in course and in this at the same time without having it 2 places
 		public bool IsValidCourse(int courseId)
 		{
 			return _db.Courses.Find(courseId) != null;
+		}
+
+		public bool IsValidLecture(int lectureId)
+		{
+			return _db.Lectures.Find(lectureId) != null;
 		}
 	}
 }

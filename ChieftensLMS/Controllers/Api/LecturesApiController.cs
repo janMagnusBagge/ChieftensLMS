@@ -51,5 +51,19 @@ namespace ChieftensLMS.Controllers.Api
 			else
 				return ApiResult.Success(new { Lectures = result });
 		}
+
+		public ActionResult GetLecture(int? lectureId)
+		{
+			if (lectureId == null)
+				return ApiResult.Fail("Invalid argument to api");
+
+			var result = _LecturesService.GetLecture((int)lectureId);
+
+			if (result == null)
+				return ApiResult.Fail("");
+			else
+				return ApiResult.Success(new { Lecture = result });
+
+		}
     }
 }
