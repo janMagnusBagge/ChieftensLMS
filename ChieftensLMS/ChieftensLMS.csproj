@@ -316,6 +316,7 @@
     <Content Include="Views\Course\Overview.cshtml" />
     <Content Include="Views\Course\Users.cshtml" />
     <Content Include="Views\Course\Details.cshtml" />
+    <Content Include="Views\Lectures\CreateLectures.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
