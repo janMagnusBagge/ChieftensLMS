@@ -28,10 +28,16 @@
 		@{var _userManager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();}
 		@if (Request.IsAuthenticated && _userManager.IsInRole(User.Identity.GetUserId(), "Teacher"))
 		{
-			<dt>Roll:</dt>
-			<dd>
-				@Html.DropDownList("Roles", Model.RolesSelect,"Välj roll")
-			</dd>
+			using (Html.BeginForm())
+			{
+				<dt>Roll:</dt>
+				<dd>
+					@Html.DropDownList("Roles", Model.RolesSelect, "Välj roll")
+				</dd>
+				<dd>
+					<button type="submit" class="btn btn-danger btn-sm">Updatera konto</button>
+				</dd>
+			}
 		}
         @*<dt>External Logins:</dt>
         <dd>
@@ -92,3 +98,29 @@
         @*</dd>*@
     </dl>
 </div>
+
+@*<script>
+
+	(function () {
+
+		angular.module("app").controller("assignmentIndexController", function ($scope, ApiService, $window) {
+			$scope.assignmentList = null;
+
+			var onSuccess = function (data) {
+				$scope.assignmentList = data.assigments;
+			};
+
+			var onFail = function (response) {
+				alert("Misslyckades");
+			};
+
+			$scope.GetUsersNotInCourse = function (id) {
+				ApiService.Get("/CourseApi/UsersNotInCourse", onSuccess, onFail, { id: $scope.id });
+			}
+
+			
+		});
+
+	}());
+
+</script>*@

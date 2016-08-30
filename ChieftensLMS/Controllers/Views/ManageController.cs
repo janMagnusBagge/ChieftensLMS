@@ -94,6 +94,25 @@ namespace ChieftensLMS.Controllers
 			return View(model);
 		}
 
+		[HttpPost]
+		public ActionResult Index(string Roles, string id)
+		{
+			var userId = (id != null ? (id.Trim() != "" ? id : User.Identity.GetUserId()) : User.Identity.GetUserId());//User.Identity.GetUserId();
+			var _roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new ApplicationDbContext()));
+			var role = _roleManager.FindByName(Roles);
+
+			if (role != null)
+			{
+				UserManager.RemoveFromRole(userId, "Student");
+				UserManager.RemoveFromRole(userId, "Teacher");
+				UserManager.AddToRole(userId, role.Name);
+			}
+			else
+				return RedirectToAction("Index", new { id = userId });
+			return RedirectToAction("Index", "StudentAccount");
+			//return RedirectToAction("Index", new { id = userId });
+		}
+
 		//
 		// POST: /Manage/RemoveLogin
 		[HttpPost]
