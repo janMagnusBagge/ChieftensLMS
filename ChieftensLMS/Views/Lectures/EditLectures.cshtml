@@ -1,0 +1,93 @@
+﻿@model int?
+@{
+	ViewBag.Title = "Uppdatera Lektion";
+}
+
+<h2>Uppdatera Lektion</h2>
+
+<div ng-controller="lectureEditController" ng-init="GetCourseLecture(@Model)">
+	<a href="~/Lectures/Index/{{lecture.CourseId}}">Lektioner för kurs</a>
+	<div class="form-group">
+		<label class="control-label col-md-2" for="Name">Namn</label>
+		<div class="col-md-10">
+			<input id="Name" type="text" class="form-control" ng-model="lecture.Name" />
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label class="control-label col-md-2" for="Description">Beskrivning</label>
+		<div class="col-md-10">
+			<input id="Description" type="text" class="form-control" ng-model="lecture.Description" />
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label class="control-label col-md-2" for="TimeInMin">Tid i minuter</label>
+		<div class="col-md-10">
+			<input id="TimeInMin" type="text" class="form-control" ng-model="lecture.TimeInMin" />
+		</div>
+	</div>
+
+	<div class="form-group">
+		<label class="control-label col-md-2" for="Date">Datum</label>
+		<div class="col-md-10">
+			<input id="Date" type="date" class="form-control" ng-model="lecture.Date" />
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="control-label col-md-2" for="Starttime">Starttid</label>
+		<div class="col-md-10">
+			<input type="time" id="Starttime" name="Starttime" ng-model="lecture.Starttime"
+				   placeholder="HH:mm:ss" min="00:00:00" max="24:00:00" required />
+		</div>
+	</div>
+	<div>
+		<button type="button" class="btn btn-danger btn-sm" ng-click="updateLecture(@Model)">Updatera Lektion</button>
+	</div>
+</div>
+
+<script>
+
+	(function () {
+
+		angular.module("app").controller("lectureEditController", function ($scope, ApiService, $window, $filter) {
+
+			$scope.lecture = null;
+
+
+
+			var onloadSuccess = function (data) {
+				$scope.lecture = data.Lecture;
+				$scope.lecture.Date = new Date(parseInt(data.Lecture.Date.substr(6)));
+				//$scope.lecture.Starttime = data.Lecture.StartTime;
+				$scope.lecture.Starttime = new Date(1970, 0, 1, data.Lecture.Hour, data.Lecture.Minute, 0)
+			};
+
+			var onloadFail = function (response) {
+				alert("Misslyckades");
+			};
+
+			$scope.GetCourseLecture = function (id) {
+				ApiService.Get("/LecturesApi/GetLecture", onloadSuccess, onloadFail, { lectureId: id });
+				//ApiService.CheckIfInTeacher(onTeacherSuccess, onTeacherFail); //To show or hide things that only some roles should see or not
+			}
+
+
+			var onSuccess = function (data) {
+				$window.location.href = '/Lecture/Index/' + $scope.Lecture.CourseId;
+			};
+
+			var onFail = function (response) {
+				alert("Misslyckades updatera");
+			};
+
+			$scope.updateLecture = function (id) {
+				ApiService.Get("/LecturesApi/UpdateLecture", onSuccess, onFail, { id: id, name: $scope.lecture.Name, description: $scope.lecture.Description, date: $scope.lecture.Date, timeInMin: $scope.lecture.TimeInMin, startTime: $scope.lecture.Starttime }
+					);
+			};
+
+		});
+
+	}());
+
+</script>

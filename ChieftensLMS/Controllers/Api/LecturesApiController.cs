@@ -23,7 +23,9 @@ namespace ChieftensLMS.Controllers.Api
 			_context = new ApplicationDbContext();
 			_LecturesService = new LecturesService(_context);
 		}
-
+		/*
+		 * Gets lectures specified course
+		 */
 		public ActionResult GetLecturesForCourse(int? courseId)
 		{
 			if (courseId == null)
@@ -37,7 +39,9 @@ namespace ChieftensLMS.Controllers.Api
 				return ApiResult.Success(new { Lectures = result });
 		}
 
-		
+		/*
+		 * Gets lectures specified user
+		 */
 		public ActionResult GetLecturesForUser(string id)
 		{
 			var userId = (id != null ? (id.Trim() != "" ? id : User.Identity.GetUserId()) : User.Identity.GetUserId());//User.Identity.GetUserId();
@@ -51,7 +55,9 @@ namespace ChieftensLMS.Controllers.Api
 			else
 				return ApiResult.Success(new { Lectures = result });
 		}
-
+		/*
+		 * gets specified lecture
+		 */
 		public ActionResult GetLecture(int? lectureId)
 		{
 			if (lectureId == null)
@@ -64,6 +70,17 @@ namespace ChieftensLMS.Controllers.Api
 			else
 				return ApiResult.Success(new { Lecture = result });
 
+		}
+
+		/*
+		 * Updates specified lecture
+		 */
+		//TODO: Fix so it throw exception and check if it did or not and return false if did
+		//TODO: Fix so can send in whole lecture
+		public ActionResult UpdateLecture(int id, string name, string description, DateTime date, int timeInMin, DateTime startTime )
+		{
+			bool ifUpdated = _LecturesService.UpdateLecture(id, name, description, date, timeInMin, startTime); ;
+			return ApiResult.Success(new { ifUpdated = ifUpdated });
 		}
     }
 }
