@@ -29,7 +29,7 @@
 		<tbody>
 			<tr ng-repeat="item in assignmentList">
 				<td>
-					<a href="~/Assignment/Details/{{item.Id}}">{{item.Name}}</a>
+					<a href="~/Assignment/Details/{{item.Id}}" class="btn btn-default btn-sm">{{item.Name}}</a>
 				</td>
 				<td>
 					<i>{{item.Description}}</i>
@@ -38,7 +38,7 @@
 					{{item.ExpirationDate | dateFilter | date:'yyyy-MM-dd'}}
 				</td>
 				<td ng-show="ifTeacher">
-					<a href="~/Assignment/Edit/{{item.Id}}">Updatera</a>
+					<a href="~/Assignment/Edit/{{item.Id}}" class="btn btn-default btn-sm">Updatera</a>
 				</td>
 			</tr>
 		</tbody>

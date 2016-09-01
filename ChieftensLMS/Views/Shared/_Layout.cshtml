@@ -34,6 +34,7 @@
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
 					<li>@Html.ActionLink("Temp get assignments", "Index", "Assignment", new { id = 3 }, null)</li>
+					<li>@Html.ActionLink("Temp course to create", "CreateLectures", "Lectures", new { courseId = 3 }, null)</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -110,7 +111,7 @@
 		//	});
 		//});
 		$(function () {
-			var dateFormat = "dd-mm-yy",
+			var dateFormat = "yy-mm-dd",
 			  from = $("#StartDate")
 				.datepicker({
 					defaultDate: "+1w",
@@ -119,10 +120,12 @@
 					numberOfMonths: 3,
 					showWeek: true,
 					firstDay: 1,
-					dateFormat: "dd-mm-yy"
+					dateFormat: "yy-mm-dd"
 				})
 				.on("change", function () {
 					to.datepicker("option", "minDate", getDate(this));
+					//to.trigger('to');
+					//from.trigger('from');
 				}),
 			  to = $("#EndDate").datepicker({
 			  	defaultDate: "+1w",
@@ -131,10 +134,12 @@
 			  	numberOfMonths: 3,
 			  	showWeek: true,
 			  	firstDay: 1,
-			  	dateFormat: "dd-mm-yy"
+			  	dateFormat: "yy-mm-dd"
 			  })
 			  .on("change", function () {
 			  	from.datepicker("option", "maxDate", getDate(this));
+			  	//to.trigger('to');
+			  	//from.trigger('from');
 			  });
 
 			function getDate(element) {
@@ -148,6 +153,29 @@
 				return date;
 			}
 		});
+
+		(function ($, ng) {
+			'use strict';
+
+			var $val = $.fn.val; // save original jQuery function
+
+			// override jQuery function
+			$.fn.val = function (value) {
+				// if getter, just return original
+				if (!arguments.length) {
+					return $val.call(this);
+				}
+
+				// get result of original function
+				var result = $val.call(this, value);
+
+				// trigger angular input (this[0] is the DOM object)
+				ng.element(this[0]).triggerHandler('input');
+
+				// return the original result
+				return result;
+			}
+		})(window.jQuery, window.angular);
 	</script>
 
 </body>

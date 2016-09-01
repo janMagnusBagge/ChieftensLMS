@@ -131,7 +131,7 @@ namespace ChieftensLMS.Services
 		/*
 		 * Get a lecture from database
 		 */
-		internal Lecture GetLectureFromDb(int Id)
+		public Lecture GetLectureFromDb(int Id)
 		{
 			return _db.Lectures.Find(Id);
 		}
@@ -198,17 +198,42 @@ namespace ChieftensLMS.Services
 				_db.Lectures.Add(lectureToCreate);
 
 				if (frequency == 1) //Day, adds one day to the next date
-					currentDate.AddDays(1);
+					currentDate = currentDate.AddDays(1);
 				else if (frequency == 2) //Week, adds 7 days to the next date
-					currentDate.AddDays(7);
+					currentDate = currentDate.AddDays(7);
 				else if (frequency == 3) //Every other week, adds 14 days to the next date.
-					currentDate.AddDays(14);
+					currentDate = currentDate.AddDays(14);
 				else if (frequency == 4) //Month, adds 30 days to the next date
-					currentDate.AddDays(30);
+					currentDate = currentDate.AddDays(30);
 				else
 					break;
 			}
 			
+				_db.SaveChanges();
+			}
+			catch (Exception ec)
+			{
+				Console.WriteLine(ec.Message);
+				return false;
+			}
+			return true;
+		}
+
+		/*
+		 * Return name of course that have Id sent in
+		 */
+		//TODO Move to courseService
+		public string GetCourseName(int courseId)
+		{
+			return _db.Courses.Find(courseId).Name;
+		}
+
+
+		public bool DeleteLecture(Lecture lecture)
+		{
+			try
+			{
+				_db.Entry(lecture).State = EntityState.Deleted;
 				_db.SaveChanges();
 			}
 			catch (Exception ec)

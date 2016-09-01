@@ -2,7 +2,7 @@
 @{
 	ViewBag.Title = "Skapa inlämningsuppgift";
 }
-<a href="~/Assignment/Index/@Model">Inlämningar för kurs</a>
+<a href="~/Assignment/Index/@Model" class="btn btn-default btn-sm">Inlämningar för kurs</a>
 <div ng-controller="assignmentCreateController" ng-init="GetCourseAssigments(@Model)">
 	<div class="form-group">
 		<label class="control-label col-md-2" for="Name">Namn</label>

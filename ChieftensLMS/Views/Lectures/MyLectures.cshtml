@@ -6,7 +6,7 @@
 <h2>Mina lektioner</h2>
 
 <div ng-controller="lecturesController" ng-init="GetLectures(@Model)">
-
+	
 	<table class="table">
 		<thead>
 			<tr>
@@ -58,7 +58,6 @@
 				//ApiService.GetCourseAssigments(onSuccess, onFail, { courseId: courseId });
 				ApiService.Get("/LecturesApi/GetLecturesForUser", onSuccess, onFail, { courseId: courseId });
 			}
-
 
 		});
 

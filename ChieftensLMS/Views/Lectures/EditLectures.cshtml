@@ -6,7 +6,7 @@
 <h2>Uppdatera Lektion</h2>
 
 <div ng-controller="lectureEditController" ng-init="GetCourseLecture(@Model)">
-	<a href="~/Lectures/Index/{{lecture.CourseId}}">Lektioner för kurs</a>
+	<a href="~/Lectures/Index/{{lecture.CourseId}}" class="btn btn-default btn-sm">Lektioner för kurs</a>
 	<div class="form-group">
 		<label class="control-label col-md-2" for="Name">Namn</label>
 		<div class="col-md-10">
@@ -74,7 +74,7 @@
 
 
 			var onSuccess = function (data) {
-				$window.location.href = '/Lecture/Index/' + $scope.Lecture.CourseId;
+				$window.location.href = '/Lectures/Index/' + $scope.lecture.CourseId;
 			};
 
 			var onFail = function (response) {

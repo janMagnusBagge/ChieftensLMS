@@ -6,7 +6,9 @@
 <div ng-controller="lecturesIndexController" ng-init="GetLectures(@Model)">
 	<h2>Lektioner för kurs {{lectures[1].CourseName}}</h2>
 
-
+	<div>
+		<button type="button" class="btn btn-danger btn-sm" ng-click="createLecture()" ng-show="ifTeacher">Skapa Lektioner</button>
+	</div>
 	<table class="table">
 		<thead>
 			<tr>
@@ -14,6 +16,7 @@
 				<th>Datum</th>
 				<th>Starttid</th>
 				<th>Hur lång tid i minuter</th>
+				<th></th>
 			</tr>
 		</thead>
 		<tr ng-repeat="lecture in lectures">
@@ -29,9 +32,8 @@
 			<td>
 				{{lecture.TimeInMin}}
 			</td>
-
+			<td><a href="~/Lectures/EditLectures/?id={{lecture.Id}}" class="btn btn-default btn-sm" ng-show="ifTeacher">Updatera</a><button type="button" class="btn btn-danger btn-sm" ng-click="deleteLecture(lecture.Id)" ng-show="ifTeacher">Radera</button></td>  
 		</tr>
-
 	</table>
 </div>
 
@@ -41,6 +43,7 @@
 
 		angular.module("app").controller("lecturesIndexController", function ($scope, ApiService, $window) {
 			$scope.lectures = null;
+			$scope.ifTeacher = null;
 
 			var onSuccess = function (data) {
 				$scope.lectures = data.Lectures;
@@ -53,8 +56,43 @@
 			$scope.GetLectures = function (courseId) {
 				//ApiService.GetCourseAssigments(onSuccess, onFail, { courseId: courseId });
 				ApiService.Get("/LecturesApi/GetLecturesForCourse", onSuccess, onFail, { courseId: courseId });
+				ApiService.CheckIfInTeacher(onTeacherSuccess, onTeacherFail); //To show or hide things that only some roles should see or not
 			}
 
+			var onTeacherSuccess = function (data) {
+				$scope.ifTeacher = data.isTeacher;
+			};
+
+			var onTeacherFail = function (response) {
+				alert("Misslyckades med om lärare kontroll");
+			};
+
+			$scope.createLecture = function () {
+				$window.location.href = '/Lectures/CreateLectures/?courseId=@Model';
+			}
+
+			//delete parts
+			var onDeleteSuccess = function (data) {
+				var index = -1;
+				for (var i = 0; i < $scope.lectures.length; i++) {
+					if ($scope.lectures[i].Id == data.Id) {
+						index = i;
+						break;
+					}
+				}
+
+				if (index != -1)
+					$scope.lectures.splice(index, 1);
+
+			};
+
+			var onDeleteFail = function (response) {
+				alert("fail " + response.reason);
+			};
+
+			$scope.deleteLecture = function (id) {
+				ApiService.Get("/LecturesApi/DeleteLecture", onDeleteSuccess, onDeleteFail, { lectureId: id });
+			}
 
 		});
 
