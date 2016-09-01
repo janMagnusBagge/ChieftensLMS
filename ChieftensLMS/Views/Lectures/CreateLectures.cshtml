@@ -6,7 +6,7 @@
 <h2>CreateLectures</h2>
 
 <a href="~/Lectures/Index/@Model">Lektioner för kurs</a>
-<div ng-controller="assignmentCreateController" ng-init="GetCourseAssigments(@Model)">
+<div ng-controller="lectureCreateController" ng-init="GetCourseAssigments(@Model)">
 
 	<div class="form-group">
 		<label class="control-label col-md-2" for="Name">Namn</label>
@@ -32,7 +32,14 @@
 	<div class="form-group">
 		<label class="control-label col-md-2" for="Date">Datum</label>
 		<div class="col-md-10">
-			<input id="Date" type="datetime" class="form-control datepicker" ng-model="Date" />
+			<input id="Date" type="datetime" class="form-control" ng-model="Date" />
 		</div>
 	</div>
 </div>
+
+
+@*<script>
+	$(function () {
+		$("#Date").datepicker();
+	}); 
+</script>*@

@@ -8,11 +8,13 @@
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+	<link rel="stylesheet" href="~/Content/jquery-ui.css">
 	<script src="~/Scripts/angular.js"></script>
 	<script src="~/Scripts/ng-file-upload-shim.js"></script>
 	<script src="~/Scripts/ng-file-upload.js"></script>
 	<script src="~/Scripts/chieften/app.js"></script>
 	<script src="~/Scripts/chieften/ApiService.js"></script>
+	@*<script src="~/Scripts/jquery-ui.js"></script>*@
 
 
 </head>
@@ -84,5 +86,19 @@
 		@Scripts.Render("~/bundles/jquery")
 		@Scripts.Render("~/bundles/bootstrap")
 		@RenderSection("scripts", required: false)
+	<script>
+		$(function () {
+			$("#Date").datepicker({
+				dateFormat: "dd-mm-yy",
+				showWeek: true,
+				firstDay: 1,
+				changeMonth: true,
+				changeYear: true,
+				showOtherMonths: true,
+				selectOtherMonths: true
+			});
+		});
+	</script>
+
 </body>
 </html>
