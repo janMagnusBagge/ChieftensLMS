@@ -11,32 +11,96 @@
 	<div class="form-group">
 		<label class="control-label col-md-2" for="Name">Namn</label>
 		<div class="col-md-10">
-			<input id="Name" type="text" class="form-control" ng-model="Name" />
+			<input id="Name" type="text" class="form-control" ng-model="Name" required />
 		</div>
 	</div>
 
 	<div class="form-group">
 		<label class="control-label col-md-2" for="Description">Beskrivning</label>
 		<div class="col-md-10">
-			<input id="Description" type="text" class="form-control" ng-model="Description" />
+			<input id="Description" type="text" class="form-control" ng-model="Description" required />
 		</div>
 	</div>
 
 	<div class="form-group">
 		<label class="control-label col-md-2" for="TimeInMin">Tid i minuter</label>
 		<div class="col-md-10">
-			<input id="TimeInMin" type="text" class="form-control" ng-model="TimeInMin" />
+			<input id="TimeInMin" type="text" class="form-control" ng-model="TimeInMin" required />
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="control-label col-md-2" for="Frequency">Frekvens av lektioner</label>
+		<div class="col-md-10">
+			<select class="form-control" id="Frequency" name="Frequency" ng-model="Frequency" required>
+				<option value=1>Dag (varje dag)</option>
+				<option value=2>Vecka (varje 7:de dag)</option>
+				<option value=3>Varannan Vecka (varje 14:de dag)</option>
+				<option value=4>Månad (varje 30:de dag)</option>
+			</select>
+		</div>
+	</div>
+	<div class="form-group">
+		<label class="control-label col-md-12" for="startDate">Datum</label>
+		<label class="control-label col-md-2" for="startDate">Från</label>
+		<div class="col-md-10">
+			<input id="StartDate" type="datetime" class="form-control" ng-model="SDate" required />
+		</div>
+		<label class="control-label col-md-2" for="endDate">Till</label>
+		<div class="col-md-10">
+			<input id="EndDate" type="datetime" class="form-control" ng-model="EDate" required />
 		</div>
 	</div>
 
 	<div class="form-group">
-		<label class="control-label col-md-2" for="Date">Datum</label>
+		<label class="control-label col-md-2" for="starttime">Starttid</label>
 		<div class="col-md-10">
-			<input id="Date" type="datetime" class="form-control" ng-model="Date" />
+			<input type="time" id="starttime" name="starttime" ng-model="starttime"
+				   placeholder="HH:mm:ss" min="00:00:00" max="24:00:00" required />
 		</div>
 	</div>
+	
+	<div>
+		<button type="button" class="btn btn-danger btn-sm" ng-click="createLecture(@Model)">Skapa schema / Lektioner</button>
+	</div>
+	
 </div>
 
+<script>
+
+	(function () {
+
+		angular.module("app").controller("lectureCreateController", function ($scope, ApiService, $window) {
+			
+			var onSuccess = function (data) {
+				$window.location.href = '/Lectures/Index/@Model';
+			};
+
+			var onFail = function (response) {
+				alert("Misslyckades lägga till");
+			};
+
+			$scope.createLecture = function (lid) {
+				@*console.log({courseId: @Model, name: $scope.name, description: $scope.description, date: $scope.date});*@
+				ApiService.Get("/LecturesApi/CreateLecture", onSuccess, onFail,
+				{
+					courseId: lid,
+					name: $scope.Name,
+					description: $scope.Description,
+					timeInMin: $scope.TimeInMin,
+					frequency: $scope.Frequency,
+					startdate: $scope.SDate,
+					enddate: $scope.EDate,
+					starttime: $scope.starttime
+				}
+					);
+
+			}
+
+		});
+
+	}());
+
+</script>
 
 @*<script>
 	$(function () {

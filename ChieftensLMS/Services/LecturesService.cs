@@ -175,6 +175,50 @@ namespace ChieftensLMS.Services
 			return true;
 		}
 
+		/*
+		 * Crate lectures between the startdate and enddate with chosen frequency inteval of the date determend in frequency.
+		 * All lectures have different dates but the rest of the information is the same.
+		 */
+		public bool CreateLecture(int courseId, string name, string description, int timeInMin, int frequency, DateTime startdate, DateTime enddate, DateTime starttime)
+		{
+
+			Lecture lectureToCreate;
+			try
+			{ 
+			DateTime currentDate = StringToDate(startdate.ToString("yyy/MM/dd"), starttime.ToString("t"));
+			while (currentDate <= enddate) //Should it be only less?
+			{
+				lectureToCreate = new Lecture();
+				lectureToCreate.CourseId = courseId;
+				lectureToCreate.Name = name;
+				lectureToCreate.Description = description;
+				lectureToCreate.TimeInMin = timeInMin;
+				lectureToCreate.Date = currentDate;
+				
+				_db.Lectures.Add(lectureToCreate);
+
+				if (frequency == 1) //Day, adds one day to the next date
+					currentDate.AddDays(1);
+				else if (frequency == 2) //Week, adds 7 days to the next date
+					currentDate.AddDays(7);
+				else if (frequency == 3) //Every other week, adds 14 days to the next date.
+					currentDate.AddDays(14);
+				else if (frequency == 4) //Month, adds 30 days to the next date
+					currentDate.AddDays(30);
+				else
+					break;
+			}
+			
+				_db.SaveChanges();
+			}
+			catch (Exception ec)
+			{
+				Console.WriteLine(ec.Message);
+				return false;
+			}
+			return true;
+		}
+
 		#region help functions
 		/*
 		 * Checks if the send in Id corresponds to a walid course

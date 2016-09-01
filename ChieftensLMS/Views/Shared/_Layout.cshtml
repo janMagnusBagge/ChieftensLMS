@@ -59,11 +59,13 @@
 				@Html.ActionLink("Mina Delade Filer", "Mine", "SharedFile", null, new { @class = "btn btn-default btn-sm" })
 				@Html.ActionLink("Skapa konto", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "btn btn-default btn-sm" })
 				@Html.ActionLink("Konton", "Index", "StudentAccount", null, new { @class = "btn btn-default btn-sm" })
+				@Html.ActionLink("Mitt Schema", "MyLectures", "Lectures", null, new { @class = "btn btn-default btn-sm" })
 			}
 			else
 			{
 				@Html.ActionLink("Mina Kurser", "Overview", "Course", null, new { @class = "btn btn-default btn-sm" })
 				@Html.ActionLink("Mina Delade Filer", "Mine", "SharedFile", null, new { @class = "btn btn-default btn-sm" })
+				@Html.ActionLink("Mitt Schema", "MyLectures", "Lectures", null, new { @class = "btn btn-default btn-sm" })
 			}
 		</div>
 	</div>
@@ -87,16 +89,64 @@
 		@Scripts.Render("~/bundles/bootstrap")
 		@RenderSection("scripts", required: false)
 	<script>
+		//$(function () {
+		//	$("#startDate").datepicker({
+		//		dateFormat: "dd-mm-yy",
+		//		showWeek: true,
+		//		firstDay: 1,
+		//		changeMonth: true,
+		//		changeYear: true,
+		//		showOtherMonths: true,
+		//		selectOtherMonths: true
+		//	});
+		//	$("#endDate").datepicker({
+		//		dateFormat: "dd-mm-yy",
+		//		showWeek: true,
+		//		firstDay: 1,
+		//		changeMonth: true,
+		//		changeYear: true,
+		//		showOtherMonths: true,
+		//		selectOtherMonths: true
+		//	});
+		//});
 		$(function () {
-			$("#Date").datepicker({
-				dateFormat: "dd-mm-yy",
-				showWeek: true,
-				firstDay: 1,
-				changeMonth: true,
-				changeYear: true,
-				showOtherMonths: true,
-				selectOtherMonths: true
-			});
+			var dateFormat = "dd-mm-yy",
+			  from = $("#StartDate")
+				.datepicker({
+					defaultDate: "+1w",
+					changeMonth: true,
+					changeYear: true,
+					numberOfMonths: 3,
+					showWeek: true,
+					firstDay: 1,
+					dateFormat: "dd-mm-yy"
+				})
+				.on("change", function () {
+					to.datepicker("option", "minDate", getDate(this));
+				}),
+			  to = $("#EndDate").datepicker({
+			  	defaultDate: "+1w",
+			  	changeMonth: true,
+			  	changeYear: true,
+			  	numberOfMonths: 3,
+			  	showWeek: true,
+			  	firstDay: 1,
+			  	dateFormat: "dd-mm-yy"
+			  })
+			  .on("change", function () {
+			  	from.datepicker("option", "maxDate", getDate(this));
+			  });
+
+			function getDate(element) {
+				var date;
+				try {
+					date = $.datepicker.parseDate(dateFormat, element.value);
+				} catch (error) {
+					date = null;
+				}
+
+				return date;
+			}
 		});
 	</script>
 

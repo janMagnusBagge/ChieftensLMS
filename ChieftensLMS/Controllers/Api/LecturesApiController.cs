@@ -82,5 +82,12 @@ namespace ChieftensLMS.Controllers.Api
 			bool ifUpdated = _LecturesService.UpdateLecture(id, name, description, date, timeInMin, startTime); ;
 			return ApiResult.Success(new { ifUpdated = ifUpdated });
 		}
+
+		public ActionResult CreateLecture(int courseId, string name, string description, int timeInMin, int frequency, DateTime startdate, DateTime enddate, DateTime starttime)
+		{
+
+			bool ifCreated = _LecturesService.CreateLecture(courseId, name, description, timeInMin, frequency, startdate, enddate, starttime); ;
+			return ApiResult.Success(new { ifCreated = ifCreated });
+		}
     }
 }
