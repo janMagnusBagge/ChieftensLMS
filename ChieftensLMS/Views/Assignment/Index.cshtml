@@ -10,7 +10,7 @@
 
 <div ng-controller="assignmentIndexController" ng-init="GetCourseAssigments(@Model)">
 	<div>
-		<button type="button" class="btn btn-danger btn-sm" ng-click="createAssignment()" ng-show="ifTeacher">Skapa inlämningsuppgift</button>
+		<a href="~/Course/Details/@Model" class="btn btn-default">Kurs</a><button type="button" class="btn btn-danger btn-sm col-md-offset-1" ng-click="createAssignment()" ng-show="ifTeacher">Skapa inlämningsuppgift</button>
 	</div>
 	<table class="table">
 		<thead>

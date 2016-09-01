@@ -3,12 +3,12 @@
     ViewBag.Title = "Lektioner";
 }
 <br />
-<a href="~/Course/Details/@Model" class="btn btn-default">Kurs</a>
+
 <div ng-controller="lecturesIndexController" ng-init="GetLectures(@Model)">
 	<h2>Lektioner för kurs {{lectures[1].CourseName}}</h2>
 
 	<div>
-		<button type="button" class="btn btn-danger btn-sm" ng-click="createLecture()" ng-show="ifTeacher">Skapa Lektioner</button>
+		<a href="~/Course/Details/@Model" class="btn btn-default">Kurs</a><button type="button" class="btn btn-danger btn-sm col-md-offset-1" ng-click="createLecture()" ng-show="ifTeacher">Skapa Lektioner</button>
 	</div>
 	<table class="table">
 		<thead>
