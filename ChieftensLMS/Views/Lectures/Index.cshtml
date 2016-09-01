@@ -2,7 +2,8 @@
 @{
     ViewBag.Title = "Lektioner";
 }
-
+<br />
+<a href="~/Course/Details/@Model" class="btn btn-default">Kurs</a>
 <div ng-controller="lecturesIndexController" ng-init="GetLectures(@Model)">
 	<h2>Lektioner för kurs {{lectures[1].CourseName}}</h2>
 
