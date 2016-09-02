@@ -1,9 +1,9 @@
 ﻿@model int?
 
-	<h3>Kurs</h3>
-	<div class="well">
 
-			@if (User.IsInRole("Teacher"))
+<div class="well">
+
+	@if (User.IsInRole("Teacher"))
 			{
 				Html.RenderPartial("_Single_Teacher", Model);
 			}
@@ -12,11 +12,13 @@
 				Html.RenderPartial("_Single", Model);
 			}
 
-	</div>
+	<a href="/Course/Overview" class="btn btn-default">Tillbaka</a>
+	<a href="/SharedFile/Course/@Model" class="btn btn-default">Delade filer</a>
+	<a href="/Course/Users/@Model" class="btn btn-default">Medlemmar</a>
+	<a href="/Lectures/Index/@Model" class="btn btn-default">Lektioner</a>
+	<a href="/Assignment/Index/@Model" class="btn btn-default">Inlämningsuppgifter</a>
+</div>
 
 
-<a href="/SharedFile/Course/@Model" class="btn btn-default">Delade filer</a>
-<a href="/Course/Users/@Model" class="btn btn-default">Medlemmar</a>
-<a href="/Lectures/Index/@Model" class="btn btn-default">Lektioner</a>
-<a href="/Assignment/Index/@Model" class="btn btn-default">Inlämningsuppgifter</a>
+
 

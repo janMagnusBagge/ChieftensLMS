@@ -1,17 +1,21 @@
 ﻿<div ng-controller="courseOverviewController">
-
 	@if (User.IsInRole("Teacher"))
 	{
-		<h3>Skapa kurs</h3>
+		<div class="panel panel-default">
 			<div class="well">
+				<h3>Skapa kurs</h3>
+			</div>
+			<div class="container">
 				@{Html.RenderPartial("_CreateCourse");}
 			</div>
-	}
+		</div>
+					}
 
-
-	<h3>Mina kurser</h3>
 	<div class="panel panel-default">
-		<div class="panel-body">
+		<div class="well">
+			<h3>Mina kurser</h3>
+		</div>
+		<div class="container">
 			@{Html.RenderPartial("_Mine");}
 		</div>
 	</div>
