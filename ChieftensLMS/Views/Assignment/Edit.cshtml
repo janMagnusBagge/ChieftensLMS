@@ -4,30 +4,38 @@
 }
 
 <div ng-controller="assignmentUpdateController" ng-init="GetCourseAssignment(@Model)">
-	<a href="~/Assignment/Index/{{assignment.CourseId}}" class="btn btn-default btn-sm">Inlämningar för kurs</a>
-	<div class="form-group">
-		<label class="control-label col-md-2" for="Name">Namn</label>
-		<div class="col-md-10">
-			<input id="Name" type="text" class="form-control" ng-model="assignment.Name" />
+	<div class="panel panel-default">
+		<div class="well">
+			<h3>Uppdatera inlämningsuppgift</h3>
+			<a href="~/Assignment/Index/{{assignment.CourseId}}" class="btn btn-default btn-sm">Inlämningar för kurs</a>
 		</div>
-	</div>
+		
+		<div class="panel panel-body">
+			<div class="form-group">
+				<label class="control-label col-md-2" for="Name">Namn</label>
+				<div class="col-md-10">
+					<input id="Name" type="text" class="form-control" ng-model="assignment.Name" />
+				</div>
+			</div>
 
-	<div class="form-group">
-		<label class="control-label col-md-2" for="Description">Beskrivning</label>
-		<div class="col-md-10">
-			<input id="Description" type="text" class="form-control" ng-model="assignment.Description" />
-		</div>
-	</div>
+			<div class="form-group">
+				<label class="control-label col-md-2" for="Description">Beskrivning</label>
+				<div class="col-md-10">
+					<input id="Description" type="text" class="form-control" ng-model="assignment.Description" />
+				</div>
+			</div>
 
-	<div class="form-group">
-		<label class="control-label col-md-2" for="ExpirationDate">Inlämningsdatum</label>
-		<div class="col-md-10">
-			<input id="ExpirationDate" type="date" class="form-control" ng-model="assignment.ExpirationDate" />
+			<div class="form-group">
+				<label class="control-label col-md-2" for="ExpirationDate">Inlämningsdatum</label>
+				<div class="col-md-10">
+					<input id="ExpirationDate" type="date" class="form-control" ng-model="assignment.ExpirationDate" />
+				</div>
+			</div>
+
+			<div>
+				<button type="button" class="btn btn-danger btn-sm" ng-click="updateAssignment()">Updatera inlämningsuppgift</button>
+			</div>
 		</div>
-	</div>
-	
-	<div>
-		<button type="button" class="btn btn-danger btn-sm" ng-click="updateAssignment()">Updatera inlämningsuppgift</button>
 	</div>
 </div>
 <script>

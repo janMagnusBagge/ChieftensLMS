@@ -2,47 +2,50 @@
 @{
 	ViewBag.Title = "Uppdatera Lektion";
 }
-
-<h2>Uppdatera Lektion</h2>
-
 <div ng-controller="lectureEditController" ng-init="GetCourseLecture(@Model)">
-	<a href="~/Lectures/Index/{{lecture.CourseId}}" class="btn btn-default btn-sm">Lektioner för kurs</a>
-	<div class="form-group">
-		<label class="control-label col-md-2" for="Name">Namn</label>
-		<div class="col-md-10">
-			<input id="Name" type="text" class="form-control" ng-model="lecture.Name" />
+	<div class="panel panel-default">
+		<div class="well">
+			<h2>Uppdatera Lektion</h2>
+			<a href="~/Lectures/Index/{{lecture.CourseId}}" class="btn btn-default btn-sm">Lektioner för kurs</a>
 		</div>
-	</div>
 
-	<div class="form-group">
-		<label class="control-label col-md-2" for="Description">Beskrivning</label>
-		<div class="col-md-10">
-			<input id="Description" type="text" class="form-control" ng-model="lecture.Description" />
+		<div class="form-group">
+			<label class="control-label col-md-2" for="Name">Namn</label>
+			<div class="col-md-10">
+				<input id="Name" type="text" class="form-control" ng-model="lecture.Name" />
+			</div>
 		</div>
-	</div>
 
-	<div class="form-group">
-		<label class="control-label col-md-2" for="TimeInMin">Tid i minuter</label>
-		<div class="col-md-10">
-			<input id="TimeInMin" type="text" class="form-control" ng-model="lecture.TimeInMin" />
+		<div class="form-group">
+			<label class="control-label col-md-2" for="Description">Beskrivning</label>
+			<div class="col-md-10">
+				<input id="Description" type="text" class="form-control" ng-model="lecture.Description" />
+			</div>
 		</div>
-	</div>
 
-	<div class="form-group">
-		<label class="control-label col-md-2" for="Date">Datum</label>
-		<div class="col-md-10">
-			<input id="Date" type="date" class="form-control" ng-model="lecture.Date" />
+		<div class="form-group">
+			<label class="control-label col-md-2" for="TimeInMin">Tid i minuter</label>
+			<div class="col-md-10">
+				<input id="TimeInMin" type="text" class="form-control" ng-model="lecture.TimeInMin" />
+			</div>
 		</div>
-	</div>
-	<div class="form-group">
-		<label class="control-label col-md-2" for="Starttime">Starttid</label>
-		<div class="col-md-10">
-			<input type="time" id="Starttime" name="Starttime" ng-model="lecture.Starttime"
-				   placeholder="HH:mm:ss" min="00:00:00" max="24:00:00" required />
+
+		<div class="form-group">
+			<label class="control-label col-md-2" for="Date">Datum</label>
+			<div class="col-md-10">
+				<input id="Date" type="date" class="form-control" ng-model="lecture.Date" />
+			</div>
 		</div>
-	</div>
-	<div>
-		<button type="button" class="btn btn-danger btn-sm" ng-click="updateLecture(@Model)">Updatera Lektion</button>
+		<div class="form-group">
+			<label class="control-label col-md-2" for="Starttime">Starttid</label>
+			<div class="col-md-10">
+				<input type="time" id="Starttime" name="Starttime" ng-model="lecture.Starttime"
+					   placeholder="HH:mm:ss" min="00:00:00" max="24:00:00" required />
+			</div>
+		</div>
+		<div>
+			<button type="button" class="btn btn-danger btn-sm" ng-click="updateLecture(@Model)">Updatera Lektion</button>
+		</div>
 	</div>
 </div>
 
