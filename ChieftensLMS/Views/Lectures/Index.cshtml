@@ -9,7 +9,7 @@
 		<div class="well">
 			<h2>Lektioner för kurs {{lectures[1].CourseName}}</h2>
 			<div>
-				<a href="~/Course/Details/@Model" class="btn btn-default">Kurs</a><button type="button" class="btn btn-danger btn-sm col-md-offset-1" ng-click="createLecture()" ng-show="ifTeacher">Skapa Lektioner</button>
+				<a href="~/Course/Details/@Model" class="btn btn-default">Tillbaka</a> <button type="button" class="btn btn-danger btn-sm" ng-click="createLecture()" ng-show="ifTeacher">Skapa Lektioner</button>
 			</div>
 		</div>
 		<table class="table">
@@ -35,7 +35,7 @@
 				<td>
 					{{lecture.TimeInMin}}
 				</td>
-				<td><a href="~/Lectures/EditLectures/?id={{lecture.Id}}" class="btn btn-default btn-sm" ng-show="ifTeacher">Updatera</a><button type="button" class="btn btn-danger btn-sm" ng-click="deleteLecture(lecture.Id)" ng-show="ifTeacher">Radera</button></td>
+				<td><a href="~/Lectures/EditLectures/?id={{lecture.Id}}" class="btn btn-default btn-sm" ng-show="ifTeacher">Updatera</a> <button type="button" class="btn btn-danger btn-sm" ng-click="deleteLecture(lecture.Id)" ng-show="ifTeacher">Radera</button></td>
 			</tr>
 		</table>
 	</div>
