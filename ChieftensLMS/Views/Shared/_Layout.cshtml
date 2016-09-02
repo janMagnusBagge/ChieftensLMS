@@ -33,8 +33,6 @@
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-					<li>@Html.ActionLink("Temp get assignments", "Index", "Assignment", new { id = 3 }, null)</li>
-					<li>@Html.ActionLink("Temp course to create", "CreateLectures", "Lectures", new { courseId = 3 }, null)</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -48,10 +46,6 @@
 	}
 	<div class="container">
 		<div class="btn-group" role="group" aria-label="...">
-			@*@Html.ActionLink("Mina Kurser", "Mine", "Course",null, new { @class = "btn btn-default btn-sm" })
-			@Html.ActionLink("Alla Kurser (Kräver teacher)", "All", "Course",null, new { @class = "btn btn-default btn-sm" })
-			@Html.ActionLink("Mina Delade Filer", "Mine", "SharedFile", null, new { @class = "btn btn-default btn-sm" })
-			@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })*@
 			
 			@{var _userManager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();}
 			@if (Request.IsAuthenticated && _userManager.IsInRole(User.Identity.GetUserId(), "Teacher"))
@@ -90,26 +84,6 @@
 		@Scripts.Render("~/bundles/bootstrap")
 		@RenderSection("scripts", required: false)
 	<script>
-		//$(function () {
-		//	$("#startDate").datepicker({
-		//		dateFormat: "dd-mm-yy",
-		//		showWeek: true,
-		//		firstDay: 1,
-		//		changeMonth: true,
-		//		changeYear: true,
-		//		showOtherMonths: true,
-		//		selectOtherMonths: true
-		//	});
-		//	$("#endDate").datepicker({
-		//		dateFormat: "dd-mm-yy",
-		//		showWeek: true,
-		//		firstDay: 1,
-		//		changeMonth: true,
-		//		changeYear: true,
-		//		showOtherMonths: true,
-		//		selectOtherMonths: true
-		//	});
-		//});
 		$(function () {
 			var dateFormat = "yy-mm-dd",
 			  from = $("#StartDate")
