@@ -3,7 +3,7 @@
 	ViewBag.Title = "Uppdatera inlämningsuppgift";
 }
 
-<div ng-controller="assignmentUpdateController" ng-init="GetCourseAssigment(@Model)">
+<div ng-controller="assignmentUpdateController" ng-init="GetCourseAssignment(@Model)">
 	<a href="~/Assignment/Index/{{assignment.CourseId}}" class="btn btn-default btn-sm">Inlämningar för kurs</a>
 	<div class="form-group">
 		<label class="control-label col-md-2" for="Name">Namn</label>
@@ -46,8 +46,8 @@
 				alert("Misslyckades med lärare kontroll");
 			};
 
-			$scope.GetCourseAssigment = function (id) {
-				ApiService.GetAssigment(onloadSuccess, onloadFail, { id: id });
+			$scope.GetCourseAssignment = function (id) {
+				ApiService.GetAssignment(onloadSuccess, onloadFail, { id: id });
 				ApiService.CheckIfInTeacher(onTeacherSuccess, onTeacherFail); //To show or hide things that only some roles should see or not
 			}
 
@@ -81,7 +81,7 @@
 
 			//$scope.getAssignment = function (id) {
 
-			//	ApiService.GetAssigment(onloadSuccess, onloadFail, { id: id });
+			//	ApiService.GetAssignment(onloadSuccess, onloadFail, { id: id });
 			//}
 
 		});

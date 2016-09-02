@@ -6,7 +6,7 @@
 
 <h2>Inlämningsuppgifter</h2>
 
-<div ng-controller="assignmentIndexController" ng-init="GetCourseAssigments(@Model)">
+<div ng-controller="assignmentIndexController" ng-init="GetCourseAssignments(@Model)">
 	<div>
 		<a href="~/Course/Details/@Model" class="btn btn-default">Kurs</a><button type="button" class="btn btn-danger btn-sm col-md-offset-1" ng-click="createAssignment()" ng-show="ifTeacher">Skapa inlämningsuppgift</button>
 	</div>
@@ -55,16 +55,16 @@
 
 
 			var onSuccess = function (data) {
-				$scope.assignmentList = data.assigments;
+				$scope.assignmentList = data.assignments;
 			};
 
 			var onFail = function (response) {
 				alert("Misslyckades");
 			};
 
-			$scope.GetCourseAssigments = function (courseId) {
+			$scope.GetCourseAssignments = function (courseId) {
 				
-				ApiService.GetCourseAssigments(onSuccess, onFail, { courseId: courseId });
+				ApiService.GetCourseAssignments(onSuccess, onFail, { courseId: courseId });
 				ApiService.CheckIfInTeacher(onTeacherSuccess, onTeacherFail); //To show or hide things that only some roles should see or not
 			}
 

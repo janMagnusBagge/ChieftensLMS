@@ -26,8 +26,8 @@ namespace ChieftensLMS.Controllers
         // GET: Assignment
 		public ActionResult Index(int? id)
         {
-			//var assigment = GetAssigments(3);
-			//return View(assigment);
+			//var assignment = GetAssignments(3);
+			//return View(assignment);
 			return View(id);
         }
 
@@ -54,14 +54,14 @@ namespace ChieftensLMS.Controllers
 		//	return View(id);
 		//}
 
-		//public IEnumerable<Assignment> GetAssigments(int courseId)
+		//public IEnumerable<Assignment> GetAssignments(int courseId)
 		//{
 		//	//var user = _userManager.FindById(User.Identity.GetUserId());
 		//	//var coursesForUser = _AssignmentService.GetCoursesForUser(user);
 
-		//	var assigmentsForCourse = _AssignmentService.GetAssignmentForCourse(courseId);
-		//	return assigmentsForCourse;
-		//	//return Json(assigmentsForCourse, JsonRequestBehavior.AllowGet);
+		//	var assignmentsForCourse = _AssignmentService.GetAssignmentForCourse(courseId);
+		//	return assignmentsForCourse;
+		//	//return Json(assignmentsForCourse, JsonRequestBehavior.AllowGet);
 		//}
     }
 }

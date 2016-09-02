@@ -14,13 +14,13 @@ using System.Web.Mvc;
 namespace ChieftensLMS.Controllers.Api
 {
 	[Authorize]
-	public class AssigmentApiController : LMSController
+	public class AssignmentApiController : LMSController
 	{
 		private AssignmentService _AssignmentService;
 		/*
 		 * Initiate the Assignment api
 		 */
-		public AssigmentApiController()
+		public AssignmentApiController()
 		{
 			_AssignmentService = LMSHelper.GetAssignmentService();
 		}
@@ -30,7 +30,7 @@ namespace ChieftensLMS.Controllers.Api
 		 */
 		public ActionResult GetAssignmentForCourse(int courseId)
 		{
-			var assigmentsForCourse = _AssignmentService.GetAssignmentForCourse(courseId)
+			var assignmentsForCourse = _AssignmentService.GetAssignmentForCourse(courseId)
 				.Select(a => new
 				{
 					a.Id,
@@ -42,32 +42,32 @@ namespace ChieftensLMS.Controllers.Api
 				}
 				);
 			
-			return ApiResult.Success(new { assigments = assigmentsForCourse });
+			return ApiResult.Success(new { assignments = assignmentsForCourse });
 		}
 
 		/*
 		 * Returns a specifik assignment based on the sent in Id.
 		 * Only returns one if all checks whent thrue otherwise returns an error.
 		 */
-		public ActionResult GetAssigment(int? id)
+		public ActionResult GetAssignment(int? id)
 		{
 			if (id == null)
 				return ApiResult.Fail("Invalid request");
-			var assigment = _AssignmentService.GetAssignment((int)id);
+			var assignment = _AssignmentService.GetAssignment((int)id);
 
-			if (assigment == null)
+			if (assignment == null)
 				return ApiResult.Fail("Invalid assignment");
 
 			var returnData = new
 				{
 					assignment = new
 					{
-						Id = assigment.Id,
-						CourseId = assigment.CourseId,
-						Description = assigment.Description ,
-						Date = assigment.Date,
-						ExpirationDate = assigment.ExpirationDate,
-						Name = assigment.Name
+						Id = assignment.Id,
+						CourseId = assignment.CourseId,
+						Description = assignment.Description ,
+						Date = assignment.Date,
+						ExpirationDate = assignment.ExpirationDate,
+						Name = assignment.Name
 					}
 				};
 

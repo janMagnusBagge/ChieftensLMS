@@ -160,13 +160,13 @@
 		var GetDebugApiAllUsers = generateApiFunction({ method: 'GET', url: '/DebugApi/AllUsers' });
 		var GetDebugApiLoginAs = generateApiFunction({ method: 'GET', url: '/DebugApi/LoginAs' });
 
-		var GetCourseAssigments = generateApiFunction({ method: 'GET', url: '/AssigmentApi/GetAssignmentForCourse' });
-		var GetAssigment = generateApiFunction({ method: 'GET', url: '/AssigmentApi/GetAssigment' });
-		var FilesForAssignment = generateApiFunction({ method: 'GET', url: '/AssigmentApi/FilesForAssignment' });
-		var DeleteAssignmentFile = generateApiFunction({ method: 'GET', url: '/AssigmentApi/DeleteTurnIn' });
-		var CheckIfInTeacher = generateApiFunction({ method: 'GET', url: '/AssigmentApi/CheckIfTeacher' });
-		var CreateAssignment = generateApiFunction({ method: 'GET', url: '/AssigmentApi/CreateAssignment' });
-		var UpdateAssignment = generateApiFunction({ method: 'GET', url: '/AssigmentApi/UpdateAssignment' });
+		var GetCourseAssignments = generateApiFunction({ method: 'GET', url: '/AssignmentApi/GetAssignmentForCourse' });
+		var GetAssignment = generateApiFunction({ method: 'GET', url: '/AssignmentApi/GetAssignment' });
+		var FilesForAssignment = generateApiFunction({ method: 'GET', url: '/AssignmentApi/FilesForAssignment' });
+		var DeleteAssignmentFile = generateApiFunction({ method: 'GET', url: '/AssignmentApi/DeleteTurnIn' });
+		var CheckIfInTeacher = generateApiFunction({ method: 'GET', url: '/AssignmentApi/CheckIfTeacher' });
+		var CreateAssignment = generateApiFunction({ method: 'GET', url: '/AssignmentApi/CreateAssignment' });
+		var UpdateAssignment = generateApiFunction({ method: 'GET', url: '/AssignmentApi/UpdateAssignment' });
 
 		var GetAccounts = generateApiFunction({ method: 'GET', url: '/StudentAccountAPI/GetAll' });
 
@@ -179,8 +179,8 @@
 			GetDebugApiLoginAs: GetDebugApiLoginAs,
 
 
-			GetCourseAssigments: GetCourseAssigments,
-			GetAssigment: GetAssigment,
+			GetCourseAssignments: GetCourseAssignments,
+			GetAssignment: GetAssignment,
 			FilesForAssignment: FilesForAssignment,
 			DeleteAssignmentFile: DeleteAssignmentFile,
 			CheckIfInTeacher: CheckIfInTeacher,

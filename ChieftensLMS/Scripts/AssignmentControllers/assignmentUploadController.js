@@ -15,7 +15,7 @@
 			$scope.uploadStatus = 'uploading';
 
 			Upload.upload({
-				url: '/AssigmentApi/Upload/',
+				url: '/AssignmentApi/Upload/',
 				data: { file: file, name: $scope.Name, fileName: file.name, assignmentId: assignmentId } // Add stuff here
 			}).then(function (resp) {
 				console.log(resp);

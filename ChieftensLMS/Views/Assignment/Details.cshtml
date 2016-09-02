@@ -23,7 +23,7 @@
 			<td>{{item.Owner ? item.Owner : "Du" }}</td>
 			<td>{{item.Date | dateFilter | date:'yyyy-MM-dd'}}</td>
 
-			<td><a href="~/AssigmentApi/Download/{{item.Id}}" class="btn btn-success btn-sm">Ladda ner</a><button type="button" class="btn btn-danger btn-sm" ng-click="deleteAssignmentFile(item.Id)" ng-hide="item.Owner">Radera</button></td>
+			<td><a href="~/AssignmentApi/Download/{{item.Id}}" class="btn btn-success btn-sm">Ladda ner</a><button type="button" class="btn btn-danger btn-sm" ng-click="deleteAssignmentFile(item.Id)" ng-hide="item.Owner">Radera</button></td>
 		</tr>
 	</table>
 </div>
@@ -55,10 +55,10 @@
 
 			$scope.getAssignment = function (id) {
 
-				ApiService.GetAssigment(onSuccess, onFail, { id: id });
+				ApiService.GetAssignment(onSuccess, onFail, { id: id });
 				ApiService.FilesForAssignment(onFileSuccess, onFileFail, { id: id });
 			}
-			//ApiService.GetAssigments(onSuccess, onFail, courseId);
+			//ApiService.GetAssignments(onSuccess, onFail, courseId);
 
 			//delete parts
 			var onDeleteSuccess = function (data) {

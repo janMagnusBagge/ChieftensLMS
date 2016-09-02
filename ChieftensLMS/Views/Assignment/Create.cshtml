@@ -3,7 +3,7 @@
 	ViewBag.Title = "Skapa inlämningsuppgift";
 }
 <a href="~/Assignment/Index/@Model" class="btn btn-default btn-sm">Inlämningar för kurs</a>
-<div ng-controller="assignmentCreateController" ng-init="GetCourseAssigments(@Model)">
+<div ng-controller="assignmentCreateController" ng-init="GetCourseAssignments(@Model)">
 	<div class="form-group">
 		<label class="control-label col-md-2" for="Name">Namn</label>
 		<div class="col-md-10">
@@ -47,7 +47,7 @@
 				alert("Misslyckades med lärare kontroll");
 			};
 
-			$scope.GetCourseAssigments = function (courseId) {
+			$scope.GetCourseAssignments = function (courseId) {
 				ApiService.CheckIfInTeacher(onTeacherSuccess, onTeacherFail); //To show or hide things that only some roles should see or not
 			}
 

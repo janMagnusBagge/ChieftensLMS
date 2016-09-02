@@ -72,7 +72,7 @@
 
 			$scope.GetAccounts = function () {
 
-				//ApiService.GetCourseAssigments(onSuccess, onFail, { courseId: courseId });
+				//ApiService.GetCourseAssignments(onSuccess, onFail, { courseId: courseId });
 				ApiService.GetAccounts(onSuccess, onFail);
 				ApiService.CheckIfInTeacher(onTeacherSuccess, onTeacherFail); //To show or hide things that only some roles should see or not
 			}

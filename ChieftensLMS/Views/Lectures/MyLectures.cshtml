@@ -55,7 +55,7 @@
 			};
 
 			$scope.GetLectures = function (courseId) {
-				//ApiService.GetCourseAssigments(onSuccess, onFail, { courseId: courseId });
+				//ApiService.GetCourseAssignments(onSuccess, onFail, { courseId: courseId });
 				ApiService.Get("/LecturesApi/GetLecturesForUser", onSuccess, onFail, { courseId: courseId });
 			}
 
