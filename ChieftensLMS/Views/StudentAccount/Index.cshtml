@@ -1,54 +1,59 @@
 ﻿
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Konton";
 }
-
-<h2>Accounts</h2>
-
 <div ng-controller="studentAccountController" ng-init="GetAccounts()">
-	@*<div>
-		<button type="button" class="btn btn-danger btn-sm" ng-click="createAssignment()" ng-show="ifTeacher">Skapa inlämningsuppgift</button>
-	</div>*@
-	<h3>Konton som inte har roller</h3>
-	<table class="table">
-		<thead>
-			<tr>
-				<th>
-					E-post
-				</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr ng-repeat="item in usersWithoutRoles">
-				<td>
-					<a href="~/Manage/?id={{item.Id}}">{{item.Email}}</a>
-				</td>
-			</tr>
-		</tbody>
-	</table>
-	<h3>Konton som har roller</h3>
-	<table class="table">
-		<thead>
-			<tr>
-				<th>
-					E-post
-				</th>
-				<th>
-					Roller
-				</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr ng-repeat="item in usersWithRoles">
-				<td>
-					<a href="~/Manage/?id={{item.Id}}">{{item.Email}}</a>
-				</td>
-				<td>
-					<span ng-repeat="role in item.Roles">{{role}}</span>
-				</td>
-			</tr>
-		</tbody>
-	</table>
+	<h2>Konton</h2>
+	<div class="panel panel-default">
+		<div class="well">
+			
+			<h3>Konton som inte har roller</h3>
+		</div>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>
+						E-post
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="item in usersWithoutRoles">
+					<td>
+						<a href="~/Manage/?id={{item.Id}}">{{item.Email}}</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<div class="panel panel-default">
+		<div class="well">
+			<h3>Konton som har roller</h3>
+		</div>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>
+						E-post
+					</th>
+					<th>
+						Roller
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="item in usersWithRoles">
+					<td>
+						<a href="~/Manage/?id={{item.Id}}">{{item.Email}}</a>
+					</td>
+					<td>
+						<span ng-repeat="role in item.Roles">{{role}}</span>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
 </div>
 
 <script>
