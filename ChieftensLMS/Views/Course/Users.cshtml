@@ -1,6 +1,6 @@
 ﻿@model int?
 <div ng-controller="courseUsersController">
-
+	<a href="~/Course/Details/@Model" class="btn btn-default">Kurs</a>
 	@if (User.IsInRole("Teacher"))
 	{
 		<div class="row">
