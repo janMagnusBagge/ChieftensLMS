@@ -163,5 +163,30 @@ namespace ChieftensLMS.Services
 
 			return filePath;
 		}
+
+
+		public int? AddTurnIn(int assignmentId, string userId, string name, string fileName, Stream stream)
+		{
+			//TODO: FIX SOME ACCESS CHECK HERE
+			//if (IsInCourse(courseId, userId) == false)
+			//	return null;
+
+			TurnIn newTurnIn = new TurnIn()
+				{ Date = DateTime.Now, AssignmentId = assignmentId, UserId = userId, Name = name, FileName = fileName };
+
+			_db.TurnIns.Add(newTurnIn);
+			_db.SaveChanges();
+
+			string filePath = Path.Combine(_fileDirectory, newTurnIn.Id.ToString());
+			using (var file = File.Create(filePath))
+			{
+				stream.Seek(0, SeekOrigin.Begin);
+				stream.CopyTo(file);
+			}
+
+
+			return newTurnIn.Id;
+
+		}
 	}
 }

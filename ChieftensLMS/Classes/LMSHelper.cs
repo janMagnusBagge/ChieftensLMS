@@ -38,9 +38,16 @@ namespace ChieftensLMS.Classes
 			return new SharedFileService(GetApplicationContext(), HostingEnvironment.MapPath("~\\Uploads\\SharedFiles\\"));
 		}
 
+		public static AssignmentService GetAssignmentService()
+		{
+			return new AssignmentService(GetApplicationContext(), HostingEnvironment.MapPath("~\\Uploads\\TurnIns\\"));
+		}
+
 		public static RoleManager<IdentityRole> GetRoleManager()
 		{
 			return new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(GetApplicationContext()));
 		}
+
+
 	}
 }

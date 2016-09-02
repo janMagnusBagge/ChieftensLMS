@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Web;
 
@@ -247,6 +248,8 @@ namespace ChieftensLMS.Services
 			}
 			return true;
 		}
+
+
 
 		#region help functions
 		/*

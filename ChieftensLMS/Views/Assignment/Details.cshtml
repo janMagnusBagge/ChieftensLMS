@@ -1,9 +1,10 @@
 ﻿@model int?
 @{
-    ViewBag.Title = "Inlämningsuppgift";
+	ViewBag.Title = "Inlämningsuppgift";
 }
 <h2>Inlämningsuppgift</h2>
 <div ng-controller="assignmentDetailController" ng-init="getAssignment(@Model)">
+	@{Html.RenderPartial("_Upload", Model);}
 	<a href="~/Assignment/Index/{{assignment.CourseId}}" class="btn btn-default btn-sm">Inlämningar för kurs</a>
 	<h4>{{assignment.Name}}</h4>
 	<h5><b>Beskrivning:</b> {{assignment.Description}}</h5>
@@ -23,7 +24,6 @@
 			<td>{{item.Date | dateFilter | date:'yyyy-MM-dd'}}</td>
 
 			<td><a href="~/AssigmentApi/Download/{{item.Id}}" class="btn btn-success btn-sm">Ladda ner</a><button type="button" class="btn btn-danger btn-sm" ng-click="deleteAssignmentFile(item.Id)" ng-hide="item.Owner">Radera</button></td>
-			@*<td><a href="~/{{item.Id}}" class="btn btn-success btn-sm">Ladda ner</a> <button type="button" class="btn btn-danger btn-sm" ng-click="deleteSharedFile(item.Id)" ng-hide="item.Owner">Radera</button></td>*@
 		</tr>
 	</table>
 </div>

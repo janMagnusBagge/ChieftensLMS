@@ -14,15 +14,13 @@ using System.Web.Mvc;
 namespace ChieftensLMS.Controllers.Api
 {
 	[Authorize]
-	public class AssigmentApiController : Controller
+	public class AssigmentApiController : LMSController
 	{
-		private ApplicationDbContext _context;
 		private AssignmentService _AssignmentService;
 
 		public AssigmentApiController()
 		{
-			_context = new ApplicationDbContext();
-			_AssignmentService = new AssignmentService(_context, HostingEnvironment.MapPath("~\\Uploads\\TurnIns\\"));
+			_AssignmentService = LMSHelper.GetAssignmentService();
 		}
 
 		/*
@@ -223,6 +221,19 @@ namespace ChieftensLMS.Controllers.Api
 			string mimeType = MimeMapping.GetMimeMapping(result.FileName);
 
 			return File(physicalFileToReturn, mimeType, result.FileName);
+		}
+
+		[Authorize]
+		public ActionResult Upload(HttpPostedFileBase file, string name, int? assignmentId)
+		{
+			if (string.IsNullOrWhiteSpace(file.FileName) || string.IsNullOrWhiteSpace(name) || assignmentId == null)
+				return ApiResult.Fail("");
+
+			int? result = _AssignmentService.AddTurnIn((int)assignmentId, _currentUserId, name, file.FileName, file.InputStream);
+			if (result == null)
+				return ApiResult.Fail("");
+			else
+				return ApiResult.Success(new { FileId = result });
 		}
 	}
 }
