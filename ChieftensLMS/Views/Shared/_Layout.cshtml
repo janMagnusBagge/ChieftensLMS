@@ -1,5 +1,6 @@
 ﻿@using Microsoft.AspNet.Identity
 @using Microsoft.AspNet.Identity.Owin
+@using ChieftensLMS.Classes
 <!DOCTYPE html>
 <html ng-app="app">
 <head>
@@ -27,12 +28,25 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("ChieftenLMS", "Overview", "Course", null, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+
+					@if (Request.IsAuthenticated && LMSHelper.GetUserManager().IsInRole(LMSHelper.GetCurrectUserId(), "Teacher"))
+			{
+						<li>@Html.ActionLink("Mina Kurser", "Overview", "Course")</li>
+						<li>@Html.ActionLink("Mina Delade Filer", "Mine", "SharedFile")</li>
+						<li>@Html.ActionLink("Mitt Schema", "MyLectures", "Lectures")</li>
+						<li>@Html.ActionLink("Skapa konto", "Register", "Account")</li>
+						<li>@Html.ActionLink("Konton", "Index", "StudentAccount")</li>
+			}
+			else
+			{
+						<li>@Html.ActionLink("Mina Kurser", "Overview", "Course")</li>
+						<li>@Html.ActionLink("Mina Delade Filer", "Mine", "SharedFile")</li>
+						<li>@Html.ActionLink("Mitt Schema", "MyLectures", "Lectures")</li>
+			}
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>
@@ -44,26 +58,7 @@
 			<div style="background: red; color:white; font-weight:bold; padding:20px">NOT LOGGED IN!</div>
 		}
 	}
-	<div class="container">
-		<div class="btn-group" role="group" aria-label="...">
-			
-			@{var _userManager = Request.GetOwinContext().GetUserManager<ApplicationUserManager>();}
-			@if (Request.IsAuthenticated && _userManager.IsInRole(User.Identity.GetUserId(), "Teacher"))
-			{
-				@Html.ActionLink("Mina Kurser", "Overview", "Course", null, new { @class = "btn btn-default btn-sm" })
-				@Html.ActionLink("Mina Delade Filer", "Mine", "SharedFile", null, new { @class = "btn btn-default btn-sm" })
-				@Html.ActionLink("Mitt Schema", "MyLectures", "Lectures", null, new { @class = "btn btn-default btn-sm" })
-				@Html.ActionLink("Skapa konto", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "btn btn-default btn-sm" })
-				@Html.ActionLink("Konton", "Index", "StudentAccount", null, new { @class = "btn btn-default btn-sm" })
-			}
-			else
-			{
-				@Html.ActionLink("Mina Kurser", "Overview", "Course", null, new { @class = "btn btn-default btn-sm" })
-				@Html.ActionLink("Mina Delade Filer", "Mine", "SharedFile", null, new { @class = "btn btn-default btn-sm" })
-				@Html.ActionLink("Mitt Schema", "MyLectures", "Lectures", null, new { @class = "btn btn-default btn-sm" })
-			}
-		</div>
-	</div>
+
 
 
 
@@ -73,11 +68,6 @@
 			<footer>
 				<p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
 			</footer>
-		</div>
-
-		<div class="container">
-			<b>AspNetUsers.Id: </b>@User.Identity.GetUserId()
-
 		</div>
 
 		@Scripts.Render("~/bundles/jquery")

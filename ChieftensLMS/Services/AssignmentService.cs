@@ -167,9 +167,8 @@ namespace ChieftensLMS.Services
 
 		public int? AddTurnIn(int assignmentId, string userId, string name, string fileName, Stream stream)
 		{
-			//TODO: FIX SOME ACCESS CHECK HERE
-			//if (IsInCourse(courseId, userId) == false)
-			//	return null;
+			if (UserHasAssignment(assignmentId, userId) == false)
+				return null;
 
 			TurnIn newTurnIn = new TurnIn()
 				{ Date = DateTime.Now, AssignmentId = assignmentId, UserId = userId, Name = name, FileName = fileName };
@@ -187,6 +186,11 @@ namespace ChieftensLMS.Services
 
 			return newTurnIn.Id;
 
+		}
+
+		public bool UserHasAssignment(int assignmentId, string userId)
+		{
+			return _db.Assignments.Any(e => e.Id == assignmentId && e.Course.Users.Any(r => r.Id == userId));
 		}
 	}
 }
