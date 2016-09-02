@@ -19,17 +19,20 @@ namespace ChieftensLMS.Services
 		public string Description { get; set; }
 		public int CourseId { get; set; }
 		public int TimeInMin { get; set; }
-		public string CourseName { get; set; }
-		//public TimeSpan StartTime { get; set; }
-		public string StartTime { get; set; }
-		public int Hour { get; set; }
-		public int Minute { get; set; }
+		//Things not in database
+		public string CourseName { get; set; } //to be able to store the course name for the lecture
+		public string StartTime { get; set; } //to be able to manipulate the starttime that are stored in the date in database
 
+		/*
+		 * Iniate the view model for those times that do not have lecture ready.
+		 */
 		public LectureDTO()
 		{
 			
 		}
-
+		/*
+		 * Iniate the view model for those times that have that allredy have a lecture.
+		 */
 		public LectureDTO(Lecture lecture)
 		{
 			Id = lecture.Id;
@@ -39,11 +42,7 @@ namespace ChieftensLMS.Services
 			CourseId = lecture.CourseId;
 			TimeInMin = lecture.TimeInMin;
 			CourseName = lecture.CourseId.ToString();
-			//StartTime = new TimeSpan(Date.Hour,Date.Minute,Date.Second);
-			//StartTime = Date.Hour+":"+ Date.Minute+":"+ Date.Second;
-			StartTime = Date.ToString("hh:mm", CultureInfo.CurrentCulture);
-			Hour = Date.Hour;
-			Minute = Date.Minute;
+			StartTime = Date.ToString("hh:mm", CultureInfo.InvariantCulture);
 		}
 	}
 	#endregion
@@ -51,7 +50,9 @@ namespace ChieftensLMS.Services
 	public class LecturesService
 	{
 		ApplicationDbContext _db;
-
+		/*
+		 * Iniates the Lecture service
+		 */
 		public LecturesService(ApplicationDbContext context)
 		{
 			_db = context;

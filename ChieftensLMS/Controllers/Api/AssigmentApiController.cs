@@ -17,7 +17,9 @@ namespace ChieftensLMS.Controllers.Api
 	public class AssigmentApiController : LMSController
 	{
 		private AssignmentService _AssignmentService;
-
+		/*
+		 * Initiate the Assignment api
+		 */
 		public AssigmentApiController()
 		{
 			_AssignmentService = LMSHelper.GetAssignmentService();
@@ -214,7 +216,7 @@ namespace ChieftensLMS.Controllers.Api
 			if (result == null)
 				return ApiResult.Fail("");
 
-			string physicalFileToReturn = _AssignmentService.GetPhysicalPath(result.Id);
+			string physicalFileToReturn = _AssignmentService.GetPhysicalPath(result.Id); //gets the physical path of the file so can download the file.
 			if (physicalFileToReturn == null)
 				return ApiResult.Fail("");
 

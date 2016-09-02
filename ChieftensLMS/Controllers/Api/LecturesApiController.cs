@@ -19,6 +19,9 @@ namespace ChieftensLMS.Controllers.Api
 		private ApplicationDbContext _context;
 		private LecturesService _LecturesService;
 
+		/*
+		 * Initiats the lecture service
+		 */
 		public LecturesApiController()
 		{
 			_context = new ApplicationDbContext();
@@ -84,14 +87,18 @@ namespace ChieftensLMS.Controllers.Api
 			return ApiResult.Success(new { ifUpdated = ifUpdated });
 		}
 
+		/*
+		 * Creates lecture with the sent in data.
+		 */
 		public ActionResult CreateLecture(int courseId, string name, string description, int timeInMin, int frequency, DateTime startdate, DateTime enddate, DateTime starttime)
 		{
-			//DateTime sDate = _LecturesService.StringToDate(startdate,"00:00");
-			//DateTime eDate = _LecturesService.StringToDate(enddate, "00:00");
 			bool ifCreated = _LecturesService.CreateLecture(courseId, name, description, timeInMin, frequency, startdate, enddate, starttime);
 			return ApiResult.Success(new { ifCreated = ifCreated });
 		}
 
+		/*
+		 * Gets the course name based on the sent in Id
+		 */
 		//TODO Move this to courseApi
 		public ActionResult GetCourseName(int courseId)
 		{
@@ -100,6 +107,9 @@ namespace ChieftensLMS.Controllers.Api
 			return ApiResult.Success(new { courseName = courseName });
 		}
 
+		/*
+		 * Delete the specified lecture. Returns result of the checks if failed em or the Id of the deleted.
+		 */
 		public ActionResult DeleteLecture(int? lectureId)
 		{
 			Lecture lecture = null;
@@ -119,8 +129,6 @@ namespace ChieftensLMS.Controllers.Api
 			{
 				return ApiResult.Fail("Files doesnt exist");
 			}
-			//bool ifDeleted = _LecturesService.DeleteLecture(lectureId);
-			//return ApiResult.Success(new { ifDeleted = ifDeleted });
 		}
 
 
