@@ -3,44 +3,48 @@
 @{
 	ViewBag.Title = "Inlämningsuppgifter";
 }
-
-<h2>Inlämningsuppgifter</h2>
-
 <div ng-controller="assignmentIndexController" ng-init="GetCourseAssignments(@Model)">
-	<div>
-		<a href="~/Course/Details/@Model" class="btn btn-default">Kurs</a><button type="button" class="btn btn-danger btn-sm col-md-offset-1" ng-click="createAssignment()" ng-show="ifTeacher">Skapa inlämningsuppgift</button>
+	<div class="panel panel-default">
+		<div class="well">
+			<h2>Inlämningsuppgifter</h2>
+
+			<div>
+				<a href="~/Course/Details/@Model" class="btn btn-default">Kurs</a><button type="button" class="btn btn-danger btn-sm col-md-offset-1" ng-click="createAssignment()" ng-show="ifTeacher">Skapa inlämningsuppgift</button>
+			</div>
+		</div>
+
+		<table class="table">
+			<thead>
+				<tr>
+					<th>
+						Namn
+					</th>
+					<th>
+						Beskrivning
+					</th>
+					<th>
+						Inlämningsdatum
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr ng-repeat="item in assignmentList">
+					<td>
+						<a href="~/Assignment/Details/{{item.Id}}" class="btn btn-default btn-sm">{{item.Name}}</a>
+					</td>
+					<td>
+						<i>{{item.Description}}</i>
+					</td>
+					<td>
+						{{item.ExpirationDate | dateFilter | date:'yyyy-MM-dd'}}
+					</td>
+					<td ng-show="ifTeacher">
+						<a href="~/Assignment/Edit/{{item.Id}}" class="btn btn-default btn-sm">Updatera</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
 	</div>
-	<table class="table">
-		<thead>
-			<tr>
-				<th>
-					Namn
-				</th>
-				<th>
-					Beskrivning
-				</th>
-				<th>
-					Inlämningsdatum
-				</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr ng-repeat="item in assignmentList">
-				<td>
-					<a href="~/Assignment/Details/{{item.Id}}" class="btn btn-default btn-sm">{{item.Name}}</a>
-				</td>
-				<td>
-					<i>{{item.Description}}</i>
-				</td>
-				<td>
-					{{item.ExpirationDate | dateFilter | date:'yyyy-MM-dd'}}
-				</td>
-				<td ng-show="ifTeacher">
-					<a href="~/Assignment/Edit/{{item.Id}}" class="btn btn-default btn-sm">Updatera</a>
-				</td>
-			</tr>
-		</tbody>
-	</table>
 </div>
 
 

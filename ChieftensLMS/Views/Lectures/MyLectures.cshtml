@@ -2,41 +2,43 @@
 @{
     ViewBag.Title = "MyLectures";
 }
-
-<h2>Mina lektioner</h2>
-
 <div ng-controller="lecturesController" ng-init="GetLectures(@Model)">
-	
-	<table class="table">
-		<thead>
-			<tr>
-				<th>Kurs</th>
-				<th>Lektionnamn</th>
-				<th>Datum</th>
-				<th>Starttid</th>
-				<th>Hur lång tid i minuter</th>
-			</tr>
-		</thead>
-		<tr ng-repeat="lecture in lectures">
-			<td>
-				{{lecture.CourseName}}
-			</td>
-			<td>
-				{{lecture.Name}}
-			</td>
-			<td>
-				{{lecture.Date | dateFilter | date:'yyyy-MM-dd'}}
-			</td>
-			<td>
-				{{lecture.Date | dateFilter | date:'HH:MM'}}
-			</td>
-			<td>
-				{{lecture.TimeInMin}}
-			</td>
-			
-		</tr>
+	<div class="panel panel-default">
+		<div class="well">
+			<h2>Mina lektioner</h2>
+		</div>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Kurs</th>
+					<th>Lektionnamn</th>
+					<th>Datum</th>
+					<th>Starttid</th>
+					<th>Hur lång tid i minuter</th>
+				</tr>
+			</thead>
+			<tr ng-repeat="lecture in lectures">
+				<td>
+					{{lecture.CourseName}}
+				</td>
+				<td>
+					{{lecture.Name}}
+				</td>
+				<td>
+					{{lecture.Date | dateFilter | date:'yyyy-MM-dd'}}
+				</td>
+				<td>
+					{{lecture.Date | dateFilter | date:'HH:MM'}}
+				</td>
+				<td>
+					{{lecture.TimeInMin}}
+				</td>
 
-	</table>
+			</tr>
+
+		</table>
+	</div>
+	
 </div>
 
 <script>

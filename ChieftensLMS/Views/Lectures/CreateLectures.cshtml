@@ -2,66 +2,68 @@
 @{
 	ViewBag.Title = "Skapa lektioner";
 }
-
-<a href="~/Lectures/Index/@Model" class="btn btn-default btn-sm">Lektioner för kurs</a>
 <div ng-controller="lectureCreateController" ng-init="load(@Model)" ng-show="ifTeacher">
-	<h2>Skapa lektioner för {{CourseName}}</h2>
+	<div class="panel panel-default">
+		<div class="well">
+			<h2>Skapa lektioner för {{CourseName}}</h2>
+			<a href="~/Lectures/Index/@Model" class="btn btn-default btn-sm">Lektioner för kurs</a>
+		</div>
 
-	<br />
-	<div class="form-group">
-		<label class="control-label col-md-2" for="Name">Namn</label>
-		<div class="col-md-10">
-			<input id="Name" type="text" class="form-control" ng-model="Name" required />
+		<br />
+		<div class="form-group">
+			<label class="control-label col-md-2" for="Name">Namn</label>
+			<div class="col-md-10">
+				<input id="Name" type="text" class="form-control" ng-model="Name" required />
+			</div>
 		</div>
-	</div>
 
-	<div class="form-group">
-		<label class="control-label col-md-2" for="Description">Beskrivning</label>
-		<div class="col-md-10">
-			<input id="Description" type="text" class="form-control" ng-model="Description" required />
+		<div class="form-group">
+			<label class="control-label col-md-2" for="Description">Beskrivning</label>
+			<div class="col-md-10">
+				<input id="Description" type="text" class="form-control" ng-model="Description" required />
+			</div>
 		</div>
-	</div>
 
-	<div class="form-group">
-		<label class="control-label col-md-2" for="TimeInMin">Tid i minuter</label>
-		<div class="col-md-10">
-			<input id="TimeInMin" type="text" class="form-control" ng-model="TimeInMin" required />
+		<div class="form-group">
+			<label class="control-label col-md-2" for="TimeInMin">Tid i minuter</label>
+			<div class="col-md-10">
+				<input id="TimeInMin" type="text" class="form-control" ng-model="TimeInMin" required />
+			</div>
 		</div>
-	</div>
-	<div class="form-group">
-		<label class="control-label col-md-2" for="Frequency">Frekvens av lektioner</label>
-		<div class="col-md-10">
-			<select class="form-control" id="Frequency" name="Frequency" ng-model="Frequency" required>
-				<option value=1>Dag (varje dag)</option>
-				<option value=2>Vecka (varje 7:de dag)</option>
-				<option value=3>Varannan Vecka (varje 14:de dag)</option>
-				<option value=4>Månad (varje 30:de dag)</option>
-			</select>
+		<div class="form-group">
+			<label class="control-label col-md-2" for="Frequency">Frekvens av lektioner</label>
+			<div class="col-md-10">
+				<select class="form-control" id="Frequency" name="Frequency" ng-model="Frequency" required>
+					<option value=1>Dag (varje dag)</option>
+					<option value=2>Vecka (varje 7:de dag)</option>
+					<option value=3>Varannan Vecka (varje 14:de dag)</option>
+					<option value=4>Månad (varje 30:de dag)</option>
+				</select>
+			</div>
 		</div>
-	</div>
-	<div class="form-group">
-		<label class="control-label col-md-12" for="startDate">Datum</label>
-		<label class="control-label col-md-2" for="startDate">Från</label>
-		<div class="col-md-10">
-			<input id="StartDate" type="text" class="form-control" ng-model="SDate" required />
+		<div class="form-group">
+			<label class="control-label col-md-12" for="startDate">Datum</label>
+			<label class="control-label col-md-2" for="startDate">Från</label>
+			<div class="col-md-10">
+				<input id="StartDate" type="text" class="form-control" ng-model="SDate" required />
+			</div>
+			<label class="control-label col-md-2" for="endDate">Till</label>
+			<div class="col-md-10">
+				<input id="EndDate" type="text" class="form-control" ng-model="EDate" required />
+			</div>
 		</div>
-		<label class="control-label col-md-2" for="endDate">Till</label>
-		<div class="col-md-10">
-			<input id="EndDate" type="text" class="form-control" ng-model="EDate" required />
+		<div class="form-group">
+			<label class="control-label col-md-2" for="starttime">Starttid</label>
+			<div class="col-md-10">
+				<input type="time" id="starttime" name="starttime" ng-model="starttime"
+					   placeholder="00:00:00" min="00:00:00" max="24:00:00" required />
+			</div>
 		</div>
-	</div>
-	<div class="form-group">
-		<label class="control-label col-md-2" for="starttime">Starttid</label>
-		<div class="col-md-10">
-			<input type="time" id="starttime" name="starttime" ng-model="starttime"
-				   placeholder="00:00:00" min="00:00:00" max="24:00:00" required />
-		</div>
-	</div>
 
-	<div>
-		<button type="button" class="btn btn-danger btn-sm" ng-click="createLecture(@Model)">Skapa schema / Lektioner</button>
+		<div>
+			<button type="button" class="btn btn-danger btn-sm" ng-click="createLecture(@Model)">Skapa schema / Lektioner</button>
+		</div>
 	</div>
-
 </div>
 
 <script>
