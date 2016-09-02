@@ -1,90 +1,43 @@
 ﻿@model int?
-@{
-	ViewBag.Title = "Inlämningsuppgift";
-}
-<h2>Inlämningsuppgift</h2>
-<div ng-controller="assignmentDetailController" ng-init="getAssignment(@Model)">
-	@{Html.RenderPartial("_Upload", Model);}
-	<a href="~/Assignment/Index/{{assignment.CourseId}}" class="btn btn-default btn-sm">Inlämningar för kurs</a>
-	<h4>{{assignment.Name}}</h4>
-	<h5><b>Beskrivning:</b> {{assignment.Description}}</h5>
-	<h5><b>Inlämningsdatum:</b> {{assignment.ExpirationDate | dateFilter | date:'yyyy-MM-dd'}}</h5>
 
-	<table class="table">
-		<tr>
-			<th>Namn</th>
-			<th>Ägare</th>
-			<th>Datum</th>
-			<th></th>
-			<th></th>
-		</tr>
-		<tr ng-repeat="item in assignmentFiles">
-			<td>{{item.Name}}</td>
-			<td>{{item.Owner ? item.Owner : "Du" }}</td>
-			<td>{{item.Date | dateFilter | date:'yyyy-MM-dd'}}</td>
+<div ng-controller="assignmentDetailsController" ng-init="id=@Model; getAssignment();">
+	<h3>Ladda upp inlämning för {{assignment.Name}}</h3>
+	<div class="well">
+		@{Html.RenderPartial("_Upload", Model);}
+	</div>
 
-			<td><a href="~/AssignmentApi/Download/{{item.Id}}" class="btn btn-success btn-sm">Ladda ner</a><button type="button" class="btn btn-danger btn-sm" ng-click="deleteAssignmentFile(item.Id)" ng-hide="item.Owner">Radera</button></td>
-		</tr>
-	</table>
+
+	<h3>Inlämnade filer</h3>
+	<div class="panel panel-default">
+		<div class="panel-body">
+				@{Html.RenderPartial("_TurnIns", Model);}
+		</div>
+	</div>
+
 </div>
-
 <script>
 
-	(function () {
+	angular.module('app').controller('assignmentDetailsController', function ($scope, ApiService) {
+		$scope.$on("assignmentUploadController_uploadComplete", function () {
+			$scope.$broadcast("assignmentTurnInsController_refresh");
+		})
 
-		angular.module("app").controller("assignmentDetailController", function ($scope, ApiService) {
-			$scope.assignment = null;
-			$scope.assignmentFiles = null;
+		$scope.assignment = null;
 
+		var onSuccess = function (data) {
+			$scope.assignment = data.assignment;
+		};
 
-			var onSuccess = function (data) {
-				$scope.assignment = data.assignment;
-			};
+		var onFail = function (response) {
+			alert("Misslyckades");
+		};
 
-			var onFail = function (response) {
-				alert("Misslyckades");
-			};
+		$scope.getAssignment = function () {
+			ApiService.GetAssignment(onSuccess, onFail, { id: $scope.id });
+		}
 
-			var onFileSuccess = function (data) {
-				$scope.assignmentFiles = data.assignmentFiles;
-			};
-
-			var onFileFail = function (response) {
-				alert("Misslyckades ladda filer");
-			};
-
-			$scope.getAssignment = function (id) {
-
-				ApiService.GetAssignment(onSuccess, onFail, { id: id });
-				ApiService.FilesForAssignment(onFileSuccess, onFileFail, { id: id });
-			}
-			//ApiService.GetAssignments(onSuccess, onFail, courseId);
-
-			//delete parts
-			var onDeleteSuccess = function (data) {
-				var index = -1;
-				for (var i = 0; i < $scope.assignmentFiles.length; i++) {
-					if ($scope.assignmentFiles[i].Id == data.Id) {
-						index = i;
-						break;
-					}
-				}
-
-				if (index != -1)
-					$scope.assignmentFiles.splice(index, 1);
-
-			};
-
-			var onDeleteFail = function (response) {
-				alert("fail " + response.reason);
-			};
-
-			$scope.deleteAssignmentFile = function (id) {
-				ApiService.DeleteAssignmentFile(onDeleteSuccess, onDeleteFail, { id: id });
-			}
-		});
-
-	}());
+	});
 
 </script>
+
 

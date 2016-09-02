@@ -1,0 +1,28 @@
+﻿@model int?
+
+@{
+	Layout = null;
+}
+
+<div ng-controller="assignmentTurnInsController" ng-init="id=@Model; getAssignment()">
+	
+	<table class="table">
+		<tr>
+			<th>Namn</th>
+			<th>Ägare</th>
+			<th>Datum</th>
+			<th></th>
+			<th></th>
+		</tr>
+		<tr ng-repeat="item in assignmentFiles">
+			<td>{{item.Name}}</td>
+			<td>{{item.Owner ? item.Owner : "Du" }}</td>
+			<td>{{item.Date | dateFilter | date:'yyyy-MM-dd'}}</td>
+
+			<td><a href="~/AssignmentApi/Download/{{item.Id}}" class="btn btn-success btn-sm">Ladda ner</a> <button type="button" class="btn btn-danger btn-sm" ng-click="deleteAssignmentFile(item.Id)" ng-hide="item.Owner">Radera</button></td>
+		</tr>
+	</table>
+</div>
+
+<script src="~/Scripts/AssignmentControllers/assignmentTurnInsController.js"></script>
+

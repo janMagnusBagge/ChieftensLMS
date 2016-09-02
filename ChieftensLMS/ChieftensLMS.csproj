@@ -232,6 +232,7 @@
     <Content Include="Scripts\angular-mocks.js" />
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />
+    <Content Include="Scripts\AssignmentControllers\assignmentTurnInsController.js" />
     <Content Include="Scripts\AssignmentControllers\assignmentUploadController.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -312,7 +313,7 @@
     <Content Include="Views\Course\_Mine.cshtml" />
     <Content Include="Views\SharedFile\_ForCourse.cshtml" />
     <Content Include="Views\Assignment\Index.cshtml" />
-    <Content Include="Views\Assignment\Details.cshtml" />
+    <Content Include="Views\Assignment\_TurnIns.cshtml" />
     <Content Include="Views\Assignment\Create.cshtml" />
     <Content Include="Views\Debug\AllUsers.cshtml" />
     <Content Include="Views\Course\_AllUsers.cshtml" />
@@ -334,6 +335,7 @@
     <Content Include="Views\Lectures\CreateLectures.cshtml" />
     <Content Include="Views\Lectures\EditLectures.cshtml" />
     <Content Include="Views\Assignment\_Upload.cshtml" />
+    <Content Include="Views\Assignment\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
