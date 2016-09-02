@@ -55,7 +55,6 @@
 			};
 
 			$scope.GetLectures = function (courseId) {
-				//ApiService.GetCourseAssigments(onSuccess, onFail, { courseId: courseId });
 				ApiService.Get("/LecturesApi/GetLecturesForCourse", onSuccess, onFail, { courseId: courseId });
 				ApiService.CheckIfInTeacher(onTeacherSuccess, onTeacherFail); //To show or hide things that only some roles should see or not
 			}

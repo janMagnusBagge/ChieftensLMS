@@ -16,6 +16,9 @@ namespace ChieftensLMS.Services
 		UnitOfWork _unitOfWork = null;
 		string _fileDirectory = null;
 
+		/*
+		 * Initiate the service with the sent in data
+		 */
 		public AssignmentService(ApplicationDbContext context, string fileDirectory)
 		{
 			_fileDirectory = fileDirectory;
@@ -23,18 +26,26 @@ namespace ChieftensLMS.Services
 			_unitOfWork = new UnitOfWork(_db);
 		}
 
+		/*
+		 * Returns Assignments for specified course.
+		 */
 		internal IEnumerable<Assignment> GetAssignmentForCourse(int courseId)
 		{
 			//return _unitOfWork.AssignmentRepository.Get(v => v.CourseId == courseId);
 			return _db.Assignments.Where(v => v.CourseId == courseId);
 		}
 
+		/*
+		 * Return specific assignment based on sent in Id
+		 */
 		internal Assignment GetAssignment(int Id)
 		{
 			//return _unitOfWork.AssignmentRepository.GetById(Id);
 			return _db.Assignments.Find(Id);
 		}
-
+		/*
+		 * Returns TurnIn / Assignment files based on sent in Id.
+		 */
 		internal IEnumerable<TurnIn> GetFilesForAssignmentById(int assignmentId)
 		{
 			//return _unitOfWork.TurnInRepository.Get
@@ -48,12 +59,18 @@ namespace ChieftensLMS.Services
 							  .OrderBy(x => x.Date);
 		}
 
+		/*
+		 * Returns a specifik Turnin file based on sent in Id
+		 */
 		public TurnIn GetTurnInById(int id)
 		{
 			//return _unitOfWork.TurnInRepository.GetById(id);
 			return _db.TurnIns.Find(id);
 		}
 
+		/*
+		 * Delete the specifik turnin file.
+		 */
 		//TODO: if there should be another path then the privously chosen 
 		public void DeleteAssignmentFile(TurnIn turnInFile)
 		{
@@ -64,6 +81,9 @@ namespace ChieftensLMS.Services
 			//_unitOfWork.Save();
 		}
 
+		/*
+		 * Create assignment based on sent in data.
+		 */
 		//TODO: Throw exception if could not save
 		public bool CreateAssignment(int courseId, string name, string description, DateTime date)
 		{
@@ -89,6 +109,9 @@ namespace ChieftensLMS.Services
 			return true;
 		}
 
+		/*
+		 * Uppdates assignment based on sent in data anad send to the method/funktion that takes assignment
+		 */
 		//TODO: Throw exception if could not save
 		public bool UpdateAssignment(int id, string name, string description, DateTime date)
 		{
@@ -101,6 +124,9 @@ namespace ChieftensLMS.Services
 			return UpdateAssignment(assignmentToUpdate);
 			
 		}
+		/*
+		 * Uppdates the specifik assignment
+		 */
 		//TODO: Throw exception if could not save
 		public bool UpdateAssignment(Assignment assignmentToUpdate)
 		{
@@ -121,6 +147,9 @@ namespace ChieftensLMS.Services
 			return true;
 		}
 
+		/*
+		 * Returns a path to where the turnIn is lokated 
+		 */
 		public string GetPhysicalPath(int turnInFileId)
 		{
 			var turnInFile = _db.TurnIns.Find(turnInFileId);

@@ -59,7 +59,6 @@
 			var onloadSuccess = function (data) {
 				$scope.lecture = data.Lecture;
 				$scope.lecture.Date = new Date(parseInt(data.Lecture.Date.substr(6)));
-				//$scope.lecture.Starttime = data.Lecture.StartTime;
 				$scope.lecture.Starttime = new Date(1970, 0, 1, data.Lecture.Hour, data.Lecture.Minute, 0)
 			};
 
@@ -69,7 +68,6 @@
 
 			$scope.GetCourseLecture = function (id) {
 				ApiService.Get("/LecturesApi/GetLecture", onloadSuccess, onloadFail, { lectureId: id });
-				//ApiService.CheckIfInTeacher(onTeacherSuccess, onTeacherFail); //To show or hide things that only some roles should see or not
 			}
 
 

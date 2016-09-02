@@ -25,7 +25,9 @@ namespace ChieftensLMS.Controllers.Api
 			_AssignmentService = new AssignmentService(_context, HostingEnvironment.MapPath("~\\Uploads\\TurnIns\\"));
 		}
 
-		//TODO: Auth check needed
+		/*
+		 * Returns Assignments based on course Id.
+		 */
 		public ActionResult GetAssignmentForCourse(int courseId)
 		{
 			var assigmentsForCourse = _AssignmentService.GetAssignmentForCourse(courseId)
@@ -41,10 +43,12 @@ namespace ChieftensLMS.Controllers.Api
 				);
 			
 			return ApiResult.Success(new { assigments = assigmentsForCourse });
-			//return Json(assigmentsForCourse, JsonRequestBehavior.AllowGet);
 		}
 
-		//TODO: Auth check needed
+		/*
+		 * Returns a specifik assignment based on the sent in Id.
+		 * Only returns one if all checks whent thrue otherwise returns an error.
+		 */
 		public ActionResult GetAssigment(int? id)
 		{
 			if (id == null)
@@ -70,9 +74,13 @@ namespace ChieftensLMS.Controllers.Api
 			return ApiResult.Success(returnData);
 		}
 
-		//TODO: Auth check and if teacher is for course
-		// Needs checking if the user has access to this assignment
-		// Right now as long as you are a teacher you can see all the turnins for the course. Should it be changed to only teacher for course ?
+		/*
+		 * Returns Files that is for the specific assignment.
+		 * Have some checks and if they dont go thrue returns information based on that.
+		 */
+
+		//TODO: Needs checking if the user has access to this assignment
+		//		Right now as long as you are a teacher you can see all the turnins for the course. Should it be changed to only teacher for course ?
 		public ActionResult FilesForAssignment(int? id)
 		{
 			if (id == null)
@@ -81,8 +89,7 @@ namespace ChieftensLMS.Controllers.Api
 			if (_AssignmentService.GetAssignment((int)id) == null)
 				return ApiResult.Fail("Invalid assignment");
 
-			//var userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-			//var role = userManager.GetRoles(User.Identity.GetUserId());
+
 			bool isTeacher = CheckTeacher();//role.Contains("Teacher");
 			if (isTeacher)
 			{
@@ -113,7 +120,7 @@ namespace ChieftensLMS.Controllers.Api
 							i.Id,
 							i.Name,
 							i.Date,
-							Owner = default(string)//(User.Identity.GetUserId() == i.UserId) ? null : i.User.Name + " " + i.User.SurName 
+							Owner = default(string)
 						}
 
 					);
@@ -123,7 +130,9 @@ namespace ChieftensLMS.Controllers.Api
 			
 		}
 
-		// Deletes a turnIn file by id
+		/*
+		 * Deletes specifide turnIn.
+		 */
 		// TODO: Check that the user has permission to delete that file (he/she needs to be the owner of it)
 		public ActionResult DeleteTurnIn(int? id)
 		{
@@ -146,7 +155,11 @@ namespace ChieftensLMS.Controllers.Api
 
 		}
 
+		/*
+		 * Returns if the user is in Teacher role. Based on how the account is set upp they can be in teacher and student role at the same time.
+		 */
 		//TODO: Move this out to it's own place so all can pages can use it instead off only that use this ApiController
+		//TODO: When moved this to its own place change all the calls to this to the new place. Some places need to check is Assignment and Lecture html files and maby some other places.
 		public ActionResult CheckIfTeacher()
 		{
 			bool isTeacher = CheckTeacher();
@@ -154,6 +167,9 @@ namespace ChieftensLMS.Controllers.Api
 			return ApiResult.Success(new { isTeacher = isTeacher });
 		}
 
+		/*
+		 * Checks the current logged in account if it is in teacher role. Based on how the account is set upp they can be in teacher and student role at the same time.
+		 */
 		//TODO: Move this out to it's own place so all can pages can use it instead off only that use this ApiController
 		private bool CheckTeacher()
 		{
@@ -163,6 +179,9 @@ namespace ChieftensLMS.Controllers.Api
 
 		}
 
+		/*
+		 * Creates a Assignment for a course.
+		 */
 		//TODO: Fix so it throw exception and check if it did or not and return false if did
 		public ActionResult CreateAssignment(int courseId, string name, string description, DateTime date)
 		{
@@ -170,6 +189,9 @@ namespace ChieftensLMS.Controllers.Api
 			return ApiResult.Success(new { ifCreated = ifCreated });
 		}
 
+		/*
+		 * Updates specifik assignment with the sent in information.
+		 */
 		//TODO: Fix so it throw exception and check if it did or not and return false if did
 		//TODO: Fix so can send in whole asignment
 		public ActionResult UpdateAssignment(int id, string name, string description, DateTime date)
@@ -179,6 +201,10 @@ namespace ChieftensLMS.Controllers.Api
 			return ApiResult.Success(new { ifUpdated = ifUpdated });
 		}
 
+		/*
+		 * Download a turnin file. Based on the sent in Id.
+		 * Has some checks to see if valid 
+		 */
 		[Authorize]
 		public ActionResult Download(int? id)
 		{

@@ -56,7 +56,7 @@ namespace ChieftensLMS.Services
 			_db = context;
 		}
 		/*
-		 * Returns a List of lectures for specified course.
+		 * Returns a List of lectures for specified course (the course Id that are sent in).
 		 */
 		public IEnumerable<LectureDTO> GetLecturesForCourse(int courseId)
 		{
@@ -78,7 +78,7 @@ namespace ChieftensLMS.Services
 				});
 		}
 		/*
-		 * Returns a List of lectures for specified user.
+		 * Returns a List of lectures for specified user (user Id that are sent in).
 		 */
 		//TODO: Should we take out the orderby in the return so we dont need to use ToList on it?
 		public List<LectureDTO> GetLecturesForUser(string userId)
@@ -148,15 +148,15 @@ namespace ChieftensLMS.Services
 			lectureToUpdate.Description = description;
 			lectureToUpdate.TimeInMin = timeInMin;
 
-			string indate = date.ToString("yyy/MM/dd");
-			string inTime = startTime.ToString("t");
-			lectureToUpdate.Date = StringToDate(indate, inTime);//date;
+			string indate = date.ToString("yyy/MM/dd"); //gets the date part and it going to look like specifiked and makes string out of it.
+			string inTime = startTime.ToString("t"); //Gets the time part out of the "date". This should only be time and the default date of 1970 or so, if not new calls to this method / function have full date.
+			lectureToUpdate.Date = StringToDate(indate, inTime);//Makes a date out the two strings collected above;
 
 			return UpdateLecture(lectureToUpdate);
 
 		}
 		/*
-		 * Updates the sent in lecture in the database
+		 * Updates the sent in lecture in the database. Right now returns bool but some modifications it should throw exception if not work probely.
 		 */
 		//TODO: Throw exception if could not save
 		public bool UpdateLecture(Lecture lectureToUpdate)
@@ -185,29 +185,30 @@ namespace ChieftensLMS.Services
 			Lecture lectureToCreate;
 			try
 			{ 
-			DateTime currentDate = StringToDate(startdate.ToString("yyy/MM/dd"), starttime.ToString("t"));
-			while (currentDate <= enddate) //Should it be only less?
-			{
-				lectureToCreate = new Lecture();
-				lectureToCreate.CourseId = courseId;
-				lectureToCreate.Name = name;
-				lectureToCreate.Description = description;
-				lectureToCreate.TimeInMin = timeInMin;
-				lectureToCreate.Date = currentDate;
+				DateTime currentDate = StringToDate(startdate.ToString("yyy/MM/dd"), starttime.ToString("t")); //takes the date part of startdate and the time part of starttime and combines them to a date.
+				//Goes thrue the startdate to the enddate and adds lectures based on frequency.
+				while (currentDate <= enddate) //Should it be only less?
+				{
+					lectureToCreate = new Lecture();
+					lectureToCreate.CourseId = courseId;
+					lectureToCreate.Name = name;
+					lectureToCreate.Description = description;
+					lectureToCreate.TimeInMin = timeInMin;
+					lectureToCreate.Date = currentDate;
 				
-				_db.Lectures.Add(lectureToCreate);
+					_db.Lectures.Add(lectureToCreate);
 
-				if (frequency == 1) //Day, adds one day to the next date
-					currentDate = currentDate.AddDays(1);
-				else if (frequency == 2) //Week, adds 7 days to the next date
-					currentDate = currentDate.AddDays(7);
-				else if (frequency == 3) //Every other week, adds 14 days to the next date.
-					currentDate = currentDate.AddDays(14);
-				else if (frequency == 4) //Month, adds 30 days to the next date
-					currentDate = currentDate.AddDays(30);
-				else
-					break;
-			}
+					if (frequency == 1) //Day, adds one day to the next date
+						currentDate = currentDate.AddDays(1);
+					else if (frequency == 2) //Week, adds 7 days to the next date
+						currentDate = currentDate.AddDays(7);
+					else if (frequency == 3) //Every other week, adds 14 days to the next date.
+						currentDate = currentDate.AddDays(14);
+					else if (frequency == 4) //Month, adds 30 days to the next date
+						currentDate = currentDate.AddDays(30);
+					else
+						break;
+				}
 			
 				_db.SaveChanges();
 			}
@@ -228,7 +229,10 @@ namespace ChieftensLMS.Services
 			return _db.Courses.Find(courseId).Name;
 		}
 
-
+		/*
+		 * Deletes the Lecture sent in. Returns a bool on if it worked or not.
+		 * 
+		 */
 		public bool DeleteLecture(Lecture lecture)
 		{
 			try
