@@ -1,8 +1,10 @@
 ﻿@model int?
 
 <div ng-controller="assignmentDetailsController" ng-init="id=@Model; getAssignment();">
-	<h3>Ladda upp inlämning för {{assignment.Name}}</h3>
+
 	<div class="well">
+		<a href="~/Assignment/Index/@Model" class="btn btn-default btn-sm">Tillbaka</a>
+		<h3>Ladda upp inlämning för {{assignment.Name}}</h3>
 		@{Html.RenderPartial("_Upload", Model);}
 	</div>
 
