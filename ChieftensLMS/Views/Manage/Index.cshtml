@@ -37,6 +37,14 @@
 					<dd>
 						@Html.DropDownList("Roles", Model.RolesSelect, "Välj roll")
 					</dd>
+					<dt>Namn:</dt>
+					<dd>
+						@Html.EditorFor(e => e.Name,"Name")
+					</dd>
+					<dt>Efternamn:</dt>
+					<dd>
+						@Html.EditorFor(e => e.SurName, "SurName");
+					</dd>
 					<dd>
 						<button type="submit" class="btn btn-danger btn-sm">Updatera konto</button>
 					</dd>

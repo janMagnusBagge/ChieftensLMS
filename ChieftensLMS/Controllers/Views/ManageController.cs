@@ -84,6 +84,7 @@ namespace ChieftensLMS.Controllers
 			{
 				Id = userId,
 				Name = user.Name,
+				SurName = user.SurName,
 				RolesSelect = rolesSelectItems,
 				HasPassword = HasPassword(),
 				PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
@@ -95,11 +96,22 @@ namespace ChieftensLMS.Controllers
 		}
 
 		[HttpPost]
-		public ActionResult Index(string Roles, string id)
+		public ActionResult Index(string Roles, string id, string Name, string SurName)
 		{
+			var context = new ApplicationDbContext();
+
 			var userId = (id != null ? (id.Trim() != "" ? id : User.Identity.GetUserId()) : User.Identity.GetUserId());//User.Identity.GetUserId();
-			var _roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new ApplicationDbContext()));
+			//var _roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new ApplicationDbContext()));
+			var _roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
 			var role = _roleManager.FindByName(Roles);
+
+			//StudentAccountService _studentAccountService = new StudentAccountService(new ApplicationDbContext());
+			StudentAccountService _studentAccountService = new StudentAccountService(context);
+			var user = _studentAccountService.GetUser(userId);
+			user.Name = Name;
+			user.SurName = SurName;
+			var um = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context)); //Do this cause the method in this controller for userManager use another context and that cant do uppdate if there is 2 different contexts between getting the user and uppdating the user.
+			um.Update(user);
 
 			if (role != null)
 			{
