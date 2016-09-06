@@ -6,6 +6,7 @@ using System.Web.Mvc;
 
 namespace ChieftensLMS.Controllers.Views
 {
+	[Authorize(Roles = "Teacher")]
     public class StudentAccountController : Controller
     {
         // GET: StudentAccount

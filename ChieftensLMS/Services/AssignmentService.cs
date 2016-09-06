@@ -164,7 +164,9 @@ namespace ChieftensLMS.Services
 			return filePath;
 		}
 
-
+		/*
+		 * Adds a fil into TurnIn and connects it to a assignment.
+		 */
 		public int? AddTurnIn(int assignmentId, string userId, string name, string fileName, Stream stream)
 		{
 			if (UserHasAssignment(assignmentId, userId) == false)

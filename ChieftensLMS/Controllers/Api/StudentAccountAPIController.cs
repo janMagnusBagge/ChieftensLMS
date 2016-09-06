@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace ChieftensLMS.Controllers.Api
 {
+	[Authorize(Roles = "Teacher")]
     public class StudentAccountAPIController : Controller
     {
         private ApplicationDbContext _context;

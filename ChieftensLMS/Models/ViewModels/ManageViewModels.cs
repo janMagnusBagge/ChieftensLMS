@@ -9,9 +9,9 @@ namespace ChieftensLMS.Models
     public class IndexViewModel
     {
 		public string Id { get; set; } //Add to be able to show who
-		public string Name { get; set; } //Add to be able to show who
-		public string SurName { get; set; } //Add to be able to show who
-		public IEnumerable<System.Web.Mvc.SelectListItem> RolesSelect { get; set; } //Add to be able to show who
+		public string Name { get; set; } //Add to be able to show first name of user
+		public string SurName { get; set; } //Add to be able to show last name of user
+		public IEnumerable<System.Web.Mvc.SelectListItem> RolesSelect { get; set; } //Add to be able to show roles for user
         public bool HasPassword { get; set; }
         public IList<UserLoginInfo> Logins { get; set; }
         public string PhoneNumber { get; set; }

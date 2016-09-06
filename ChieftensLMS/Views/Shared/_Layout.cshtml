@@ -52,12 +52,12 @@
             </div>
         </div>
     </div>
-	@{
+	@*@{
 		if (Request.IsAuthenticated == false)
 		{
 			<div style="background: red; color:white; font-weight:bold; padding:20px">NOT LOGGED IN!</div>
 		}
-	}
+	}*@
 		<div class="container body-content">
 			@RenderBody()
 			<hr />
